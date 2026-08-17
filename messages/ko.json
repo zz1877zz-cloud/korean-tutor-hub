@@ -1,0 +1,67 @@
+{
+    "common": {
+      "appName": "Korean Tutor Hub",
+      "findTutors": "튜터 찾기",
+      "myBookings": "내 예약",
+      "applyTutor": "튜터 신청",
+      "admin": "관리자",
+      "login": "로그인",
+      "logout": "로그아웃",
+      "backToList": "목록으로",
+      "search": "검색",
+      "loading": "로딩 중..."
+    },
+    "home": {
+      "badge": "Korean Tutor Hub",
+      "title1": "한국어를 배우는",
+      "title2": "가장 강렬한 방법",
+      "subtitle": "K-pop, 회화, TOPIK, 비즈니스까지.\n당신과 맞는 튜터를 찾아 바로 시작하세요.",
+      "ctaTutors": "튜터 찾아보기",
+      "ctaStart": "시작하기",
+      "feature1Title": "목적별 매칭",
+      "feature1Desc": "회화, 시험, 문화 학습까지. 목표에 딱 맞는 튜터를 고를 수 있어요.",
+      "feature2Title": "빠른 예약",
+      "feature2Desc": "마음에 드는 튜터를 고르고, 몇 번의 클릭으로 수업을 요청하세요.",
+      "feature3Title": "글로벌 허브",
+      "feature3Desc": "동남아, 유럽 등 K-culture를 사랑하는 학습자들을 위한 공간입니다."
+    },
+    "tutors": {
+      "title": "튜터 목록",
+      "searchPlaceholder": "회화, 토픽, K-pop...",
+      "noResults": "검색 결과가 없습니다.",
+      "perHour": "/시간",
+      "viewDetail": "자세히 보기 →",
+      "loadError": "데이터를 불러오는 중 오류가 발생했습니다."
+    },
+    "auth": {
+      "loginTitle": "로그인",
+      "email": "이메일",
+      "password": "비밀번호",
+      "signUp": "회원가입",
+      "processing": "처리 중...",
+      "signUpDone": "가입 완료! 바로 로그인해보세요.",
+      "toTutors": "튜터 목록으로"
+    },
+    "detail": {
+      "back": "목록으로",
+      "about": "튜터 소개",
+      "specialties": "전문 분야",
+      "languages": "가능 언어",
+      "book": "예약 요청하기",
+      "booking": "요청 중...",
+      "bookSuccess": "예약 요청이 완료되었습니다!",
+      "bookFail": "예약에 실패했습니다.",
+      "needLogin": "로그인이 필요합니다."
+    },
+    "apply": {
+      "title": "튜터 등록 신청",
+      "desc": "신청 후 관리자 승인 시 튜터 목록에 등록됩니다.",
+      "bio": "소개글",
+      "rate": "시간당 요금 (원)",
+      "specialties": "전문 분야 (쉼표로 구분)",
+      "languages": "가능 언어 (쉼표로 구분)",
+      "submit": "신청하기",
+      "submitting": "신청 중...",
+      "success": "튜터 신청이 접수되었습니다. 관리자 검토 후 안내드립니다."
+    }
+  }

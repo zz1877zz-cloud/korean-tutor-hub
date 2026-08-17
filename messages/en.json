@@ -1,0 +1,67 @@
+{
+    "common": {
+      "appName": "Korean Tutor Hub",
+      "findTutors": "Find Tutors",
+      "myBookings": "My Bookings",
+      "applyTutor": "Become a Tutor",
+      "admin": "Admin",
+      "login": "Log in",
+      "logout": "Log out",
+      "backToList": "Back to list",
+      "search": "Search",
+      "loading": "Loading..."
+    },
+    "home": {
+      "badge": "Korean Tutor Hub",
+      "title1": "The best way",
+      "title2": "to learn Korean",
+      "subtitle": "K-pop, conversation, TOPIK, business Korean.\nFind the right tutor and start today.",
+      "ctaTutors": "Find Tutors",
+      "ctaStart": "Get Started",
+      "feature1Title": "Goal-based matching",
+      "feature1Desc": "Conversation, exams, culture — find a tutor that fits your goal.",
+      "feature2Title": "Fast booking",
+      "feature2Desc": "Pick a tutor and request a lesson in a few clicks.",
+      "feature3Title": "Global hub",
+      "feature3Desc": "Built for learners who love K-culture worldwide."
+    },
+    "tutors": {
+      "title": "Tutors",
+      "searchPlaceholder": "Conversation, TOPIK, K-pop...",
+      "noResults": "No tutors found.",
+      "perHour": "/hour",
+      "viewDetail": "View details →",
+      "loadError": "Failed to load data."
+    },
+    "auth": {
+      "loginTitle": "Log in",
+      "email": "Email",
+      "password": "Password",
+      "signUp": "Sign up",
+      "processing": "Processing...",
+      "signUpDone": "Sign up complete! You can log in now.",
+      "toTutors": "Browse tutors"
+    },
+    "detail": {
+      "back": "Back to list",
+      "about": "About this tutor",
+      "specialties": "Specialties",
+      "languages": "Languages",
+      "book": "Request booking",
+      "booking": "Requesting...",
+      "bookSuccess": "Booking request sent!",
+      "bookFail": "Booking failed.",
+      "needLogin": "Please log in."
+    },
+    "apply": {
+      "title": "Become a Tutor",
+      "desc": "After review by an admin, you will appear on the tutor list.",
+      "bio": "Introduction",
+      "rate": "Hourly rate (KRW)",
+      "specialties": "Specialties (comma separated)",
+      "languages": "Languages (comma separated)",
+      "submit": "Submit application",
+      "submitting": "Submitting...",
+      "success": "Application submitted. We will review it soon."
+    }
+  }
