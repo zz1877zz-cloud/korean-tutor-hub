@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { useLocale, useTranslations } from "next-intl"
+import AvatarUpload from "@/components/AvatarUpload"
 
 export default function ApplyTutorPage() {
   const t = useTranslations("apply")
@@ -13,6 +14,7 @@ export default function ApplyTutorPage() {
   const [hourlyRate, setHourlyRate] = useState("30000")
   const [specialties, setSpecialties] = useState("회화, 토픽")
   const [languages, setLanguages] = useState("한국어, 영어")
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
   const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(false)
   const [ready, setReady] = useState(false)
@@ -54,6 +56,7 @@ export default function ApplyTutorPage() {
       specialties: specialtyArray,
       languages: languageArray,
       status: "pending",
+      avatar_url: avatarUrl,
     })
 
     if (error) {
@@ -90,6 +93,16 @@ export default function ApplyTutorPage() {
         onSubmit={handleSubmit}
         className="bg-white/5 border border-white/10 rounded-3xl p-6 space-y-4"
       >
+        <AvatarUpload
+          value={avatarUrl}
+          bio={bio}
+          onUploaded={setAvatarUrl}
+          label={t("photo")}
+          hint={t("photoHint")}
+          changeLabel={t("photoChange")}
+          uploadingLabel={t("photoUploading")}
+        />
+
         <div>
           <label className="block text-sm font-medium mb-1.5 text-zinc-300">
             {t("bio")}

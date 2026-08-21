@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import Avatar from "@/components/Avatar"
 
 type Application = {
   id: string
@@ -14,6 +15,7 @@ type Application = {
   status: string
   created_at: string
   user_id: string
+  avatar_url: string | null
 }
 
 export default function AdminApplicationsPage() {
@@ -75,6 +77,7 @@ export default function AdminApplicationsPage() {
       hourly_rate: app.hourly_rate,
       rating: 0,
       is_active: true,
+      avatar_url: app.avatar_url || null,
     })
 
     if (insertError) {
@@ -186,7 +189,10 @@ export default function AdminApplicationsPage() {
               </span>
             </div>
 
-            <p className="text-zinc-300 text-sm mb-3 line-clamp-3">{app.bio}</p>
+            <div className="flex items-start gap-3 mb-3">
+              <Avatar src={app.avatar_url} bio={app.bio} size="md" />
+              <p className="text-zinc-300 text-sm line-clamp-3 flex-1">{app.bio}</p>
+            </div>
 
             <div className="flex flex-wrap gap-2 mb-2">
               {app.specialties?.map((s) => (

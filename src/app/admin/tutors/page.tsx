@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import AvatarUpload from "@/components/AvatarUpload"
 
 type Tutor = {
   id: string
@@ -14,6 +15,7 @@ type Tutor = {
   is_active: boolean
   created_at: string
   user_id: string | null
+  avatar_url: string | null
 }
 
 export default function AdminTutorsPage() {
@@ -264,6 +266,22 @@ export default function AdminTutorsPage() {
                   checked={selected.has(tutor.id)}
                   onChange={() => toggleOne(tutor.id)}
                   className="mt-1"
+                />
+                <AvatarUpload
+                  compact
+                  tutorId={tutor.id}
+                  value={tutor.avatar_url}
+                  bio={tutor.bio}
+                  size="md"
+                  changeLabel="클릭하여 변경"
+                  uploadingLabel="업로드 중..."
+                  onUploaded={(url) =>
+                    setTutors((prev) =>
+                      prev.map((t) =>
+                        t.id === tutor.id ? { ...t, avatar_url: url } : t
+                      )
+                    )
+                  }
                 />
                 <div className="flex-1">
                   <div className="flex items-center justify-between gap-2 mb-2">

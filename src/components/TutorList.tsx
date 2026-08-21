@@ -15,6 +15,7 @@ type Tutor = {
   hourly_rate: number
   rating: number
   is_active: boolean
+  avatar_url: string | null
 }
 
 type Props = {
@@ -157,7 +158,7 @@ export default function TutorList({
                 className="bg-white/5 border border-white/10 rounded-3xl p-6 hover:border-fuchsia-500/30 hover:bg-white/[0.07] transition-all duration-300"
               >
                 <div className="flex items-center gap-3 mb-4">
-                  <Avatar seed={tutor.id} size="md" />
+                  <Avatar src={tutor.avatar_url} bio={tutor.bio} size="md" />
                   <div className="flex items-center justify-between flex-1 min-w-0">
                     <span className="text-amber-400 font-medium">
                       ★ {tutor.rating}

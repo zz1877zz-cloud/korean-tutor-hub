@@ -37,8 +37,8 @@ export default async function TutorDetailPage({
       </Link>
 
       <div className="bg-white/5 border border-white/10 rounded-3xl p-8">
-        <div className="flex items-center gap-4 mb-6">
-          <Avatar seed={tutor.id} size="lg" />
+        <div className="flex items-center gap-5 mb-6">
+          <Avatar src={tutor.avatar_url} bio={tutor.bio} size="xl" />
           <div className="flex-1 flex items-center justify-between">
             <div className="text-amber-400 text-xl font-medium">★ {tutor.rating}</div>
             <div className="text-2xl font-bold text-fuchsia-400">

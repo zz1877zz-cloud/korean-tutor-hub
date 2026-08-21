@@ -60,6 +60,10 @@
       "rate": "시간당 요금 (원)",
       "specialties": "전문 분야 (쉼표로 구분)",
       "languages": "가능 언어 (쉼표로 구분)",
+      "photo": "프로필 사진",
+      "photoHint": "JPG, PNG, WebP / 최대 5MB",
+      "photoChange": "사진 업로드",
+      "photoUploading": "업로드 중...",
       "submit": "신청하기",
       "submitting": "신청 중...",
       "success": "튜터 신청이 접수되었습니다. 관리자 검토 후 안내드립니다."

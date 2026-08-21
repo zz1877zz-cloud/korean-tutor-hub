@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import AvatarUpload from "@/components/AvatarUpload"
 
 export default function NewTutorPage() {
   const [bio, setBio] = useState("")
@@ -11,6 +12,7 @@ export default function NewTutorPage() {
   const [specialties, setSpecialties] = useState("회화, 토픽")
   const [languages, setLanguages] = useState("한국어, 영어")
   const [rating, setRating] = useState("4.5")
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
   const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(false)
   const [checking, setChecking] = useState(true)
@@ -63,6 +65,7 @@ export default function NewTutorPage() {
       languages: languageArray,
       rating: Number(rating),
       is_active: true,
+      avatar_url: avatarUrl,
     })
 
     if (error) {
@@ -104,6 +107,19 @@ export default function NewTutorPage() {
       <h1 className="text-2xl font-bold mb-6 text-white">튜터 직접 등록 (관리자)</h1>
 
       <form onSubmit={handleSubmit} className="bg-white/5 border border-white/10 rounded-3xl p-6 space-y-4">
+        <div className="pb-2 border-b border-white/10">
+          <AvatarUpload
+            value={avatarUrl}
+            bio={bio}
+            onUploaded={setAvatarUrl}
+            size="xl"
+            label="프로필 사진"
+            hint="JPG, PNG, WebP / 최대 5MB"
+            changeLabel="사진 선택"
+            uploadingLabel="업로드 중..."
+          />
+        </div>
+
         <div>
           <label className="block text-sm font-medium mb-1.5 text-zinc-300">소개글</label>
           <textarea

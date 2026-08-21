@@ -60,6 +60,10 @@
       "rate": "Hourly rate (KRW)",
       "specialties": "Specialties (comma separated)",
       "languages": "Languages (comma separated)",
+      "photo": "Profile photo",
+      "photoHint": "JPG, PNG, or WebP. Max 5MB.",
+      "photoChange": "Upload photo",
+      "photoUploading": "Uploading...",
       "submit": "Submit application",
       "submitting": "Submitting...",
       "success": "Application submitted. We will review it soon."
