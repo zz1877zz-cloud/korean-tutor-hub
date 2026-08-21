@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
+import { ensureProfile } from "@/lib/supabase/ensure-profile"
 import { useLocale, useTranslations } from "next-intl"
 import { Link, usePathname, useRouter } from "@/i18n/navigation"
 
@@ -19,7 +20,15 @@ export default function Header() {
     loadUser()
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(() => {
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      // TOKEN_REFRESHED / USER_UPDATED must not write profiles.role
+      if (
+        session?.user &&
+        (event === "SIGNED_IN" || event === "INITIAL_SESSION")
+      ) {
+        void ensureProfile(supabase, session.user).finally(() => loadUser())
+        return
+      }
       loadUser()
     })
     return () => subscription.unsubscribe()

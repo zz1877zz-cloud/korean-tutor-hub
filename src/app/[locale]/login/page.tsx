@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { createClient } from "@/lib/supabase/client"
+import { ensureProfile } from "@/lib/supabase/ensure-profile"
 import { useRouter } from "next/navigation"
 import { useLocale, useTranslations } from "next-intl"
 import Link from "next/link"
@@ -21,13 +22,18 @@ export default function LoginPage() {
     setLoading(true)
     setMessage("")
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
 
     if (error) {
       setMessage(error.message)
       setLoading(false)
       return
     }
+
+    await ensureProfile(supabase, data.user)
 
     router.push(`/${locale}/tutors`)
     router.refresh()
@@ -38,13 +44,15 @@ export default function LoginPage() {
     setLoading(true)
     setMessage("")
 
-    const { error } = await supabase.auth.signUp({ email, password })
+    const { data, error } = await supabase.auth.signUp({ email, password })
 
     if (error) {
       setMessage(error.message)
       setLoading(false)
       return
     }
+
+    await ensureProfile(supabase, data.user)
 
     setMessage(t("signUpDone"))
     setLoading(false)
