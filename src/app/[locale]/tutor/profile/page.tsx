@@ -3,6 +3,7 @@ import { redirect } from "next/navigation"
 import Link from "next/link"
 import { getTranslations, setRequestLocale } from "next-intl/server"
 import TutorProfileForm from "@/components/TutorProfileForm"
+import type { TutorProfileInitial } from "@/components/TutorProfileForm"
 
 export default async function TutorProfilePage({
   params,
@@ -25,9 +26,7 @@ export default async function TutorProfilePage({
 
   const { data: tutor } = await supabase
     .from("tutors")
-    .select(
-      "id, display_name, tagline, bio, hourly_rate, specialties"
-    )
+    .select("id, display_name, tagline, bio, hourly_rate, specialties")
     .eq("user_id", user.id)
     .maybeSingle()
 
@@ -46,21 +45,20 @@ export default async function TutorProfilePage({
     )
   }
 
+  const initial: TutorProfileInitial = {
+    display_name: tutor.display_name ?? "",
+    tagline: tutor.tagline ?? "",
+    bio: tutor.bio ?? "",
+    hourly_rate: tutor.hourly_rate,
+    specialties: tutor.specialties ?? [],
+  }
+
   return (
     <div className="max-w-lg mx-auto px-4 py-12">
       <h1 className="text-2xl font-bold text-white mb-2">{t("title")}</h1>
       <p className="text-zinc-400 text-sm mb-8">{t("desc")}</p>
 
-      <TutorProfileForm
-        tutorId={tutor.id}
-        initial={{
-          display_name: tutor.display_name ?? "",
-          tagline: tutor.tagline ?? "",
-          bio: tutor.bio ?? "",
-          hourly_rate: tutor.hourly_rate,
-          specialties: tutor.specialties ?? [],
-        }}
-      />
+      <TutorProfileForm tutorId={tutor.id} initial={initial} />
 
       <div className="mt-8 flex flex-wrap gap-4 text-sm">
         <Link
