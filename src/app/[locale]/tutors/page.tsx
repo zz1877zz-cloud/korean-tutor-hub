@@ -1,31 +1,21 @@
-import { getTranslations, setRequestLocale } from "next-intl/server"
+import { setRequestLocale, getTranslations } from "next-intl/server"
 import TutorList from "@/components/TutorList"
 
 export default async function TutorsPage({
   params,
-  searchParams,
 }: {
   params: Promise<{ locale: string }>
-  searchParams: Promise<{ q?: string }>
 }) {
   const { locale } = await params
-  const { q } = await searchParams
   setRequestLocale(locale)
 
   const t = await getTranslations("tutors")
-  const tCommon = await getTranslations("common")
 
   return (
-    <TutorList
-      locale={locale}
-      title={t("title")}
-      searchPlaceholder={t("searchPlaceholder")}
-      searchLabel={tCommon("search")}
-      noResults={t("noResults")}
-      viewDetail={t("viewDetail")}
-      perHour={t("perHour")}
-      loadError={t("loadError")}
-      initialQuery={q || ""}
-    />
+    <div className="max-w-6xl mx-auto px-4 py-12">
+      <h1 className="text-3xl font-bold text-white mb-2">{t("title")}</h1>
+      <p className="text-zinc-400 text-sm mb-8">{t("subtitle")}</p>
+      <TutorList />
+    </div>
   )
 }

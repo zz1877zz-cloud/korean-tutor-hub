@@ -1,124 +1,142 @@
 "use client"
 
-type Filters = {
-  specialty: string
-  price: string
+import { useLocale, useTranslations } from "next-intl"
+import { specialtyOptions } from "@/lib/specialties"
+
+export type TutorFilterState = {
+  q: string
+  specialties: string[]
   language: string
-  sort: string
+  maxPrice: string
+  sort: "rating" | "price_asc" | "price_desc"
 }
 
 type Props = {
-  filters: Filters
-  onChange: (filters: Filters) => void
-  locale: string
+  value: TutorFilterState
+  onChange: (next: TutorFilterState) => void
 }
 
-const SPECIALTIES = [
-  { value: "", labelKo: "전체", labelEn: "All" },
-  { value: "회화", labelKo: "회화", labelEn: "Conversation" },
-  { value: "토픽", labelKo: "토픽", labelEn: "TOPIK" },
-  { value: "K-pop", labelKo: "K-pop", labelEn: "K-pop" },
-  { value: "비즈니스", labelKo: "비즈니스", labelEn: "Business" },
-  { value: "발음교정", labelKo: "발음", labelEn: "Pronunciation" },
-]
+export default function TutorFilters({ value, onChange }: Props) {
+  const t = useTranslations("filters")
+  const locale = useLocale()
+  const specialties = specialtyOptions(locale)
 
-const PRICES = [
-  { value: "", labelKo: "전체 가격", labelEn: "Any price" },
-  { value: "0-20000", labelKo: "~2만원", labelEn: "Under 20k" },
-  { value: "20000-40000", labelKo: "2~4만원", labelEn: "20k–40k" },
-  { value: "40000-999999", labelKo: "4만원~", labelEn: "40k+" },
-]
-
-const LANGUAGES = [
-  { value: "", labelKo: "전체 언어", labelEn: "Any language" },
-  { value: "영어", labelKo: "영어", labelEn: "English" },
-  { value: "일본어", labelKo: "일본어", labelEn: "Japanese" },
-  { value: "중국어", labelKo: "중국어", labelEn: "Chinese" },
-  { value: "한국어", labelKo: "한국어만", labelEn: "Korean only" },
-]
-
-const SORTS = [
-  { value: "rating", labelKo: "평점 높은순", labelEn: "Top rated" },
-  { value: "price_asc", labelKo: "가격 낮은순", labelEn: "Price: low" },
-  { value: "price_desc", labelKo: "가격 높은순", labelEn: "Price: high" },
-]
-
-export default function TutorFilters({ filters, onChange, locale }: Props) {
-  const isKo = locale === "ko"
-
-  function update(key: keyof Filters, value: string) {
-    onChange({ ...filters, [key]: value })
+  function patch(partial: Partial<TutorFilterState>) {
+    onChange({ ...value, ...partial })
   }
 
-  function label(
-    item: { labelKo: string; labelEn: string }
-  ) {
-    return isKo ? item.labelKo : item.labelEn
+  function toggleSpecialty(code: string) {
+    const exists = value.specialties.includes(code)
+    patch({
+      specialties: exists
+        ? value.specialties.filter((s) => s !== code)
+        : [...value.specialties, code],
+    })
   }
 
   return (
-    <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-8 space-y-4">
-      {/* 전문 분야 칩 */}
+    <div className="rounded-2xl border border-white/10 bg-white/5 p-4 space-y-4">
       <div>
-        <p className="text-xs text-zinc-500 mb-2">
-          {isKo ? "전문 분야" : "Specialty"}
-        </p>
+        <label className="block text-xs text-zinc-500 mb-1.5">
+          {t("search")}
+        </label>
+        <input
+          type="search"
+          value={value.q}
+          onChange={(e) => patch({ q: e.target.value })}
+          placeholder={t("searchPlaceholder")}
+          className="w-full rounded-xl border border-white/10 bg-[#0a0a0f] px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:ring-1 focus:ring-fuchsia-500"
+        />
+      </div>
+
+      <div>
+        <p className="text-xs text-zinc-500 mb-2">{t("specialty")}</p>
         <div className="flex flex-wrap gap-2">
-          {SPECIALTIES.map((s) => (
-            <button
-              key={s.value}
-              type="button"
-              onClick={() => update("specialty", s.value)}
-              className={`text-xs px-3 py-1.5 rounded-full transition ${
-                filters.specialty === s.value
-                  ? "bg-fuchsia-600 text-white"
-                  : "bg-white/5 text-zinc-400 border border-white/10 hover:border-fuchsia-500/40 hover:text-white"
-              }`}
-            >
-              {label(s)}
-            </button>
-          ))}
+          {specialties.map((item) => {
+            const active = value.specialties.includes(item.value)
+            return (
+              <button
+                key={item.value}
+                type="button"
+                onClick={() => toggleSpecialty(item.value)}
+                className={`rounded-full px-3 py-1 text-xs transition ${
+                  active
+                    ? "bg-fuchsia-500/25 text-fuchsia-200 border border-fuchsia-400/40"
+                    : "bg-white/5 text-zinc-400 border border-white/10 hover:text-zinc-200"
+                }`}
+              >
+                {item.label}
+              </button>
+            )
+          })}
         </div>
       </div>
 
-      {/* 가격 / 언어 / 정렬 */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <select
-          value={filters.price}
-          onChange={(e) => update("price", e.target.value)}
-          className="bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-fuchsia-500/50"
-        >
-          {PRICES.map((p) => (
-            <option key={p.value} value={p.value} className="bg-[#0a0a0f]">
-              {label(p)}
-            </option>
-          ))}
-        </select>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div>
+          <label className="block text-xs text-zinc-500 mb-1.5">
+            {t("language")}
+          </label>
+          <select
+            value={value.language}
+            onChange={(e) => patch({ language: e.target.value })}
+            className="w-full rounded-xl border border-white/10 bg-[#0a0a0f] px-3 py-2 text-sm text-zinc-100 focus:outline-none focus:ring-1 focus:ring-fuchsia-500"
+          >
+            <option value="">{t("languageAll")}</option>
+            <option value="ko">{t("languageKo")}</option>
+            <option value="en">{t("languageEn")}</option>
+          </select>
+        </div>
 
-        <select
-          value={filters.language}
-          onChange={(e) => update("language", e.target.value)}
-          className="bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-fuchsia-500/50"
-        >
-          {LANGUAGES.map((l) => (
-            <option key={l.value} value={l.value} className="bg-[#0a0a0f]">
-              {label(l)}
-            </option>
-          ))}
-        </select>
+        <div>
+          <label className="block text-xs text-zinc-500 mb-1.5">
+            {t("maxPrice")}
+          </label>
+          <input
+            type="number"
+            min={0}
+            value={value.maxPrice}
+            onChange={(e) => patch({ maxPrice: e.target.value })}
+            placeholder={t("maxPricePlaceholder")}
+            className="w-full rounded-xl border border-white/10 bg-[#0a0a0f] px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:ring-1 focus:ring-fuchsia-500"
+          />
+        </div>
+      </div>
 
+      <div>
+        <label className="block text-xs text-zinc-500 mb-1.5">
+          {t("sort")}
+        </label>
         <select
-          value={filters.sort}
-          onChange={(e) => update("sort", e.target.value)}
-          className="bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-fuchsia-500/50"
+          value={value.sort}
+          onChange={(e) =>
+            patch({
+              sort: e.target.value as TutorFilterState["sort"],
+            })
+          }
+          className="w-full rounded-xl border border-white/10 bg-[#0a0a0f] px-3 py-2 text-sm text-zinc-100 focus:outline-none focus:ring-1 focus:ring-fuchsia-500"
         >
-          {SORTS.map((s) => (
-            <option key={s.value} value={s.value} className="bg-[#0a0a0f]">
-              {label(s)}
-            </option>
-          ))}
+          <option value="rating">{t("sortRating")}</option>
+          <option value="price_asc">{t("sortPriceAsc")}</option>
+          <option value="price_desc">{t("sortPriceDesc")}</option>
         </select>
       </div>
+
+      <button
+        type="button"
+        onClick={() =>
+          onChange({
+            q: "",
+            specialties: [],
+            language: "",
+            maxPrice: "",
+            sort: "rating",
+          })
+        }
+        className="text-xs text-zinc-500 hover:text-zinc-300 transition"
+      >
+        {t("reset")}
+      </button>
     </div>
   )
 }

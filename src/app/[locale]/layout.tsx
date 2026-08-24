@@ -1,9 +1,11 @@
 import { NextIntlClientProvider } from "next-intl"
 import { getMessages, setRequestLocale } from "next-intl/server"
 import { notFound } from "next/navigation"
-import { routing } from "@/i18n/routing"
 import Header from "@/components/Header"
+import Footer from "@/components/Footer"
 import Providers from "@/components/Providers"
+
+const locales = ["en", "ko"] as const
 
 export default async function LocaleLayout({
   children,
@@ -14,22 +16,20 @@ export default async function LocaleLayout({
 }) {
   const { locale } = await params
 
-  if (!routing.locales.includes(locale as "en" | "ko")) {
+  if (!locales.includes(locale as "en" | "ko")) {
     notFound()
   }
 
   setRequestLocale(locale)
-
   const messages = await getMessages()
 
   return (
-    <NextIntlClientProvider locale={locale} messages={messages}>
-      <Providers>
+    <NextIntlClientProvider messages={messages}>
+      <div className="min-h-screen flex flex-col">
         <Header />
-        <main className="min-h-screen bg-[#0a0a0f] text-white">
-          {children}
-        </main>
-      </Providers>
+        <main className="flex-1">{children}</main>
+        <Footer />
+      </div>
     </NextIntlClientProvider>
   )
 }

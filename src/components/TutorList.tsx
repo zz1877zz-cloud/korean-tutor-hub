@@ -3,49 +3,33 @@
 import { useMemo, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { createClient } from "@/lib/supabase/client"
-import Link from "next/link"
-import TutorFilters from "@/components/TutorFilters"
+import { Link } from "@/i18n/navigation"
+import { useLocale, useTranslations } from "next-intl"
 import Avatar from "@/components/Avatar"
+import TutorFilters, { type TutorFilterState } from "@/components/TutorFilters"
+import { specialtyLabel } from "@/lib/specialties"
 
-type Tutor = {
+type TutorRow = {
   id: string
-  bio: string
-  specialties: string[]
-  languages: string[]
-  hourly_rate: number
-  rating: number
-  is_active: boolean
+  bio: string | null
+  display_name: string | null
+  tagline: string | null
+  specialties: string[] | null
+  languages: string[] | null
+  hourly_rate: number | null
+  rating: number | null
   avatar_url: string | null
+  is_active: boolean | null
 }
 
-type Props = {
-  locale: string
-  title: string
-  searchPlaceholder: string
-  searchLabel: string
-  noResults: string
-  viewDetail: string
-  perHour: string
-  loadError: string
-  initialQuery?: string
-}
-
-export default function TutorList({
-  locale,
-  title,
-  searchPlaceholder,
-  searchLabel,
-  noResults,
-  viewDetail,
-  perHour,
-  loadError,
-  initialQuery = "",
-}: Props) {
-  const [q, setQ] = useState(initialQuery)
-  const [filters, setFilters] = useState({
-    specialty: "",
-    price: "",
+export default function TutorList() {
+  const t = useTranslations("tutors")
+  const locale = useLocale()
+  const [filters, setFilters] = useState<TutorFilterState>({
+    q: "",
+    specialties: [],
     language: "",
+    maxPrice: "",
     sort: "rating",
   })
 
@@ -55,151 +39,144 @@ export default function TutorList({
       const supabase = createClient()
       const { data, error } = await supabase
         .from("tutors")
-        .select("*")
+        .select(
+          "id, bio, display_name, tagline, specialties, languages, hourly_rate, rating, avatar_url, is_active"
+        )
         .eq("is_active", true)
 
       if (error) throw error
-      return (data || []) as Tutor[]
+      return (data ?? []) as TutorRow[]
     },
   })
 
   const filtered = useMemo(() => {
-    let list = tutors || []
+    let list = [...(tutors ?? [])]
 
-    if (q.trim()) {
-      const keyword = q.toLowerCase()
-      list = list.filter(
-        (t) =>
-          t.bio?.toLowerCase().includes(keyword) ||
-          t.specialties?.some((s) => s.toLowerCase().includes(keyword))
-      )
+    const q = filters.q.trim().toLowerCase()
+    if (q) {
+      list = list.filter((tutor) => {
+        const hay = [
+          tutor.bio ?? "",
+          tutor.display_name ?? "",
+          tutor.tagline ?? "",
+        ]
+          .join(" ")
+          .toLowerCase()
+        return hay.includes(q)
+      })
     }
 
-    if (filters.specialty) {
-      list = list.filter((t) =>
-        t.specialties?.some((s) =>
-          s.toLowerCase().includes(filters.specialty.toLowerCase())
+    if (filters.specialties.length > 0) {
+      list = list.filter((tutor) =>
+        filters.specialties.every((code) =>
+          (tutor.specialties ?? []).includes(code)
         )
-      )
-    }
-
-    if (filters.price) {
-      const [min, max] = filters.price.split("-").map(Number)
-      list = list.filter(
-        (t) => t.hourly_rate >= min && t.hourly_rate <= max
       )
     }
 
     if (filters.language) {
-      list = list.filter((t) =>
-        t.languages?.some((l) =>
-          l.toLowerCase().includes(filters.language.toLowerCase())
+      list = list.filter((tutor) =>
+        (tutor.languages ?? []).some(
+          (lang) =>
+            lang.toLowerCase() === filters.language.toLowerCase() ||
+            lang.toLowerCase().startsWith(filters.language.toLowerCase())
         )
       )
     }
 
-    list = [...list].sort((a, b) => {
-      if (filters.sort === "price_asc") return a.hourly_rate - b.hourly_rate
-      if (filters.sort === "price_desc") return b.hourly_rate - a.hourly_rate
-      return (b.rating || 0) - (a.rating || 0)
-    })
+    if (filters.maxPrice) {
+      const max = Number(filters.maxPrice)
+      if (!Number.isNaN(max)) {
+        list = list.filter(
+          (tutor) => tutor.hourly_rate != null && tutor.hourly_rate <= max
+        )
+      }
+    }
+
+    if (filters.sort === "rating") {
+      list.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0))
+    } else if (filters.sort === "price_asc") {
+      list.sort((a, b) => (a.hourly_rate ?? 0) - (b.hourly_rate ?? 0))
+    } else if (filters.sort === "price_desc") {
+      list.sort((a, b) => (b.hourly_rate ?? 0) - (a.hourly_rate ?? 0))
+    }
 
     return list
-  }, [tutors, q, filters])
+  }, [tutors, filters])
+
+  if (isLoading) {
+    return <p className="text-zinc-400 text-sm py-8">{t("loading")}</p>
+  }
+
+  if (error) {
+    return (
+      <p className="text-rose-400 text-sm py-8">
+        {error instanceof Error ? error.message : t("loadError")}
+      </p>
+    )
+  }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-12">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-        <h1 className="text-3xl font-bold text-white">{title}</h1>
+    <div className="space-y-6">
+      <TutorFilters value={filters} onChange={setFilters} />
 
-        <form
-          className="flex gap-2"
-          onSubmit={(e) => {
-            e.preventDefault()
-            const form = e.currentTarget
-            const input = form.elements.namedItem("q") as HTMLInputElement
-            setQ(input.value)
-          }}
-        >
-          <input
-            type="text"
-            name="q"
-            defaultValue={q}
-            placeholder={searchPlaceholder}
-            className="bg-white/5 border border-white/10 rounded-full px-4 py-2 w-56 text-white placeholder:text-zinc-500 focus:outline-none focus:border-fuchsia-500/50"
-          />
-          <button
-            type="submit"
-            className="bg-gradient-to-r from-fuchsia-600 to-violet-600 text-white px-5 py-2 rounded-full font-medium hover:opacity-90 transition"
-          >
-            {searchLabel}
-          </button>
-        </form>
-      </div>
-
-      <TutorFilters
-        filters={filters}
-        onChange={setFilters}
-        locale={locale}
-      />
-
-      {isLoading && (
-        <p className="text-zinc-500 text-center py-12">Loading...</p>
-      )}
-
-      {error && <p className="text-red-400 mb-4">{loadError}</p>}
-
-      {!isLoading && !error && (
-        <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {filtered.map((tutor) => (
-              <div
-                key={tutor.id}
-                className="bg-white/5 border border-white/10 rounded-3xl p-6 hover:border-fuchsia-500/30 hover:bg-white/[0.07] transition-all duration-300"
-              >
-                <div className="flex items-center gap-3 mb-4">
-                  <Avatar src={tutor.avatar_url} bio={tutor.bio} size="md" />
-                  <div className="flex items-center justify-between flex-1 min-w-0">
-                    <span className="text-amber-400 font-medium">
-                      ★ {tutor.rating}
+      {filtered.length === 0 ? (
+        <p className="text-zinc-500 text-sm py-8 text-center">{t("empty")}</p>
+      ) : (
+        <div className="grid gap-4 sm:grid-cols-2">
+          {filtered.map((tutor) => (
+            <Link
+              key={tutor.id}
+              href={`/tutors/${tutor.id}`}
+              className="block rounded-3xl border border-white/10 bg-white/5 p-5 hover:border-fuchsia-500/30 transition"
+            >
+              <div className="flex items-start gap-4">
+                <Avatar src={tutor.avatar_url} bio={tutor.bio} size="lg" />
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <h2 className="text-white font-semibold truncate">
+                      {tutor.display_name ||
+                        (locale === "ko" ? "튜터" : "Tutor")}
+                    </h2>
+                    <span className="text-amber-400 text-sm font-medium shrink-0">
+                      ★ {tutor.rating ?? "-"}
                     </span>
-                    <span className="text-fuchsia-400 font-semibold text-sm">
-                      {tutor.hourly_rate?.toLocaleString()}
-                      {locale === "ko" ? "원" : " KRW"}
-                      {perHour}
+                  </div>
+
+                  {tutor.tagline && (
+                    <p className="text-fuchsia-300/90 text-sm mb-2 line-clamp-1">
+                      {tutor.tagline}
+                    </p>
+                  )}
+
+                  <p className="text-zinc-400 text-sm line-clamp-2 mb-3">
+                    {tutor.bio}
+                  </p>
+
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex flex-wrap gap-1.5 min-w-0">
+                      {(tutor.specialties ?? []).map((code) => (
+                        <span
+                          key={code}
+                          className="rounded-full bg-fuchsia-500/15 text-fuchsia-300 px-2.5 py-0.5 text-xs"
+                        >
+                          {specialtyLabel(code, locale)}
+                        </span>
+                      ))}
+                    </div>
+                    <span className="text-fuchsia-400 text-sm font-semibold shrink-0">
+                      {tutor.hourly_rate != null
+                        ? `${tutor.hourly_rate.toLocaleString()}${
+                            locale === "ko" ? "원" : ""
+                          }`
+                        : "-"}
                     </span>
                   </div>
                 </div>
-
-                <p className="text-zinc-300 mb-4 line-clamp-3 text-sm leading-relaxed">
-                  {tutor.bio}
-                </p>
-
-                <div className="flex flex-wrap gap-2 mb-5">
-                  {tutor.specialties?.map((item) => (
-                    <span
-                      key={item}
-                      className="text-xs bg-fuchsia-500/15 text-fuchsia-300 px-2.5 py-1 rounded-full"
-                    >
-                      {item}
-                    </span>
-                  ))}
-                </div>
-
-                <Link
-                  href={`/${locale}/tutors/${tutor.id}`}
-                  className="text-sm text-violet-300 hover:text-violet-200 font-medium transition"
-                >
-                  {viewDetail}
-                </Link>
               </div>
-            ))}
-          </div>
-
-          {filtered.length === 0 && (
-            <p className="text-zinc-500 text-center py-12">{noResults}</p>
-          )}
-        </>
+            </Link>
+          ))}
+        </div>
       )}
     </div>
   )
