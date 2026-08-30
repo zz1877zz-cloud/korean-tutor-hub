@@ -21,7 +21,8 @@
       "bridgeNote": "오작교(상담) 수락만으로는 수업이 확정되지 않습니다. 여기서 예약을 확정해야 합니다.",
       "confirmBooking": "예약 확정",
       "declineBooking": "거절",
-      "goConsultations": "받은 상담 보기 →"
+      "goConsultations": "받은 상담 보기 →",
+      "markCompleted": "수업 완료"
     },
     "common": {
       "menuStudent": "학생",
@@ -90,6 +91,9 @@
       "signUp": "회원가입",
       "processing": "처리 중...",
       "signUpDone": "가입 완료! 바로 로그인해보세요.",
+      "alreadyMember": "이미 가입된 계정입니다. 로그인해 주세요.",
+      "emailConfirmed": "이메일 인증이 완료되었습니다. 로그인해 주세요.",
+      "callbackError": "인증 링크가 만료되었거나 잘못되었습니다. 다시 가입하거나 로그인해 주세요.",
       "toTutors": "튜터 목록으로"
     },
     "detail": {
@@ -147,8 +151,39 @@
     "notTutor": "튜터 프로필이 없습니다. 테스트 튜터로 등록된 계정으로 로그인해 주세요.",
     "replyPlaceholder": "답변 메시지 (선택)",
     "accept": "수락",
-    "reject": "거절"
-   },
+    "reject": "거절",
+    "openRoom": "오작교 열기",
+    "roomTitle": "오작교",
+    "backToList": "목록으로",
+    "firstMessage": "첫 상담 요청",
+    "goBooking": "예약 요청하기",
+    "threadEmpty": "아직 추가 메시지가 없습니다.",
+    "threadPlaceholder": "일정, Zoom 링크, 질문을 남겨 주세요.",
+    "threadSend": "보내기",
+    "threadClosed": "이 상담은 닫혀 메시지를 보낼 수 없습니다.",
+    "roleStudent": "학생",
+    "roleTutor": "튜터",
+    "rejectReasonLabel": "거절 사유",
+    "rejectNeedReason": "거절 사유를 선택하거나 적어 주세요.",
+    "rejectOtherPlaceholder": "직접 사유를 적어 주세요",
+    "reject_schedule": "일정이 맞지 않음",
+    "reject_fit": "수업 방향이 다름",
+    "reject_capacity": "지금은 신규 상담이 어려움",
+    "reject_other": "기타"
+    },
+  "reviews": {
+    "sectionTitle": "리뷰",
+    "consultIcon": "상담 매너",
+    "lessonIcon": "수업 리뷰",
+    "none": "아직 없음",
+    "empty": "아직 리뷰가 없습니다.",
+    "consultTitle": "상담은 어땠나요?",
+    "lessonTitle": "수업은 어땠나요?",
+    "placeholder": "짧아도 됩니다.",
+    "submit": "리뷰 남기기",
+    "submitting": "저장 중…",
+    "thanks": "남겨 주셔서 감사합니다."
+  },
   "studio": {
     "title": "내 채널 프로필",
     "desc": "학생에게 보이는 이름, 한 줄 소개, 상세 소개를 수정합니다.",

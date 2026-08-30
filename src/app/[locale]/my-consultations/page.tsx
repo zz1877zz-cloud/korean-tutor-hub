@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 import Link from "next/link"
 import { getTranslations, setRequestLocale } from "next-intl/server"
+import ReviewForm from "@/components/ReviewForm"
 
 export default async function MyConsultationsPage({
   params,
@@ -63,9 +64,7 @@ export default async function MyConsultationsPage({
       <h1 className="text-2xl font-bold text-white mb-2">{t("myTitle")}</h1>
       <p className="text-zinc-400 text-sm mb-8">{t("myDesc")}</p>
 
-      {error && (
-        <p className="text-rose-400 text-sm mb-4">{error.message}</p>
-      )}
+      {error && <p className="text-rose-400 text-sm mb-4">{error.message}</p>}
 
       {!rows?.length && !error && (
         <div className="rounded-2xl border border-white/10 bg-white/5 p-8 text-center text-zinc-400">
@@ -136,6 +135,13 @@ export default async function MyConsultationsPage({
                 </div>
               )}
 
+              <Link
+                href={`/${locale}/consultations/${row.id}`}
+                className="inline-block mt-3 text-sm text-violet-300 hover:text-violet-200"
+              >
+                {t("openRoom")} →
+              </Link>
+
               {row.status === "accepted" && (
                 <div className="mt-4 space-y-2">
                   <p className="text-xs text-zinc-500">
@@ -150,6 +156,14 @@ export default async function MyConsultationsPage({
                     {locale === "ko" ? "예약 요청하기" : "Request booking"}
                   </Link>
                 </div>
+              )}
+
+              {(row.status === "accepted" || row.status === "rejected") && (
+                <ReviewForm
+                  tutorId={row.tutor_id}
+                  kind="consultation"
+                  consultationId={row.id}
+                />
               )}
             </div>
           )

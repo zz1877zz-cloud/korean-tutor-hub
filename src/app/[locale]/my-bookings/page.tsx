@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import BookingActions from "@/components/BookingActions"
+import ReviewForm from "@/components/ReviewForm"
 import { setRequestLocale } from "next-intl/server"
 
 export default async function MyBookingsPage({
@@ -26,6 +27,7 @@ export default async function MyBookingsPage({
     .from("bookings")
     .select(`
       id,
+      tutor_id,
       status,
       note,
       cancel_reason,
@@ -54,59 +56,81 @@ export default async function MyBookingsPage({
       )}
 
       <div className="space-y-4">
-        {bookings?.map((booking: any) => (
-          <div
-            key={booking.id}
-            className="bg-white/5 border border-white/10 rounded-3xl p-6"
-          >
-            <div className="flex items-center justify-between mb-3">
-              <span
-                className={`text-sm font-medium px-2.5 py-1 rounded-full ${
-                  booking.status === "pending"
-                    ? "bg-amber-500/20 text-amber-300"
-                    : booking.status === "confirmed"
-                    ? "bg-emerald-500/20 text-emerald-300"
-                    : booking.status === "cancelled"
-                    ? "bg-red-500/20 text-red-300"
-                    : "bg-white/10 text-zinc-400"
-                }`}
-              >
-                {booking.status === "pending" && (locale === "ko" ? "대기중" : "Pending")}
-                {booking.status === "confirmed" && (locale === "ko" ? "확정" : "Confirmed")}
-                {booking.status === "cancelled" && (locale === "ko" ? "취소됨" : "Cancelled")}
-                {booking.status === "completed" && (locale === "ko" ? "완료" : "Completed")}
-              </span>
-              <span className="text-sm text-zinc-500">
-                {new Date(booking.created_at).toLocaleDateString(
-                  locale === "ko" ? "ko-KR" : "en-US"
-                )}
-              </span>
+        {bookings?.map((booking: any) => {
+          const tutor = Array.isArray(booking.tutors)
+            ? booking.tutors[0]
+            : booking.tutors
+
+          return (
+            <div
+              key={booking.id}
+              className="bg-white/5 border border-white/10 rounded-3xl p-6"
+            >
+              <div className="flex items-center justify-between mb-3">
+                <span
+                  className={`text-sm font-medium px-2.5 py-1 rounded-full ${
+                    booking.status === "pending"
+                      ? "bg-amber-500/20 text-amber-300"
+                      : booking.status === "confirmed"
+                      ? "bg-emerald-500/20 text-emerald-300"
+                      : booking.status === "cancelled"
+                      ? "bg-red-500/20 text-red-300"
+                      : booking.status === "completed"
+                      ? "bg-violet-500/20 text-violet-300"
+                      : "bg-white/10 text-zinc-400"
+                  }`}
+                >
+                  {booking.status === "pending" &&
+                    (locale === "ko" ? "대기중" : "Pending")}
+                  {booking.status === "confirmed" &&
+                    (locale === "ko" ? "확정" : "Confirmed")}
+                  {booking.status === "cancelled" &&
+                    (locale === "ko" ? "취소됨" : "Cancelled")}
+                  {booking.status === "completed" &&
+                    (locale === "ko" ? "완료" : "Completed")}
+                </span>
+                <span className="text-sm text-zinc-500">
+                  {new Date(booking.created_at).toLocaleDateString(
+                    locale === "ko" ? "ko-KR" : "en-US"
+                  )}
+                </span>
+              </div>
+
+              <p className="text-zinc-300 mb-2 line-clamp-2 text-sm">
+                {tutor?.bio ||
+                  (locale === "ko" ? "튜터 정보 없음" : "No tutor info")}
+              </p>
+
+              <p className="text-fuchsia-400 font-medium">
+                {tutor?.hourly_rate?.toLocaleString()}
+                {locale === "ko" ? "원/시간" : " KRW/hour"}
+              </p>
+
+              {booking.note && (
+                <p className="text-sm text-zinc-500 mt-2">
+                  {locale === "ko" ? "메모" : "Note"}: {booking.note}
+                </p>
+              )}
+
+              {booking.status === "cancelled" && booking.cancel_reason && (
+                <p className="text-sm text-red-300/80 mt-2">
+                  {locale === "ko" ? "취소 사유" : "Cancel reason"}:{" "}
+                  {booking.cancel_reason}
+                </p>
+              )}
+
+              <BookingActions bookingId={booking.id} status={booking.status} />
+
+              {booking.status === "completed" && booking.tutor_id && (
+                <ReviewForm
+                  tutorId={booking.tutor_id}
+                  kind="lesson"
+                  bookingId={booking.id}
+                />
+              )}
             </div>
-
-            <p className="text-zinc-300 mb-2 line-clamp-2 text-sm">
-              {booking.tutors?.bio || (locale === "ko" ? "튜터 정보 없음" : "No tutor info")}
-            </p>
-
-            <p className="text-fuchsia-400 font-medium">
-              {booking.tutors?.hourly_rate?.toLocaleString()}
-              {locale === "ko" ? "원/시간" : " KRW/hour"}
-            </p>
-
-            {booking.note && (
-              <p className="text-sm text-zinc-500 mt-2">
-                {locale === "ko" ? "메모" : "Note"}: {booking.note}
-              </p>
-            )}
-
-            {booking.status === "cancelled" && booking.cancel_reason && (
-              <p className="text-sm text-red-300/80 mt-2">
-                {locale === "ko" ? "취소 사유" : "Cancel reason"}: {booking.cancel_reason}
-              </p>
-            )}
-
-            <BookingActions bookingId={booking.id} status={booking.status} />
-          </div>
-        ))}
+          )
+        })}
       </div>
 
       {(!bookings || bookings.length === 0) && (

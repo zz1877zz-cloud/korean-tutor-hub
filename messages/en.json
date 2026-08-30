@@ -21,7 +21,8 @@
     "bridgeNote": "Accepting a consultation does not confirm a lesson. Confirm the booking here.",
     "confirmBooking": "Confirm booking",
     "declineBooking": "Decline",
-    "goConsultations": "View consultations →"
+    "goConsultations": "View consultations →",
+    "markCompleted":"Mark lesson complete"
   },
   "common": {
     "appName": "Korean Tutor Hub",
@@ -90,8 +91,11 @@
     "signUp": "Sign up",
     "processing": "Processing...",
     "signUpDone": "Sign up complete! You can log in now.",
-    "toTutors": "Browse tutors"
-  },
+    "toTutors": "Browse tutors",
+    "alreadyMember": "This email is already registered. Please sign in.",
+    "emailConfirmed": "Email confirmed. Please sign in.",
+    "callbackError": "The confirmation link is invalid or expired. Please sign in or sign up again."
+   },
   "detail": {
     "back": "Back to list",
     "about": "About this tutor",
@@ -152,6 +156,19 @@
     "backProfile": "← Edit profile",
     "goConsultations": "Incoming consultations →"
   },
+  "reviews": {
+  "sectionTitle": "Reviews",
+  "consultIcon": "Consultation",
+  "lessonIcon": "Lesson",
+  "none": "None yet",
+  "empty": "No reviews yet.",
+  "consultTitle": "How was the consultation?",
+  "lessonTitle": "How was the lesson?",
+  "placeholder": "A short note is enough.",
+  "submit": "Submit review",
+  "submitting": "Saving…",
+  "thanks": "Thank you."
+  },
   "ojakgyo": {
     "requestButton": "Ojakgyo · Request a consultation",
     "hint": "Briefly share your goals, level, and available times. Once the tutor accepts, you can book a lesson.",
@@ -177,6 +194,24 @@
     "notTutor": "No tutor profile found. Sign in with the account linked to the test tutor.",
     "replyPlaceholder": "Optional reply message",
     "accept": "Accept",
-    "reject": "Decline"
+    "reject": "Decline",
+    "openRoom": "Open Ojakgyo",
+    "roomTitle": "Ojakgyo",
+    "backToList": "Back to list",
+    "firstMessage": "First request",
+    "goBooking": "Request booking",
+    "threadEmpty": "No follow-up messages yet.",
+    "threadPlaceholder": "Share times, a Zoom link, or a question.",
+    "threadSend": "Send",
+    "threadClosed": "This consultation is closed.",
+    "roleStudent": "Student",
+    "roleTutor": "Tutor",
+    "rejectReasonLabel": "Decline reason",
+    "rejectNeedReason": "Please choose or write a reason.",
+    "rejectOtherPlaceholder": "Write a reason",
+    "reject_schedule": "Schedule does not work",
+    "reject_fit": "Not the right lesson fit",
+    "reject_capacity": "Not taking new consults now",
+    "reject_other": "Other"
   }
 }

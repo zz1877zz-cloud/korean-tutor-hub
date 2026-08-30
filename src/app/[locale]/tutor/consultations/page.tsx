@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
+import Link from "next/link"
 import { getTranslations, setRequestLocale } from "next-intl/server"
 import TutorConsultationActions from "@/components/TutorConsultationActions"
 
@@ -63,9 +64,7 @@ export default async function TutorConsultationsPage({
       <h1 className="text-2xl font-bold text-white mb-2">{t("tutorTitle")}</h1>
       <p className="text-zinc-400 text-sm mb-8">{t("tutorDesc")}</p>
 
-      {error && (
-        <p className="text-rose-400 text-sm mb-4">{error.message}</p>
-      )}
+      {error && <p className="text-rose-400 text-sm mb-4">{error.message}</p>}
 
       {!rows?.length && !error && (
         <div className="rounded-2xl border border-white/10 bg-white/5 p-8 text-center text-zinc-400">
@@ -110,6 +109,13 @@ export default async function TutorConsultationsPage({
             {row.status === "pending" && (
               <TutorConsultationActions consultationId={row.id} />
             )}
+
+            <Link
+              href={`/${locale}/consultations/${row.id}`}
+              className="inline-block mt-3 text-sm text-violet-300 hover:text-violet-200"
+            >
+              {t("openRoom")} →
+            </Link>
           </div>
         ))}
       </div>

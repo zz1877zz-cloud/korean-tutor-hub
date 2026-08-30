@@ -32,7 +32,9 @@ export default async function TutorBookingsPage({
   if (!tutor) {
     return (
       <div className="max-w-3xl mx-auto px-4 py-12">
-        <h1 className="text-2xl font-bold text-white mb-2">{t("tutorBookingsTitle")}</h1>
+        <h1 className="text-2xl font-bold text-white mb-2">
+          {t("tutorBookingsTitle")}
+        </h1>
         <p className="text-zinc-400 text-sm">{t("notTutor")}</p>
       </div>
     )
@@ -56,12 +58,15 @@ export default async function TutorBookingsPage({
     if (status === "pending") return "bg-amber-500/15 text-amber-300"
     if (status === "confirmed") return "bg-emerald-500/15 text-emerald-300"
     if (status === "cancelled") return "bg-rose-500/15 text-rose-300"
+    if (status === "completed") return "bg-violet-500/15 text-violet-300"
     return "bg-white/10 text-zinc-400"
   }
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
-      <h1 className="text-2xl font-bold text-white mb-2">{t("tutorBookingsTitle")}</h1>
+      <h1 className="text-2xl font-bold text-white mb-2">
+        {t("tutorBookingsTitle")}
+      </h1>
       <p className="text-zinc-400 text-sm mb-2">{t("tutorBookingsDesc")}</p>
       <p className="text-xs text-zinc-500 mb-8">{t("bridgeNote")}</p>
 
@@ -100,8 +105,8 @@ export default async function TutorBookingsPage({
               </p>
             )}
 
-            {row.status === "pending" && (
-              <TutorBookingActions bookingId={row.id} />
+            {(row.status === "pending" || row.status === "confirmed") && (
+              <TutorBookingActions bookingId={row.id} status={row.status} />
             )}
           </div>
         ))}

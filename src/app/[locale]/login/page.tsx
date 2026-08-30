@@ -1,21 +1,30 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { ensureProfile } from "@/lib/supabase/ensure-profile"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useLocale, useTranslations } from "next-intl"
 import Link from "next/link"
 
 export default function LoginPage() {
   const t = useTranslations("auth")
   const locale = useLocale()
+  const searchParams = useSearchParams()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(false)
   const router = useRouter()
   const supabase = createClient()
+
+  useEffect(() => {
+    const status = searchParams.get("status")
+    const err = searchParams.get("error")
+    if (status === "already") setMessage(t("alreadyMember"))
+    if (status === "confirmed") setMessage(t("emailConfirmed"))
+    if (err) setMessage(t("callbackError"))
+  }, [searchParams, t])
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault()
@@ -34,7 +43,6 @@ export default function LoginPage() {
     }
 
     await ensureProfile(supabase, data.user)
-
     router.push(`/${locale}/tutors`)
     router.refresh()
   }
@@ -44,15 +52,31 @@ export default function LoginPage() {
     setLoading(true)
     setMessage("")
 
-    const { data, error } = await supabase.auth.signUp({ email, password })
+    const origin = window.location.origin
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: `${origin}/auth/callback?next=/${locale}/tutors`,
+      },
+    })
 
     if (error) {
-      setMessage(error.message)
+      const text = error.message.toLowerCase()
+      if (text.includes("already") || text.includes("registered")) {
+        setMessage(t("alreadyMember"))
+      } else {
+        setMessage(error.message)
+      }
       setLoading(false)
       return
     }
 
-    await ensureProfile(supabase, data.user)
+    if (data.user && (data.user.identities?.length ?? 1) === 0) {
+      setMessage(t("alreadyMember"))
+      setLoading(false)
+      return
+    }
 
     setMessage(t("signUpDone"))
     setLoading(false)
