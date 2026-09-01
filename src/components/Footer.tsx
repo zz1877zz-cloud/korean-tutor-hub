@@ -13,6 +13,12 @@ export default function Footer() {
           <Link href="/tutors" className="hover:text-zinc-300 transition">
             튜터 찾기
           </Link>
+          <Link href="/terms" className="hover:text-zinc-300 transition">
+            이용약관
+          </Link>
+          <Link href="/privacy" className="hover:text-zinc-300 transition">
+            개인정보처리방침
+          </Link>
           <span>© {new Date().getFullYear()} Korean Tutor Hub</span>
         </div>
       </div>
