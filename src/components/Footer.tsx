@@ -19,6 +19,9 @@ export default function Footer() {
           <Link href="/privacy" className="hover:text-zinc-300 transition">
             개인정보처리방침
           </Link>
+          <Link href="/fees" className="hover:text-zinc-300 transition">
+            수수료·환불
+          </Link>
           <span>© {new Date().getFullYear()} Korean Tutor Hub</span>
         </div>
       </div>
