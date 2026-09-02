@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server"
 import { NextResponse } from "next/server"
+import { sendAdminMail } from "@/lib/notify"
 
 export async function POST(request: Request) {
   try {
@@ -15,7 +16,6 @@ export async function POST(request: Request) {
 
     const supabase = await createClient()
 
-    // 로그인한 사용자 확인
     const {
       data: { user },
     } = await supabase.auth.getUser()
@@ -46,6 +46,12 @@ export async function POST(request: Request) {
         { status: 500 }
       )
     }
+
+    await sendAdminMail(
+      "[KTH] 새 예약 요청",
+      (note || "예약 요청") +
+        "\n\nhttps://korean-tutor-hub.vercel.app/ko/tutor/bookings"
+    )
 
     return NextResponse.json({ success: true, data })
   } catch (err) {

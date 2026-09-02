@@ -49,6 +49,15 @@ export default function ConsultationRequestButton({
       return
     }
 
+    void fetch("/api/notify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        type: "consultation",
+        preview: message.trim(),
+      }),
+    })
+
     setResult(t("success"))
     setMessage("")
     setOpen(false)
