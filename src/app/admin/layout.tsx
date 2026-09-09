@@ -1,10 +1,31 @@
 import Link from "next/link"
+import { redirect } from "next/navigation"
+import { createClient } from "@/lib/supabase/server"
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    redirect("/ko/login")
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single()
+
+  if (profile?.role !== "admin") {
+    redirect("/ko")
+  }
+
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-white">
       <header className="border-b border-white/10 px-4 h-14 flex items-center justify-between">
@@ -18,7 +39,7 @@ export default function AdminLayout({
           <Link href="/admin/tutors" className="hover:text-white">
             튜터 관리
           </Link>
-          <Link href="/en" className="hover:text-white">
+          <Link href="/ko" className="hover:text-white">
             사이트로
           </Link>
         </nav>
