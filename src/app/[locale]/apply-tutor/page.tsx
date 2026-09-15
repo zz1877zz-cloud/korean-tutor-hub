@@ -12,8 +12,8 @@ export default function ApplyTutorPage() {
   const locale = useLocale()
   const [bio, setBio] = useState("")
   const [hourlyRate, setHourlyRate] = useState("30000")
-  const [specialties, setSpecialties] = useState("회화, 토픽")
-  const [languages, setLanguages] = useState("한국어, 영어")
+  const [specialties, setSpecialties] = useState("")
+  const [languages, setLanguages] = useState("")
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
   const [agreed, setAgreed] = useState(false)
   const [message, setMessage] = useState("")
@@ -98,8 +98,20 @@ export default function ApplyTutorPage() {
         ← {locale === "ko" ? "목록으로" : "Back to list"}
       </Link>
 
-      <h1 className="text-2xl font-bold mb-2 text-white">{t("title")}</h1>
-      <p className="text-zinc-400 text-sm mb-6">{t("desc")}</p>
+      <p className="text-sm text-fuchsia-400 mb-2">{t("kicker")}</p>
+      <h1 className="text-2xl font-bold mb-3 text-white">{t("title")}</h1>
+      <p className="text-zinc-400 text-sm mb-6 leading-relaxed">{t("desc")}</p>
+
+      <div className="grid gap-3 mb-8">
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+          <p className="text-xs text-fuchsia-300 mb-1">{t("whoTitle")}</p>
+          <p className="text-sm text-zinc-300 leading-relaxed">{t("who")}</p>
+        </div>
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+          <p className="text-xs text-fuchsia-300 mb-1">{t("afterTitle")}</p>
+          <p className="text-sm text-zinc-300 leading-relaxed">{t("after")}</p>
+        </div>
+      </div>
 
       <form
         onSubmit={handleSubmit}
@@ -119,11 +131,14 @@ export default function ApplyTutorPage() {
           <label className="block text-sm font-medium mb-1.5 text-zinc-300">
             {t("bio")}
           </label>
+          <p className="text-xs text-zinc-500 mb-2">{t("bioHint")}</p>
           <textarea
             value={bio}
             onChange={(e) => setBio(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 h-28 text-white focus:outline-none focus:border-fuchsia-500/50"
+            placeholder={t("bioPlaceholder")}
+            className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 h-36 text-white placeholder:text-zinc-600 focus:outline-none focus:border-fuchsia-500/50"
             required
+            minLength={40}
           />
         </div>
 
@@ -144,11 +159,13 @@ export default function ApplyTutorPage() {
           <label className="block text-sm font-medium mb-1.5 text-zinc-300">
             {t("specialties")}
           </label>
+          <p className="text-xs text-zinc-500 mb-2">{t("specialtiesHint")}</p>
           <input
             type="text"
             value={specialties}
             onChange={(e) => setSpecialties(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-fuchsia-500/50"
+            placeholder={t("specialtiesHint")}
+            className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-white placeholder:text-zinc-600 focus:outline-none focus:border-fuchsia-500/50"
           />
         </div>
 
