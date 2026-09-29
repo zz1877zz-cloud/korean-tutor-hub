@@ -14,3 +14,108 @@
 .hero-animate {
   animation: hero-in 0.8s ease-out forwards;
 }
+
+html[data-theme="light"] {
+  color-scheme: light;
+}
+
+html[data-theme="light"] body {
+  background: #efe6f6 !important;
+  color: #1c1430 !important;
+}
+
+html[data-theme="light"] .site-header,
+html[data-theme="light"] .site-footer {
+  background: #efe6f6 !important;
+  border-color: rgba(167, 139, 250, 0.28) !important;
+}
+
+html[data-theme="light"] .text-white,
+html[data-theme="light"] .text-zinc-100 {
+  color: #2a1848 !important;
+}
+
+html[data-theme="light"] .text-zinc-200,
+html[data-theme="light"] .text-zinc-300 {
+  color: #4a3570 !important;
+}
+
+html[data-theme="light"] .text-zinc-400,
+html[data-theme="light"] .text-zinc-500,
+html[data-theme="light"] .text-zinc-600 {
+  color: #7a6b96 !important;
+}
+
+html[data-theme="light"] .bg-black\/30,
+html[data-theme="light"] .bg-white\/5,
+html[data-theme="light"] .bg-white\/10 {
+  background-color: rgba(255, 255, 255, 0.78) !important;
+}
+
+html[data-theme="light"] .border-white\/10,
+html[data-theme="light"] .border-white\/15 {
+  border-color: rgba(167, 139, 250, 0.28) !important;
+}
+
+html[data-theme="light"] .hero-stage * {
+  display: none !important;
+}
+
+html[data-theme="light"] .brand-mark,
+html[data-theme="light"] .hero-accent {
+  background-image: linear-gradient(to right, #c026d3, #6d28d9) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+html[data-theme="light"] input,
+html[data-theme="light"] select,
+html[data-theme="light"] textarea {
+  background: #ffffff !important;
+  color: #2a1848 !important;
+  border-color: rgba(167, 139, 250, 0.35) !important;
+}
+
+html[data-theme="light"] input::placeholder,
+html[data-theme="light"] textarea::placeholder {
+  color: #9a8bb8 !important;
+}
+
+html[data-theme="light"] .bg-\[\#0a0a0f\] {
+  background-color: #ffffff !important;
+}
+
+html[data-theme="light"] button.bg-gradient-to-r,
+html[data-theme="light"] a.bg-gradient-to-r,
+html[data-theme="light"] .from-fuchsia-600 {
+  background-image: none !important;
+  background-color: #ddd6fe !important;
+  color: #2a1848 !important;
+  -webkit-text-fill-color: #2a1848 !important;
+}
+
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+html[data-theme="dark"] .cta-btn,
+html:not([data-theme="light"]) .cta-btn {
+  background-image: linear-gradient(to right, #c026d3, #7c3aed);
+  color: #fff;
+  border: 1px solid transparent;
+}
+
+html[data-theme="light"] .cta-btn {
+  background: transparent;
+  color: #4a3570 !important;
+  -webkit-text-fill-color: #4a3570 !important;
+  border: 1px solid rgba(167, 139, 250, 0.45);
+}

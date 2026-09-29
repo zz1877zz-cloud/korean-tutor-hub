@@ -2,7 +2,7 @@ import { Link } from "@/i18n/navigation"
 
 export default function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-[#0a0a0f] mt-auto">
+    <footer className="site-footer border-t border-white/10 bg-[#0a0a0f] mt-auto">
       <div className="max-w-6xl mx-auto px-4 py-10">
         <p className="text-sm text-zinc-400 leading-relaxed max-w-2xl">
           Korean Tutor Hub는 K-pop과 한국 유학을 꿈꾸는 해외 학습자가

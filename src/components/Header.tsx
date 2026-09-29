@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/client"
 import { ensureProfile } from "@/lib/supabase/ensure-profile"
 import { useLocale, useTranslations } from "next-intl"
 import { Link, usePathname, useRouter } from "@/i18n/navigation"
+import ThemeToggle from "@/components/ThemeToggle"
 
 export default function Header() {
   const t = useTranslations("common")
@@ -76,11 +77,11 @@ export default function Header() {
   const mobileLinkClass = "block text-zinc-300"
 
   return (
-    <header className="border-b border-white/10 bg-[#0a0a0f]/90 backdrop-blur sticky top-0 z-50">
+    <header className="site-header border-b border-white/10 bg-[#0a0a0f]/90 backdrop-blur sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
         <Link
           href="/"
-          className="text-xl font-bold bg-gradient-to-r from-fuchsia-400 to-violet-400 bg-clip-text text-transparent"
+          className="brand-mark text-xl font-bold bg-gradient-to-r from-fuchsia-400 to-violet-400 bg-clip-text text-transparent"
         >
           {t("appName")}
         </Link>
@@ -133,6 +134,8 @@ export default function Header() {
               {t("admin")}
             </a>
           )}
+
+          <ThemeToggle />
 
           <div className="flex items-center gap-1 text-xs border border-white/10 rounded-full p-0.5">
             <button
@@ -192,7 +195,7 @@ export default function Header() {
       </div>
 
       {menuOpen && (
-        <div className="md:hidden border-t border-white/10 bg-[#0a0a0f] px-4 py-4 space-y-1">
+        <div className="site-header md:hidden border-t border-white/10 bg-[#0a0a0f] px-4 py-4 space-y-1">
           <Link
             href="/tutors"
             onClick={() => setMenuOpen(false)}
@@ -278,6 +281,7 @@ export default function Header() {
           )}
 
           <div className="flex gap-2 pt-3">
+            <ThemeToggle />
             <button
               type="button"
               onClick={() => switchLocale("en")}

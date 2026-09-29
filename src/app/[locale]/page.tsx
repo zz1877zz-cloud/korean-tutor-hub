@@ -22,7 +22,7 @@ export default async function HomePage({
 
   return (
     <div className="relative">
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      <div className="hero-stage pointer-events-none absolute inset-0 overflow-hidden">
         <img
           src="/hero-lyrics-wide.jpg"
           alt=""
@@ -55,7 +55,7 @@ export default async function HomePage({
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">
             {ko ? "좋아하는 가사를" : "Feel the lyrics"}
             <br />
-            <span className="bg-gradient-to-r from-fuchsia-400 to-violet-400 bg-clip-text text-transparent">
+            <span className="hero-accent bg-gradient-to-r from-fuchsia-400 to-violet-400 bg-clip-text text-transparent">
               {ko ? "진심으로 느껴보세요" : "like you mean them"}
             </span>
           </h1>
@@ -65,16 +65,10 @@ export default async function HomePage({
               : "Talk on Ojakgyo first. If you want to keep going, take the class — and see Korea together."}
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
-            <Link
-              href="/tutors"
-              className="rounded-full bg-gradient-to-r from-fuchsia-600 to-violet-600 px-6 py-3 text-sm font-medium text-white"
-            >
+            <Link href="/tutors" className="cta-btn">
               {ko ? "튜터 보러 가기" : "Meet tutors"}
             </Link>
-            <Link
-              href="/apply-tutor"
-              className="rounded-full border border-white/15 px-6 py-3 text-sm text-zinc-300 hover:text-white"
-            >
+            <Link href="/apply-tutor" className="cta-btn">
               {ko ? "튜터로 합류" : "Become a tutor"}
             </Link>
           </div>
