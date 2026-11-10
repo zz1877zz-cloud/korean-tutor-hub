@@ -109,6 +109,16 @@ html[data-theme="light"] textarea:focus-visible {
   background: rgba(255, 255, 255, 0.06);
 }
 
+.btn-danger {
+  border: 1px solid transparent;
+  background: #be123c;
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background: #e11d48;
+}
+
 .btn-block {
   width: 100%;
 }
@@ -305,6 +315,12 @@ html[data-theme="light"] .btn-secondary {
   background: transparent;
   color: #2a1848;
   -webkit-text-fill-color: #2a1848;
+}
+
+html[data-theme="light"] .btn-danger {
+  background: #be123c;
+  color: #fff;
+  -webkit-text-fill-color: #fff;
 }
 
 html[data-theme="light"] .surface {

@@ -9,7 +9,7 @@ export async function POST(request: Request) {
 
     if (!tutor_id) {
       return NextResponse.json(
-        { error: "튜터 정보가 없습니다." },
+        { error: "튜터 정보가 없어요." },
         { status: 400 }
       )
     }
@@ -22,7 +22,7 @@ export async function POST(request: Request) {
 
     if (!user) {
       return NextResponse.json(
-        { error: "로그인이 필요합니다." },
+        { error: "로그인이 필요해요." },
         { status: 401 }
       )
     }
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
     if (error) {
       console.error(error)
       return NextResponse.json(
-        { error: "예약 저장에 실패했습니다." },
+        { error: "예약을 저장하지 못했어요." },
         { status: 500 }
       )
     }
@@ -57,7 +57,7 @@ export async function POST(request: Request) {
   } catch (err) {
     console.error(err)
     return NextResponse.json(
-      { error: "서버 오류가 발생했습니다." },
+      { error: "서버 오류가 났어요." },
       { status: 500 }
     )
   }

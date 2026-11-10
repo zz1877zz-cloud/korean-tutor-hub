@@ -46,11 +46,11 @@ export default function AvatarUpload({
     setError("")
 
     if (!file.type.startsWith("image/")) {
-      setError("이미지 파일을 선택해주세요.")
+      setError("이미지 파일을 선택해 주세요.")
       return
     }
     if (file.size > MAX_BYTES) {
-      setError("이미지는 5MB 이하여야 합니다.")
+      setError("이미지는 5MB 이하여야 해요.")
       return
     }
 

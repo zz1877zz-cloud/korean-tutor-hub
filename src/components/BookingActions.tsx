@@ -46,7 +46,7 @@ export default function BookingActions({
       setOpen(false)
       router.refresh()
     } else {
-      alert("취소에 실패했습니다.")
+      alert("취소하지 못했어요.")
     }
   }
 
@@ -63,13 +63,13 @@ export default function BookingActions({
       {!open ? (
         <button
           onClick={() => setOpen(true)}
-          className="text-sm px-3 py-1.5 border border-red-500/40 text-red-300 rounded-full hover:bg-red-500/10 transition"
+          className="btn btn-danger"
         >
           예약 취소
         </button>
       ) : (
         <div className="bg-white/5 border border-white/10 rounded-2xl p-4 space-y-3">
-          <p className="text-sm text-zinc-300">취소 사유를 선택해주세요</p>
+          <p className="text-sm text-zinc-300">취소 사유를 선택해 주세요</p>
 
           <div className="flex flex-wrap gap-2">
             {REASONS.map((r) => (
@@ -93,7 +93,7 @@ export default function BookingActions({
               type="text"
               value={custom}
               onChange={(e) => setCustom(e.target.value)}
-              placeholder="사유를 입력하세요"
+              placeholder="사유를 입력해 주세요"
               className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-fuchsia-500/50"
             />
           )}
@@ -102,13 +102,13 @@ export default function BookingActions({
             <button
               onClick={handleCancel}
               disabled={loading}
-              className="text-sm px-4 py-2 bg-red-600 text-white rounded-full hover:bg-red-500 disabled:opacity-50"
+              className="btn btn-danger"
             >
               {loading ? "처리 중..." : "취소 확정"}
             </button>
             <button
               onClick={() => setOpen(false)}
-              className="text-sm px-4 py-2 border border-white/15 text-zinc-400 rounded-full"
+              className="btn btn-secondary"
             >
               닫기
             </button>
