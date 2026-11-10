@@ -21,34 +21,35 @@ export default function NewTutorPage() {
   const supabase = createClient()
 
   useEffect(() => {
-    checkAdmin()
-  }, [])
+    let cancelled = false
+    supabase.auth.getUser().then(async ({ data }) => {
+      if (cancelled) return
+      const user = data.user
+      if (!user) {
+        router.push("/login")
+        return
+      }
 
-  async function checkAdmin() {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", user.id)
+        .single()
 
-    if (!user) {
-      router.push("/login")
-      return
-    }
+      if (cancelled) return
+      if (profile?.role !== "admin") {
+        setIsAdmin(false)
+        setChecking(false)
+        return
+      }
 
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("role")
-      .eq("id", user.id)
-      .single()
-
-    if (profile?.role !== "admin") {
-      setIsAdmin(false)
+      setIsAdmin(true)
       setChecking(false)
-      return
+    })
+    return () => {
+      cancelled = true
     }
-
-    setIsAdmin(true)
-    setChecking(false)
-  }
+  }, [])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()

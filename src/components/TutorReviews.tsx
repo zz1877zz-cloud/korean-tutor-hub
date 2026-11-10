@@ -22,27 +22,32 @@ export default function TutorReviews({ reviews }: { reviews: Review[] }) {
 
   return (
     <section className="mt-10">
-      <h2 className="text-lg font-bold text-white mb-4">{t("sectionTitle")}</h2>
-      <div className="grid grid-cols-2 gap-3 mb-6">
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-          <p className="text-xs text-zinc-500 mb-1">💬 {t("consultIcon")}</p>
-          <p className="text-xl font-semibold text-amber-400">
+      <h2 className="text-lg font-bold text-white mb-2">{t("sectionTitle")}</h2>
+      <p className="mb-4 text-sm leading-relaxed text-zinc-300">{t("sectionNote")}</p>
+      <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <div className="surface p-4">
+          <p className="mb-1 text-xs text-zinc-400">{t("consultIcon")}</p>
+          <p className={avg(consult) ? "rating text-xl" : "text-xl font-semibold text-zinc-300"}>
             {avg(consult) ? `★ ${avg(consult)}` : t("none")}
           </p>
-          <p className="text-xs text-zinc-500 mt-1">{consult.length}</p>
+          <p className="mt-1 text-xs text-zinc-400">
+            {t("countLabel", { count: consult.length })}
+          </p>
         </div>
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-          <p className="text-xs text-zinc-500 mb-1">📘 {t("lessonIcon")}</p>
-          <p className="text-xl font-semibold text-amber-400">
+        <div className="surface p-4">
+          <p className="mb-1 text-xs text-zinc-400">{t("lessonIcon")}</p>
+          <p className={avg(lesson) ? "rating text-xl" : "text-xl font-semibold text-zinc-300"}>
             {avg(lesson) ? `★ ${avg(lesson)}` : t("none")}
           </p>
-          <p className="text-xs text-zinc-500 mt-1">{lesson.length}</p>
+          <p className="mt-1 text-xs text-zinc-400">
+            {t("countLabel", { count: lesson.length })}
+          </p>
         </div>
       </div>
 
       <div className="space-y-3">
         {reviews.length === 0 && (
-          <p className="text-sm text-zinc-500">{t("empty")}</p>
+          <p className="surface p-4 text-sm leading-relaxed text-zinc-300">{t("empty")}</p>
         )}
         {reviews.map((r) => (
           <div key={r.id} className="rounded-2xl border border-white/10 bg-white/5 p-4">
@@ -50,7 +55,7 @@ export default function TutorReviews({ reviews }: { reviews: Review[] }) {
               <span className="text-xs text-zinc-400">
                 {r.kind === "consultation" ? `💬 ${t("consultIcon")}` : `📘 ${t("lessonIcon")}`}
               </span>
-              <span className="text-amber-400 text-sm">★ {r.rating}</span>
+              <span className="rating text-sm">★ {r.rating}</span>
             </div>
             {r.comment && (
               <p className="text-sm text-zinc-200 whitespace-pre-line">{r.comment}</p>

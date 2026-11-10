@@ -1,4 +1,24 @@
+import type { Metadata } from "next"
 import { setRequestLocale } from "next-intl/server"
+import { pageMeta } from "@/lib/seo"
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}): Promise<Metadata> {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const ko = locale === "ko"
+  return pageMeta({
+    locale,
+    path: "/fees",
+    title: ko ? "수수료 · 환불" : "Fees and refunds",
+    description: ko
+      ? "오작교는 무료이며 패키지에 포함되지 않습니다. 체험팩과 추천 슬롯은 아직 판매하지 않습니다. 수업료는 사이트에서 받지 않습니다."
+      : "Ojakgyo is free and not part of a package. The experience pack and recommended slot are not for sale. The site does not charge lesson fees yet.",
+  })
+}
 
 export default async function FeesPage({
   params,
@@ -71,7 +91,23 @@ export default async function FeesPage({
       </section>
 
       <section className="space-y-2">
-        <h2 className="text-white font-semibold">{ko ? "6. 변경" : "6. Changes"}</h2>
+        <h2 className="text-white font-semibold">
+          {ko ? "6. 체험팩 · 추천 슬롯" : "6. Experience pack and recommended slot"}
+        </h2>
+        <p>
+          {ko
+            ? "체험팩은 첫 유료 수업 다음에 제안할 짧은 수업 묶음입니다. 추천 슬롯은 튜터 프로필을 목록 앞에 두는 유료 자리입니다. 둘 다 아직 판매하지 않으며, 이 페이지에 가격을 적지 않습니다."
+            : "An experience pack would be a short series after the first paid lesson. A recommended slot would place a tutor profile nearer the top of the list. Neither is for sale, and this page lists no price for them."}
+        </p>
+        <p>
+          {ko
+            ? "오작교는 위 상품에 끼워 넣지 않습니다. 무료 상담 입구로 남습니다. 지금 목록 순서는 평점과 필터 결과이며, 구매한 순위가 아닙니다."
+            : "Ojakgyo is not bundled into either product. It stays the free consult. The list order you see today comes from rating and filters, not from a purchased placement."}
+        </p>
+      </section>
+
+      <section className="space-y-2">
+        <h2 className="text-white font-semibold">{ko ? "7. 변경" : "7. Changes"}</h2>
         <p>
           {ko
             ? "숫자(8%, 24시간, 50%, 15일)는 초안입니다. 결제 오픈 전에 이 페이지에서 확정본을 고지합니다."

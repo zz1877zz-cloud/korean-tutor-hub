@@ -42,8 +42,21 @@ export default function ConsultationThread({
   }
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => setUserId(data.user?.id ?? null))
-    void load()
+    let cancelled = false
+    supabase.auth.getUser().then(({ data }) => {
+      if (!cancelled) setUserId(data.user?.id ?? null)
+    })
+    supabase
+      .from("consultation_messages")
+      .select("id, sender_id, body, created_at")
+      .eq("consultation_id", consultationId)
+      .order("created_at", { ascending: true })
+      .then(({ data }) => {
+        if (!cancelled) setRows((data as Msg[]) ?? [])
+      })
+    return () => {
+      cancelled = true
+    }
   }, [consultationId])
 
   async function translateText(id: string, text: string) {

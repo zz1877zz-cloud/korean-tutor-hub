@@ -42,12 +42,16 @@ export default function BookingButton({ tutorId }: { tutorId: string }) {
   return (
     <div>
       <button
+        type="button"
         onClick={handleBooking}
         disabled={loading}
-        className="w-full bg-gradient-to-r from-fuchsia-600 to-violet-600 text-white py-3.5 rounded-full font-semibold hover:opacity-90 disabled:opacity-50 transition"
+        className="btn btn-secondary btn-block"
       >
         {loading ? t("booking") : t("book")}
       </button>
+      <p className="mt-2 text-center text-xs leading-relaxed text-zinc-400">
+        {t("bookHint")}
+      </p>
 
       {message && (
         <p

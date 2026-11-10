@@ -1,4 +1,24 @@
+import type { Metadata } from "next"
 import { setRequestLocale } from "next-intl/server"
+import { pageMeta } from "@/lib/seo"
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}): Promise<Metadata> {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const ko = locale === "ko"
+  return pageMeta({
+    locale,
+    path: "/privacy",
+    title: ko ? "개인정보처리방침" : "Privacy policy",
+    description: ko
+      ? "Korean Tutor Hub가 계정, 상담, 예약 정보를 다루는 방식입니다."
+      : "How Korean Tutor Hub handles account, consultation, and booking information.",
+  })
+}
 
 export default async function PrivacyPage({
   params,

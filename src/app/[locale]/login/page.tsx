@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { ensureProfile } from "@/lib/supabase/ensure-profile"
 import { useRouter, useSearchParams } from "next/navigation"
@@ -17,14 +17,16 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
   const supabase = createClient()
-
-  useEffect(() => {
-    const status = searchParams.get("status")
-    const err = searchParams.get("error")
-    if (status === "already") setMessage(t("alreadyMember"))
-    if (status === "confirmed") setMessage(t("emailConfirmed"))
-    if (err) setMessage(t("callbackError"))
-  }, [searchParams, t])
+  const status = searchParams.get("status")
+  const err = searchParams.get("error")
+  const notice = err
+    ? t("callbackError")
+    : status === "already"
+      ? t("alreadyMember")
+      : status === "confirmed"
+        ? t("emailConfirmed")
+        : ""
+  const shownMessage = message || notice
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault()
@@ -90,48 +92,54 @@ export default function LoginPage() {
 
       <form className="bg-white/5 border border-white/10 rounded-3xl p-6 space-y-4">
         <div>
-          <label className="block text-sm font-medium mb-1.5 text-zinc-300">
+          <label htmlFor="login-email" className="block text-sm font-medium mb-1.5 text-zinc-300">
             {t("email")}
           </label>
           <input
+            id="login-email"
             type="email"
+            autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-white placeholder:text-zinc-600 focus:outline-none focus:border-fuchsia-500/50"
+            className="min-h-11 w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-white placeholder:text-zinc-500 focus:outline-none focus:border-fuchsia-500/50"
             required
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1.5 text-zinc-300">
+          <label htmlFor="login-password" className="block text-sm font-medium mb-1.5 text-zinc-300">
             {t("password")}
           </label>
           <input
+            id="login-password"
             type="password"
+            autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-white placeholder:text-zinc-600 focus:outline-none focus:border-fuchsia-500/50"
+            className="min-h-11 w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-white placeholder:text-zinc-500 focus:outline-none focus:border-fuchsia-500/50"
             required
             minLength={6}
           />
         </div>
 
-        {message && (
-          <p className="text-sm text-center text-fuchsia-300">{message}</p>
+        {shownMessage && (
+          <p className="text-sm text-center text-fuchsia-300">{shownMessage}</p>
         )}
 
         <button
+          type="button"
           onClick={handleLogin}
           disabled={loading}
-          className="w-full bg-gradient-to-r from-fuchsia-600 to-violet-600 text-white py-3 rounded-full font-semibold hover:opacity-90 disabled:opacity-50 transition"
+          className="btn btn-primary btn-block"
         >
           {loading ? t("processing") : t("loginTitle")}
         </button>
 
         <button
+          type="button"
           onClick={handleSignup}
           disabled={loading}
-          className="w-full border border-white/15 text-zinc-300 py-3 rounded-full font-medium hover:bg-white/5 disabled:opacity-50 transition"
+          className="btn btn-secondary btn-block"
         >
           {t("signUp")}
         </button>

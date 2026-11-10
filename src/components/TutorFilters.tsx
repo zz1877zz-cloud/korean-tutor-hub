@@ -37,20 +37,21 @@ export default function TutorFilters({ value, onChange }: Props) {
   return (
     <div className="rounded-2xl border border-white/10 bg-white/5 p-4 space-y-4">
       <div>
-        <label className="block text-xs text-zinc-500 mb-1.5">
+        <label htmlFor="tutor-search" className="mb-1.5 block text-xs text-zinc-300">
           {t("search")}
         </label>
         <input
+          id="tutor-search"
           type="search"
           value={value.q}
           onChange={(e) => patch({ q: e.target.value })}
           placeholder={t("searchPlaceholder")}
-          className="w-full rounded-xl border border-white/10 bg-[#0a0a0f] px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:ring-1 focus:ring-fuchsia-500"
+          className="min-h-11 w-full rounded-xl border border-white/10 bg-[#0a0a0f] px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-fuchsia-500"
         />
       </div>
 
-      <div>
-        <p className="text-xs text-zinc-500 mb-2">{t("specialty")}</p>
+      <fieldset>
+        <legend className="mb-2 text-xs text-zinc-300">{t("specialty")}</legend>
         <div className="flex flex-wrap gap-2">
           {specialties.map((item) => {
             const active = value.specialties.includes(item.value)
@@ -58,11 +59,12 @@ export default function TutorFilters({ value, onChange }: Props) {
               <button
                 key={item.value}
                 type="button"
+                aria-pressed={active}
                 onClick={() => toggleSpecialty(item.value)}
-                className={`rounded-full px-3 py-1 text-xs transition ${
+                className={`min-h-11 rounded-full px-3 text-xs transition ${
                   active
-                    ? "bg-fuchsia-500/25 text-fuchsia-200 border border-fuchsia-400/40"
-                    : "bg-white/5 text-zinc-400 border border-white/10 hover:text-zinc-200"
+                    ? "bg-fuchsia-500/25 text-fuchsia-100 border border-fuchsia-400/40"
+                    : "bg-white/5 text-zinc-200 border border-white/10 hover:text-white"
                 }`}
               >
                 {item.label}
@@ -70,17 +72,18 @@ export default function TutorFilters({ value, onChange }: Props) {
             )
           })}
         </div>
-      </div>
+      </fieldset>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
-          <label className="block text-xs text-zinc-500 mb-1.5">
+          <label htmlFor="tutor-language" className="mb-1.5 block text-xs text-zinc-300">
             {t("language")}
           </label>
           <select
+            id="tutor-language"
             value={value.language}
             onChange={(e) => patch({ language: e.target.value })}
-            className="w-full rounded-xl border border-white/10 bg-[#0a0a0f] px-3 py-2 text-sm text-zinc-100 focus:outline-none focus:ring-1 focus:ring-fuchsia-500"
+            className="min-h-11 w-full rounded-xl border border-white/10 bg-[#0a0a0f] px-3 py-2 text-sm text-zinc-100 focus:outline-none focus:ring-1 focus:ring-fuchsia-500"
           >
             <option value="">{t("languageAll")}</option>
             <option value="ko">{t("languageKo")}</option>
@@ -89,32 +92,35 @@ export default function TutorFilters({ value, onChange }: Props) {
         </div>
 
         <div>
-          <label className="block text-xs text-zinc-500 mb-1.5">
+          <label htmlFor="tutor-max-price" className="mb-1.5 block text-xs text-zinc-300">
             {t("maxPrice")}
           </label>
           <input
+            id="tutor-max-price"
             type="number"
             min={0}
+            inputMode="numeric"
             value={value.maxPrice}
             onChange={(e) => patch({ maxPrice: e.target.value })}
             placeholder={t("maxPricePlaceholder")}
-            className="w-full rounded-xl border border-white/10 bg-[#0a0a0f] px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:ring-1 focus:ring-fuchsia-500"
+            className="min-h-11 w-full rounded-xl border border-white/10 bg-[#0a0a0f] px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-fuchsia-500"
           />
         </div>
       </div>
 
       <div>
-        <label className="block text-xs text-zinc-500 mb-1.5">
+        <label htmlFor="tutor-sort" className="mb-1.5 block text-xs text-zinc-300">
           {t("sort")}
         </label>
         <select
+          id="tutor-sort"
           value={value.sort}
           onChange={(e) =>
             patch({
               sort: e.target.value as TutorFilterState["sort"],
             })
           }
-          className="w-full rounded-xl border border-white/10 bg-[#0a0a0f] px-3 py-2 text-sm text-zinc-100 focus:outline-none focus:ring-1 focus:ring-fuchsia-500"
+          className="min-h-11 w-full rounded-xl border border-white/10 bg-[#0a0a0f] px-3 py-2 text-sm text-zinc-100 focus:outline-none focus:ring-1 focus:ring-fuchsia-500"
         >
           <option value="rating">{t("sortRating")}</option>
           <option value="price_asc">{t("sortPriceAsc")}</option>
@@ -133,7 +139,7 @@ export default function TutorFilters({ value, onChange }: Props) {
             sort: "rating",
           })
         }
-        className="text-xs text-zinc-500 hover:text-zinc-300 transition"
+        className="min-h-11 text-sm text-zinc-300 underline-offset-4 hover:text-white hover:underline"
       >
         {t("reset")}
       </button>

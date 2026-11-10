@@ -1,12 +1,47 @@
+import type { Metadata } from "next"
 import { createClient } from "@/lib/supabase/server"
-import Link from "next/link"
 import { notFound } from "next/navigation"
 import BookingButton from "@/components/BookingButton"
 import ConsultationRequestButton from "@/components/ConsultationRequestButton"
 import Avatar from "@/components/Avatar"
 import TutorReviews from "@/components/TutorReviews"
 import { getTranslations, setRequestLocale } from "next-intl/server"
+import { Link } from "@/i18n/navigation"
 import { specialtyLabel } from "@/lib/specialties"
+import { pageMeta } from "@/lib/seo"
+import { formatHourly, formatRating } from "@/lib/tutor-display"
+
+function clip(text: string, max = 150) {
+  const flat = text.replace(/\s+/g, " ").trim()
+  if (flat.length <= max) return flat
+  return `${flat.slice(0, max - 1).trimEnd()}…`
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; id: string }>
+}): Promise<Metadata> {
+  const { locale, id } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations({ locale, namespace: "detail" })
+  const supabase = await createClient()
+  const { data: tutor } = await supabase
+    .from("tutors")
+    .select("display_name, tagline, bio")
+    .eq("id", id)
+    .eq("is_active", true)
+    .maybeSingle()
+
+  const name = tutor?.display_name?.trim() || t("fallbackName")
+  const about = tutor?.tagline?.trim() || tutor?.bio?.trim()
+  return pageMeta({
+    locale,
+    path: `/tutors/${id}`,
+    title: name,
+    description: about ? clip(about) : t("metaFallback"),
+  })
+}
 
 export default async function TutorDetailPage({
   params,
@@ -47,76 +82,82 @@ export default async function TutorDetailPage({
   const notices = (posts ?? []).filter((p) => p.type === "notice")
   const regular = (posts ?? []).filter((p) => p.type !== "notice")
 
+  const name = tutor.display_name?.trim() || t("fallbackName")
+  const rating = formatRating(tutor.rating)
+  const price = formatHourly(tutor.hourly_rate, locale)
+  const specialties = (tutor.specialties ?? []).filter(Boolean)
+  const languages = (tutor.languages ?? []).filter(Boolean)
+
   return (
-    <div className="max-w-3xl mx-auto px-4 py-12">
+    <div className="mx-auto max-w-3xl px-4 py-10 md:py-12">
       <Link
-        href={`/${locale}/tutors`}
-        className="text-zinc-400 hover:text-white transition mb-6 inline-block text-sm"
+        href="/tutors"
+        className="mb-6 inline-flex min-h-11 items-center text-sm text-zinc-300 transition hover:text-white"
       >
         ← {t("back")}
       </Link>
 
-      <div className="bg-white/5 border border-white/10 rounded-3xl p-8 mb-8">
-        <div className="flex items-center gap-5 mb-6">
-          <Avatar src={tutor.avatar_url} bio={tutor.bio} size="xl" />
-          <div className="flex-1 min-w-0">
-            <div className="flex items-start justify-between gap-3 mb-1">
-              <h1 className="text-2xl font-bold text-white truncate">
-                {tutor.display_name || (locale === "ko" ? "튜터" : "Tutor")}
-              </h1>
-              <div className="text-amber-400 text-xl font-medium shrink-0">
-                ★ {tutor.rating}
-              </div>
-            </div>
+      <div className="surface mb-8 p-5 sm:p-8">
+        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center">
+          <Avatar src={tutor.avatar_url} bio={tutor.bio || name} size="xl" />
+          <div className="min-w-0 flex-1">
+            <h1 className="text-2xl font-bold text-white sm:text-3xl">{name}</h1>
 
             {tutor.tagline && (
-              <p className="text-fuchsia-300 text-sm mb-3">{tutor.tagline}</p>
+              <p className="mt-2 text-sm leading-relaxed text-fuchsia-200">
+                {tutor.tagline}
+              </p>
             )}
 
-            <div className="text-2xl font-bold text-fuchsia-400">
-              {tutor.hourly_rate?.toLocaleString()}
-              {locale === "ko" ? "원" : " KRW"}
-              <span className="text-base font-normal text-zinc-500">
-                {locale === "ko" ? "/시간" : "/hour"}
-              </span>
+            <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1">
+              <p className="price text-xl">{price ?? t("rateUnset")}</p>
+              <p className={rating ? "rating text-sm" : "text-sm text-zinc-300"}>
+                {rating ? `★ ${rating}` : t("reviewsPending")}
+              </p>
             </div>
           </div>
         </div>
 
-        <h2 className="text-lg font-bold text-white mb-3">{t("about")}</h2>
-        <p className="text-zinc-300 leading-relaxed mb-8 whitespace-pre-line">
-          {tutor.bio}
+        <h2 className="mb-3 text-lg font-bold text-white">{t("about")}</h2>
+        <p className="mb-8 whitespace-pre-line leading-relaxed text-zinc-200">
+          {tutor.bio?.trim() ? tutor.bio : t("bioEmpty")}
         </p>
 
         <div className="mb-6">
-          <h2 className="font-semibold text-white mb-2">{t("specialties")}</h2>
-          <div className="flex flex-wrap gap-2">
-            {tutor.specialties?.map((item: string) => (
-              <span
-                key={item}
-                className="bg-fuchsia-500/15 text-fuchsia-300 px-3 py-1 rounded-full text-sm"
-              >
-                {specialtyLabel(item, locale)}
-              </span>
-            ))}
-          </div>
+          <h2 className="mb-2 font-semibold text-white">{t("specialties")}</h2>
+          {specialties.length ? (
+            <ul className="m-0 flex list-none flex-wrap gap-2 p-0">
+              {specialties.map((item: string) => (
+                <li key={item} className="chip text-sm">
+                  {specialtyLabel(item, locale)}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-sm text-zinc-400">{t("specialtiesEmpty")}</p>
+          )}
         </div>
 
         <div className="mb-8">
-          <h2 className="font-semibold text-white mb-2">{t("languages")}</h2>
-          <div className="flex flex-wrap gap-2">
-            {tutor.languages?.map((item: string) => (
-              <span
-                key={item}
-                className="bg-white/10 text-zinc-300 px-3 py-1 rounded-full text-sm"
-              >
-                {item}
-              </span>
-            ))}
-          </div>
+          <h2 className="mb-2 font-semibold text-white">{t("languages")}</h2>
+          {languages.length ? (
+            <ul className="m-0 flex list-none flex-wrap gap-2 p-0">
+              {languages.map((item: string) => (
+                <li
+                  key={item}
+                  className="rounded-full bg-white/10 px-3 py-1 text-sm text-zinc-200"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-sm text-zinc-400">{t("languagesEmpty")}</p>
+          )}
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3 rounded-2xl border border-white/10 p-4">
+          <p className="text-sm leading-relaxed text-zinc-200">{t("actionLead")}</p>
           <ConsultationRequestButton tutorId={tutor.id} />
           <BookingButton tutorId={tutor.id} />
         </div>

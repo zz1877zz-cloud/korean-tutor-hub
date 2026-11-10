@@ -1,29 +1,34 @@
+import { getTranslations } from "next-intl/server"
 import { Link } from "@/i18n/navigation"
 
-export default function Footer() {
+export default async function Footer() {
+  const t = await getTranslations("footer")
+  const year = new Date().getFullYear()
+
   return (
-    <footer className="site-footer border-t border-white/10 bg-[#0a0a0f] mt-auto">
-      <div className="max-w-6xl mx-auto px-4 py-10">
-        <p className="text-sm text-zinc-400 leading-relaxed max-w-2xl">
-          Korean Tutor Hub는 K-pop과 한국 유학을 꿈꾸는 해외 학습자가
-          검증된 한국어 튜터를 만나고, 더 낮은 부담으로 성장할 수 있도록 돕습니다.
-          수업 경험을 바탕으로 한국 어학당·연수 기회까지 이어 가는 것이 우리의 목표입니다.
+    <footer className="site-footer mt-auto border-t border-white/10 bg-[#0a0a0f]">
+      <div className="mx-auto max-w-6xl px-4 py-10">
+        <p className="max-w-2xl text-sm leading-relaxed text-zinc-300">
+          {t("blurb")}
         </p>
-        <div className="mt-6 flex flex-wrap gap-4 text-sm text-zinc-500">
-          <Link href="/tutors" className="hover:text-zinc-300 transition">
-            튜터 찾기
+        <nav className="mt-6 flex flex-wrap gap-x-4 gap-y-2 text-sm text-zinc-300">
+          <Link href="/tutors" className="underline-offset-4 hover:text-white hover:underline">
+            {t("findTutors")}
           </Link>
-          <Link href="/terms" className="hover:text-zinc-300 transition">
-            이용약관
+          <Link href="/#path" className="underline-offset-4 hover:text-white hover:underline">
+            {t("how")}
           </Link>
-          <Link href="/privacy" className="hover:text-zinc-300 transition">
-            개인정보처리방침
+          <Link href="/terms" className="underline-offset-4 hover:text-white hover:underline">
+            {t("terms")}
           </Link>
-          <Link href="/fees" className="hover:text-zinc-300 transition">
-            수수료·환불
+          <Link href="/privacy" className="underline-offset-4 hover:text-white hover:underline">
+            {t("privacy")}
           </Link>
-          <span>© {new Date().getFullYear()} Korean Tutor Hub</span>
-        </div>
+          <Link href="/fees" className="underline-offset-4 hover:text-white hover:underline">
+            {t("fees")}
+          </Link>
+          <span>{t("rights", { year })}</span>
+        </nav>
       </div>
     </footer>
   )

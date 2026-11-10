@@ -224,7 +224,7 @@ export default function ApplyTutorPage() {
         <button
           type="submit"
           disabled={loading || !agreed}
-          className="w-full bg-gradient-to-r from-fuchsia-600 to-violet-600 text-white py-3 rounded-full font-semibold hover:opacity-90 disabled:opacity-50 transition"
+          className="btn btn-primary btn-block"
         >
           {loading ? t("submitting") : t("submit")}
         </button>

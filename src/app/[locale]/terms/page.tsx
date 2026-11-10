@@ -1,4 +1,24 @@
+import type { Metadata } from "next"
 import { setRequestLocale } from "next-intl/server"
+import { pageMeta } from "@/lib/seo"
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}): Promise<Metadata> {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const ko = locale === "ko"
+  return pageMeta({
+    locale,
+    path: "/terms",
+    title: ko ? "이용약관" : "Terms of use",
+    description: ko
+      ? "Korean Tutor Hub 이용약관. 오작교는 무료 상담이고, 결제가 열리기 전에는 수업료를 받지 않습니다."
+      : "Terms for Korean Tutor Hub. Ojakgyo is a free consult, and lesson fees are not collected before payments launch.",
+  })
+}
 
 export default async function TermsPage({
   params,

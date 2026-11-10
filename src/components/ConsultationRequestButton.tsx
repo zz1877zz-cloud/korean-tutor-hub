@@ -69,7 +69,7 @@ export default function ConsultationRequestButton({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="w-full rounded-full bg-gradient-to-r from-fuchsia-600 to-violet-600 px-5 py-3 text-sm font-medium text-white hover:opacity-90 transition"
+          className="btn btn-primary btn-block"
         >
           {t("requestButton")}
         </button>
@@ -78,27 +78,30 @@ export default function ConsultationRequestButton({
           onSubmit={handleSubmit}
           className="space-y-3 rounded-2xl border border-white/10 bg-white/5 p-4"
         >
-          <p className="text-sm text-zinc-300">{t("hint")}</p>
+          <p id="ojakgyo-hint" className="text-sm leading-relaxed text-zinc-300">
+            {t("hint")}
+          </p>
           <textarea
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             rows={4}
             placeholder={t("placeholder")}
-            className="w-full rounded-xl border border-white/10 bg-[#0a0a0f] px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:ring-1 focus:ring-fuchsia-500"
+            aria-describedby="ojakgyo-hint"
+            className="min-h-28 w-full rounded-xl border border-white/10 bg-[#0a0a0f] px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-fuchsia-500"
             required
           />
           <div className="flex gap-2">
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 rounded-full bg-gradient-to-r from-fuchsia-600 to-violet-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+              className="btn btn-primary flex-1"
             >
               {loading ? t("sending") : t("send")}
             </button>
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="rounded-full border border-white/15 px-4 py-2 text-sm text-zinc-400 hover:text-white"
+              className="btn btn-secondary"
             >
               {t("cancel")}
             </button>

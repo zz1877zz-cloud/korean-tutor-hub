@@ -22,7 +22,7 @@
     "confirmBooking": "Confirm booking",
     "declineBooking": "Decline",
     "goConsultations": "View consultations →",
-    "markCompleted":"Mark lesson complete"
+    "markCompleted": "Mark lesson complete"
   },
   "common": {
     "appName": "Korean Tutor Hub",
@@ -41,7 +41,15 @@
     "menuStudent": "Student",
     "menuTutor": "Tutor",
     "tutorPosts": "Posts",
-    "tutorProfile": "My channel"
+    "tutorProfile": "My channel",
+    "howItWorks": "How it works",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "themeToLight": "Switch to light mode",
+    "themeToDark": "Switch to dark mode",
+    "skipToContent": "Skip to content",
+    "language": "Language",
+    "primaryNav": "Primary"
   },
   "filters": {
     "search": "Search",
@@ -60,29 +68,57 @@
     "reset": "Reset filters"
   },
   "home": {
-    "badge": "Korean Tutor Hub",
-    "title1": "The best way",
-    "title2": "to learn Korean",
-    "subtitle": "K-pop, conversation, TOPIK, business Korean.\nFind the right tutor and start today.",
-    "ctaTutors": "Find Tutors",
-    "ctaStart": "Get Started",
-    "feature1Title": "Goal-based matching",
-    "feature1Desc": "Conversation, exams, culture — find a tutor that fits your goal.",
-    "feature2Title": "Fast booking",
-    "feature2Desc": "Pick a tutor and request a lesson in a few clicks.",
-    "feature3Title": "Global hub",
-    "feature3Desc": "Built for learners who love K-culture worldwide."
+    "metaTitle": "Find a Korean tutor",
+    "eyebrow": "Korean tutors for learners abroad",
+    "title": "Find a Korean tutor. Start with a song you already love.",
+    "subtitle": "Korean Tutor Hub is where you meet a tutor. Ojakgyo is a free consult — always open, and never bundled into a package.",
+    "ctaTutors": "Find a tutor",
+    "ctaHow": "See how it works",
+    "ctaNote": "Ojakgyo opens on a tutor’s page, before any paid lesson.",
+    "ctaTeach": "Teach Korean?",
+    "pathTitle": "How a learner moves through",
+    "pathLead": "You can act on the first two steps today. The paid pack and the tutor slot are labeled because they are not for sale yet.",
+    "step1Badge": "Start",
+    "step1Title": "Lyrics",
+    "step1Body": "Pick a tutor who can teach from a song you already know.",
+    "step2Badge": "Free",
+    "step2Title": "Ojakgyo",
+    "step2Body": "Talk on that tutor’s page. It is free, always available, and not part of any package.",
+    "step3Badge": "Next",
+    "step3Title": "First lesson",
+    "step3Body": "Request a paid lesson only if you both want to continue. This site does not charge yet.",
+    "step4Badge": "Later",
+    "step4Title": "Experience pack",
+    "step4Body": "A short series after the first lesson. No price is listed, because it is not for sale yet.",
+    "step5Badge": "Later",
+    "step5Title": "Recommended slot",
+    "step5Body": "A paid placement tutors can buy later. Today’s list order is not something anyone paid for.",
+    "tutorsTitle": "Tutors",
+    "tutorsLead": "Only approved profiles are shown. If there are no reviews, the rating stays blank.",
+    "tutorsMore": "All tutors",
+    "tutorsEmpty": "No public tutors yet. When a profile is approved, open their page and start with free Ojakgyo. Nothing is charged on this site today.",
+    "tutorsError": "The tutor list could not be loaded. Refresh the page in a moment."
   },
   "tutors": {
-    "title": "Tutors",
-    "subtitle": "Browse Korean tutors that match your goals.",
+    "title": "Find a tutor",
+    "subtitle": "Choose a tutor, then open free Ojakgyo on their page. That consult is not part of a package.",
     "searchPlaceholder": "Conversation, TOPIK, K-pop...",
     "noResults": "No tutors found.",
     "perHour": "/hour",
     "viewDetail": "View details →",
     "loadError": "Failed to load data.",
     "loading": "Loading…",
-    "empty": "No tutors match your filters."
+    "empty": "No tutors match these filters. Clear a filter, or check back when a new profile is approved.",
+    "metaTitle": "Find a tutor",
+    "lineupNote": "The public list is still short.",
+    "applyLink": "Apply to teach",
+    "unnamed": "Tutor",
+    "reviewsPending": "Reviews not in yet",
+    "rateUnset": "Hourly rate not set",
+    "languagesLabel": "Languages",
+    "languagesUnset": "Languages not listed yet",
+    "bioUnset": "Intro not written yet",
+    "resultCount": "{count, plural, one {# tutor} other {# tutors}}"
   },
   "auth": {
     "loginTitle": "Log in",
@@ -95,13 +131,13 @@
     "alreadyMember": "This email is already registered. Please sign in.",
     "emailConfirmed": "Email confirmed. Please sign in.",
     "callbackError": "The confirmation link is invalid or expired. Please sign in or sign up again."
-   },
+  },
   "detail": {
     "back": "Back to list",
     "about": "About this tutor",
     "specialties": "Specialties",
     "languages": "Languages",
-    "book": "Request booking",
+    "book": "Request a first lesson",
     "booking": "Requesting...",
     "bookSuccess": "Booking request sent!",
     "bookFail": "Booking failed.",
@@ -109,7 +145,16 @@
     "timelineEmpty": "No posts yet.",
     "noticeBadge": "Notice",
     "pinned": "Pinned",
-    "needLogin": "Please log in."
+    "needLogin": "Please log in.",
+    "bookHint": "This asks for a paid lesson. The site does not take payment yet, and Ojakgyo alone does not confirm a class.",
+    "fallbackName": "Tutor",
+    "metaFallback": "Korean tutor on Korean Tutor Hub. Talk free on Ojakgyo before requesting a lesson.",
+    "actionLead": "Ojakgyo is the free door. It stays free and is not bundled into a lesson or a future pack.",
+    "rateUnset": "Hourly rate not set",
+    "reviewsPending": "No public rating yet",
+    "bioEmpty": "This tutor has not added an introduction yet.",
+    "specialtiesEmpty": "Specialties not listed yet.",
+    "languagesEmpty": "Languages not listed yet."
   },
   "apply": {
     "title": "Teach with us",
@@ -165,21 +210,23 @@
     "goConsultations": "Incoming consultations →"
   },
   "reviews": {
-  "sectionTitle": "Reviews",
-  "consultIcon": "Consultation",
-  "lessonIcon": "Lesson",
-  "none": "None yet",
-  "empty": "No reviews yet.",
-  "consultTitle": "How was the consultation?",
-  "lessonTitle": "How was the lesson?",
-  "placeholder": "A short note is enough.",
-  "submit": "Submit review",
-  "submitting": "Saving…",
-  "thanks": "Thank you."
+    "sectionTitle": "Reviews",
+    "consultIcon": "Consultation",
+    "lessonIcon": "Lesson",
+    "none": "None yet",
+    "empty": "No reviews yet. The slot is here for a real note after a consult or a lesson.",
+    "consultTitle": "How was the consultation?",
+    "lessonTitle": "How was the lesson?",
+    "placeholder": "A short note is enough.",
+    "submit": "Submit review",
+    "submitting": "Saving…",
+    "thanks": "Thank you.",
+    "sectionNote": "This space stays empty until a student writes a consult or lesson review. Sample reviews are not added.",
+    "countLabel": "{count, plural, one {# review} other {# reviews}}"
   },
   "ojakgyo": {
-    "requestButton": "Ojakgyo · Request a consultation",
-    "hint": "Briefly share your goals, level, and available times. Once the tutor accepts, you can book a lesson.",
+    "requestButton": "Ojakgyo · Talk first, free",
+    "hint": "Ojakgyo is free and is not part of a package. Share your goal, level, and times. Request a lesson only if you both want to continue.",
     "placeholder": "e.g. I want to practice conversation with K-pop lyrics. Evenings, twice a week work for me.",
     "send": "Send request",
     "sending": "Sending…",
@@ -221,5 +268,18 @@
     "reject_fit": "Not the right lesson fit",
     "reject_capacity": "Not taking new consults now",
     "reject_other": "Other"
+  },
+  "footer": {
+    "blurb": "Korean Tutor Hub is where learners abroad find a Korean tutor. Start with K-pop lyrics, talk on free Ojakgyo, then request a first lesson if it fits. Ojakgyo is not included in any package.",
+    "findTutors": "Find a tutor",
+    "how": "How it works",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "fees": "Fees and refunds",
+    "rights": "© {year} Korean Tutor Hub"
+  },
+  "seo": {
+    "title": "Find a Korean tutor",
+    "description": "Find a Korean tutor and start with K-pop lyrics. Ojakgyo is a free consult, always open and not part of any paid package."
   }
 }

@@ -1,6 +1,24 @@
-import { setRequestLocale, getTranslations } from "next-intl/server"
+import type { Metadata } from "next"
+import { getTranslations, setRequestLocale } from "next-intl/server"
 import TutorList from "@/components/TutorList"
 import { Link } from "@/i18n/navigation"
+import { pageMeta } from "@/lib/seo"
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}): Promise<Metadata> {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations({ locale, namespace: "tutors" })
+  return pageMeta({
+    locale,
+    path: "/tutors",
+    title: t("metaTitle"),
+    description: t("subtitle"),
+  })
+}
 
 export default async function TutorsPage({
   params,
@@ -10,18 +28,20 @@ export default async function TutorsPage({
   const { locale } = await params
   setRequestLocale(locale)
   const t = await getTranslations("tutors")
-  const ko = locale === "ko"
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold text-white mb-2">{t("title")}</h1>
-      <p className="text-zinc-400 text-sm mb-4">{t("subtitle")}</p>
-      <p className="text-sm text-zinc-500 mb-8">
-        {ko
-          ? "아직 라인업이 적어도 괜찮아요. 가르칠 수 있으면 먼저 지원해 주세요."
-          : "The lineup is still small. If you teach, apply first."}{" "}
-        <Link href="/apply-tutor" className="text-violet-300 hover:text-violet-200">
-          {ko ? "튜터 지원 →" : "Apply to teach →"}
+    <div className="mx-auto max-w-6xl px-4 py-10 md:py-12">
+      <h1 className="mb-2 text-3xl font-bold text-white">{t("title")}</h1>
+      <p className="mb-3 max-w-2xl text-base leading-relaxed text-zinc-200">
+        {t("subtitle")}
+      </p>
+      <p className="mb-8 text-sm leading-relaxed text-zinc-400">
+        {t("lineupNote")}{" "}
+        <Link
+          href="/apply-tutor"
+          className="font-medium text-fuchsia-200 underline decoration-fuchsia-300/40 underline-offset-4"
+        >
+          {t("applyLink")}
         </Link>
       </p>
       <TutorList />

@@ -3,11 +3,9 @@
 import { useMemo, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { createClient } from "@/lib/supabase/client"
-import { Link } from "@/i18n/navigation"
 import { useLocale, useTranslations } from "next-intl"
-import Avatar from "@/components/Avatar"
+import TutorCard, { type TutorCardLabels } from "@/components/TutorCard"
 import TutorFilters, { type TutorFilterState } from "@/components/TutorFilters"
-import { specialtyLabel } from "@/lib/specialties"
 
 type TutorRow = {
   id: string
@@ -104,8 +102,24 @@ export default function TutorList() {
     return list
   }, [tutors, filters])
 
+  const labels: TutorCardLabels = {
+    unnamed: t("unnamed"),
+    reviewsPending: t("reviewsPending"),
+    rateUnset: t("rateUnset"),
+    languagesLabel: t("languagesLabel"),
+    languagesUnset: t("languagesUnset"),
+    bioUnset: t("bioUnset"),
+  }
+
   if (isLoading) {
-    return <p className="text-zinc-400 text-sm py-8">{t("loading")}</p>
+    return (
+      <div className="grid gap-4 sm:grid-cols-2" aria-busy="true" aria-live="polite">
+        <p className="sr-only">{t("loading")}</p>
+        {Array.from({ length: 4 }, (_, index) => (
+          <div key={index} className="skeleton animate-pulse" />
+        ))}
+      </div>
+    )
   }
 
   if (error) {
@@ -120,63 +134,20 @@ export default function TutorList() {
     <div className="space-y-6">
       <TutorFilters value={filters} onChange={setFilters} />
 
+      <p className="text-sm text-zinc-300">{t("resultCount", { count: filtered.length })}</p>
+
       {filtered.length === 0 ? (
-        <p className="text-zinc-500 text-sm py-8 text-center">{t("empty")}</p>
+        <p className="surface px-4 py-8 text-center text-sm leading-relaxed text-zinc-300">
+          {t("empty")}
+        </p>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2">
+        <ul className="m-0 grid list-none gap-4 p-0 sm:grid-cols-2">
           {filtered.map((tutor) => (
-            <Link
-              key={tutor.id}
-              href={`/tutors/${tutor.id}`}
-              className="block rounded-3xl border border-white/10 bg-white/5 p-5 hover:border-fuchsia-500/30 transition"
-            >
-              <div className="flex items-start gap-4">
-                <Avatar src={tutor.avatar_url} bio={tutor.bio} size="lg" />
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center justify-between gap-2 mb-1">
-                    <h2 className="text-white font-semibold truncate">
-                      {tutor.display_name ||
-                        (locale === "ko" ? "튜터" : "Tutor")}
-                    </h2>
-                    <span className="text-amber-400 text-sm font-medium shrink-0">
-                      ★ {tutor.rating ?? "-"}
-                    </span>
-                  </div>
-
-                  {tutor.tagline && (
-                    <p className="text-fuchsia-300/90 text-sm mb-2 line-clamp-1">
-                      {tutor.tagline}
-                    </p>
-                  )}
-
-                  <p className="text-zinc-400 text-sm line-clamp-2 mb-3">
-                    {tutor.bio}
-                  </p>
-
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="flex flex-wrap gap-1.5 min-w-0">
-                      {(tutor.specialties ?? []).map((code) => (
-                        <span
-                          key={code}
-                          className="rounded-full bg-fuchsia-500/15 text-fuchsia-300 px-2.5 py-0.5 text-xs"
-                        >
-                          {specialtyLabel(code, locale)}
-                        </span>
-                      ))}
-                    </div>
-                    <span className="text-fuchsia-400 text-sm font-semibold shrink-0">
-                      {tutor.hourly_rate != null
-                        ? `${tutor.hourly_rate.toLocaleString()}${
-                            locale === "ko" ? "원" : ""
-                          }`
-                        : "-"}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </Link>
+            <li key={tutor.id}>
+              <TutorCard tutor={tutor} locale={locale} labels={labels} />
+            </li>
           ))}
-        </div>
+        </ul>
       )}
     </div>
   )

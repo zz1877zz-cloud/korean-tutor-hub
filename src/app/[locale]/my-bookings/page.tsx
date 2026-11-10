@@ -56,7 +56,7 @@ export default async function MyBookingsPage({
       )}
 
       <div className="space-y-4">
-        {bookings?.map((booking: any) => {
+        {bookings?.map((booking) => {
           const tutor = Array.isArray(booking.tutors)
             ? booking.tutors[0]
             : booking.tutors

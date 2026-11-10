@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/client"
 import { ensureProfile } from "@/lib/supabase/ensure-profile"
 import { useLocale, useTranslations } from "next-intl"
 import { Link, usePathname, useRouter } from "@/i18n/navigation"
+import NextLink from "next/link"
 import ThemeToggle from "@/components/ThemeToggle"
 
 export default function Header() {
@@ -17,23 +18,6 @@ export default function Header() {
   const [isTutor, setIsTutor] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const supabase = createClient()
-
-  useEffect(() => {
-    loadUser()
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
-      if (
-        session?.user &&
-        (event === "SIGNED_IN" || event === "INITIAL_SESSION")
-      ) {
-        void ensureProfile(supabase, session.user).finally(() => loadUser())
-        return
-      }
-      loadUser()
-    })
-    return () => subscription.unsubscribe()
-  }, [])
 
   async function loadUser() {
     const {
@@ -58,6 +42,29 @@ export default function Header() {
     setIsTutor(!!tutor)
   }
 
+  useEffect(() => {
+    let cancelled = false
+    supabase.auth.getUser().then(() => {
+      if (!cancelled) void loadUser()
+    })
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (
+        session?.user &&
+        (event === "SIGNED_IN" || event === "INITIAL_SESSION")
+      ) {
+        void ensureProfile(supabase, session.user).finally(() => loadUser())
+        return
+      }
+      loadUser()
+    })
+    return () => {
+      cancelled = true
+      subscription.unsubscribe()
+    }
+  }, [])
+
   async function handleLogout() {
     await supabase.auth.signOut()
     setEmail(null)
@@ -73,8 +80,18 @@ export default function Header() {
     setMenuOpen(false)
   }
 
-  const linkClass = "text-zinc-400 hover:text-white transition text-sm"
-  const mobileLinkClass = "block text-zinc-300"
+  const linkClass = "text-zinc-200 hover:text-white transition text-sm min-h-11 inline-flex items-center"
+  const mobileLinkClass = "flex items-center min-h-11 text-zinc-100"
+
+  function navClass(href: string) {
+    const active =
+      href === "/"
+        ? pathname === "/"
+        : pathname === href || pathname.startsWith(`${href}/`)
+    return active
+      ? "text-white font-semibold transition text-sm min-h-11 inline-flex items-center"
+      : linkClass
+  }
 
   return (
     <header className="site-header border-b border-white/10 bg-[#0a0a0f]/90 backdrop-blur sticky top-0 z-50">
@@ -86,9 +103,12 @@ export default function Header() {
           {t("appName")}
         </Link>
 
-        <nav className="hidden md:flex items-center gap-4">
-          <Link href="/tutors" className={linkClass}>
+        <nav className="hidden md:flex items-center gap-4" aria-label={t("primaryNav")}>
+          <Link href="/tutors" className={navClass("/tutors")}>
             {t("findTutors")}
+          </Link>
+          <Link href="/#path" className={`${linkClass} hidden lg:inline-flex`}>
+            {t("howItWorks")}
           </Link>
 
           {email && (
@@ -127,24 +147,29 @@ export default function Header() {
           )}
 
           {role === "admin" && (
-            <a
+            <NextLink
               href="/admin/applications"
-              className="text-fuchsia-400 hover:text-fuchsia-300 transition text-sm"
+              className="text-sm text-fuchsia-300 transition hover:text-fuchsia-200"
             >
               {t("admin")}
-            </a>
+            </NextLink>
           )}
 
           <ThemeToggle />
 
-          <div className="flex items-center gap-1 text-xs border border-white/10 rounded-full p-0.5">
+          <div
+            className="flex items-center gap-1 text-xs border border-white/10 rounded-full p-0.5"
+            role="group"
+            aria-label={t("language")}
+          >
             <button
               type="button"
               onClick={() => switchLocale("en")}
-              className={`px-2.5 py-1 rounded-full transition ${
+              aria-pressed={locale === "en"}
+              className={`min-h-9 px-2.5 py-1 rounded-full transition ${
                 locale === "en"
                   ? "bg-white/15 text-white"
-                  : "text-zinc-500 hover:text-white"
+                  : "text-zinc-300 hover:text-white"
               }`}
             >
               EN
@@ -152,10 +177,11 @@ export default function Header() {
             <button
               type="button"
               onClick={() => switchLocale("ko")}
-              className={`px-2.5 py-1 rounded-full transition ${
+              aria-pressed={locale === "ko"}
+              className={`min-h-9 px-2.5 py-1 rounded-full transition ${
                 locale === "ko"
                   ? "bg-white/15 text-white"
-                  : "text-zinc-500 hover:text-white"
+                  : "text-zinc-300 hover:text-white"
               }`}
             >
               KR
@@ -164,7 +190,7 @@ export default function Header() {
 
           {email ? (
             <div className="flex items-center gap-3">
-              <span className="text-xs text-zinc-500 max-w-[100px] truncate">
+              <span className="text-xs text-zinc-300 max-w-[100px] truncate">
                 {email}
               </span>
               <button type="button" onClick={handleLogout} className={linkClass}>
@@ -172,10 +198,7 @@ export default function Header() {
               </button>
             </div>
           ) : (
-            <Link
-              href="/login"
-              className="bg-gradient-to-r from-fuchsia-600 to-violet-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:opacity-90 transition"
-            >
+            <Link href="/login" className="btn btn-secondary">
               {t("login")}
             </Link>
           )}
@@ -183,25 +206,36 @@ export default function Header() {
 
         <button
           type="button"
-          className="md:hidden p-2 text-zinc-300"
+          className="md:hidden inline-flex min-h-11 min-w-11 items-center justify-center text-zinc-100"
+          aria-expanded={menuOpen}
+          aria-controls="mobile-nav"
           onClick={() => setMenuOpen(!menuOpen)}
         >
-          {menuOpen ? (
-            <span className="text-2xl">×</span>
-          ) : (
-            <span className="text-2xl">☰</span>
-          )}
+          <span className="text-2xl leading-none" aria-hidden="true">
+            {menuOpen ? "×" : "☰"}
+          </span>
+          <span className="sr-only">{menuOpen ? t("closeMenu") : t("openMenu")}</span>
         </button>
       </div>
 
       {menuOpen && (
-        <div className="site-header md:hidden border-t border-white/10 bg-[#0a0a0f] px-4 py-4 space-y-1">
+        <div
+          id="mobile-nav"
+          className="site-header md:hidden border-t border-white/10 bg-[#0a0a0f] px-4 py-4 space-y-1"
+        >
           <Link
             href="/tutors"
             onClick={() => setMenuOpen(false)}
-            className={mobileLinkClass + " py-2"}
+            className="btn btn-primary btn-block"
           >
             {t("findTutors")}
+          </Link>
+          <Link
+            href="/#path"
+            onClick={() => setMenuOpen(false)}
+            className={mobileLinkClass}
+          >
+            {t("howItWorks")}
           </Link>
 
           {email && (
@@ -212,14 +246,14 @@ export default function Header() {
               <Link
                 href="/my-bookings"
                 onClick={() => setMenuOpen(false)}
-                className={mobileLinkClass + " py-2"}
+                className={mobileLinkClass}
               >
                 {t("myBookings")}
               </Link>
               <Link
                 href="/my-consultations"
                 onClick={() => setMenuOpen(false)}
-                className={mobileLinkClass + " py-2"}
+                className={mobileLinkClass}
               >
                 {t("myConsultations")}
               </Link>
@@ -232,28 +266,28 @@ export default function Header() {
                   <Link
                     href="/tutor/profile"
                     onClick={() => setMenuOpen(false)}
-                    className={mobileLinkClass + " py-2"}
+                    className={mobileLinkClass}
                   >
                     {t("tutorProfile")}
                   </Link>
                   <Link
                     href="/tutor/posts"
                     onClick={() => setMenuOpen(false)}
-                    className={mobileLinkClass + " py-2"}
+                    className={mobileLinkClass}
                   >
                     {t("tutorPosts")}
                   </Link>
                   <Link
                     href="/tutor/consultations"
                     onClick={() => setMenuOpen(false)}
-                    className={mobileLinkClass + " py-2"}
+                    className={mobileLinkClass}
                   >
                     {t("tutorConsultations")}
                   </Link>
                   <Link
                     href="/tutor/bookings"
                     onClick={() => setMenuOpen(false)}
-                    className={mobileLinkClass + " py-2"}
+                    className={mobileLinkClass}
                   >
                     {t("tutorBookings")}
                   </Link>
@@ -262,7 +296,7 @@ export default function Header() {
                 <Link
                   href="/apply-tutor"
                   onClick={() => setMenuOpen(false)}
-                  className={mobileLinkClass + " py-2"}
+                  className={mobileLinkClass}
                 >
                   {t("applyTutor")}
                 </Link>
@@ -271,38 +305,42 @@ export default function Header() {
           )}
 
           {role === "admin" && (
-            <a
+            <NextLink
               href="/admin/applications"
               onClick={() => setMenuOpen(false)}
-              className="block text-fuchsia-400 py-2"
+              className="flex min-h-11 items-center text-fuchsia-300"
             >
               {t("admin")}
-            </a>
+            </NextLink>
           )}
 
           <div className="flex gap-2 pt-3">
             <ThemeToggle />
-            <button
-              type="button"
-              onClick={() => switchLocale("en")}
-              className="text-sm px-3 py-1 rounded-full border border-white/15 text-zinc-300"
-            >
-              EN
-            </button>
-            <button
-              type="button"
-              onClick={() => switchLocale("ko")}
-              className="text-sm px-3 py-1 rounded-full border border-white/15 text-zinc-300"
-            >
-              KR
-            </button>
+            <div className="flex gap-2" role="group" aria-label={t("language")}>
+              <button
+                type="button"
+                onClick={() => switchLocale("en")}
+                aria-pressed={locale === "en"}
+                className="min-h-11 text-sm px-3 rounded-full border border-white/15 text-zinc-100"
+              >
+                EN
+              </button>
+              <button
+                type="button"
+                onClick={() => switchLocale("ko")}
+                aria-pressed={locale === "ko"}
+                className="min-h-11 text-sm px-3 rounded-full border border-white/15 text-zinc-100"
+              >
+                KR
+              </button>
+            </div>
           </div>
 
           {email ? (
             <button
               type="button"
               onClick={handleLogout}
-              className={mobileLinkClass + " py-2"}
+              className={mobileLinkClass}
             >
               {t("logout")}
             </button>
@@ -310,7 +348,7 @@ export default function Header() {
             <Link
               href="/login"
               onClick={() => setMenuOpen(false)}
-              className="block text-center bg-gradient-to-r from-fuchsia-600 to-violet-600 text-white px-4 py-2 rounded-full mt-2"
+              className="btn btn-secondary btn-block mt-2"
             >
               {t("login")}
             </Link>
