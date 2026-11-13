@@ -10,6 +10,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 })
 
-export const bodyClassName = `${geistSans.variable} ${geistMono.variable} font-sans antialiased bg-[#0a0a0f] text-zinc-100`
+export const bodyClassName = `${geistSans.variable} ${geistMono.variable} font-sans antialiased`
 
-export const themeBootScript = `(function(){try{var t=localStorage.getItem("kth-theme");document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark");}catch(e){}})();`
+export const themeBootScript = `(function(){try{var t=localStorage.getItem("kth-theme");document.documentElement.setAttribute("data-theme",t==="dark"?"dark":"light");}catch(e){}})();`

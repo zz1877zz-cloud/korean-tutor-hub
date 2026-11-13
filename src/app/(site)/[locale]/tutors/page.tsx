@@ -61,7 +61,7 @@ export default async function TutorsPage({
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 md:py-12">
-      <h1 className="mb-2 text-3xl font-bold text-white">{t("title")}</h1>
+      <h1 className="mb-2 text-4xl font-bold tracking-tight text-white">{t("title")}</h1>
       <p className="mb-3 max-w-2xl text-base leading-relaxed text-zinc-200">
         {t("subtitle")}
       </p>
@@ -69,7 +69,7 @@ export default async function TutorsPage({
         {t("lineupNote")}{" "}
         <Link
           href="/apply-tutor"
-          className="font-medium text-fuchsia-200 underline decoration-fuchsia-300/40 underline-offset-4"
+          className="accent font-medium underline underline-offset-4"
         >
           {t("applyLink")}
         </Link>

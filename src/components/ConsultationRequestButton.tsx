@@ -87,7 +87,7 @@ export default function ConsultationRequestButton({
             rows={4}
             placeholder={t("placeholder")}
             aria-describedby="ojakgyo-hint"
-            className="min-h-28 w-full rounded-xl border border-white/10 bg-[#0a0a0f] px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-fuchsia-500"
+            className="field"
             required
           />
           <div className="flex gap-2">

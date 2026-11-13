@@ -68,63 +68,63 @@
     "reset": "Reset filters"
   },
   "home": {
-    "metaTitle": "Find a Korean tutor",
-    "eyebrow": "Korean tutors for learners abroad",
-    "title": "Find a Korean tutor. Start with a song you already love.",
-    "subtitle": "Korean Tutor Hub is where you meet a tutor. Ojakgyo is a free consult — always open, and never bundled into a package.",
-    "ctaTutors": "Find a tutor",
+    "metaTitle": "Learn Korean from a song you love",
+    "eyebrow": "Korean, for life outside Korea",
+    "title": "Know the line. Then say it yourself.",
+    "subtitle": "Bring a song you already love. A tutor helps you turn that lyric into Korean you can use in a drama, on a trip, or with a friend. You talk first, for free, on Ojakgyo. A lesson only happens if you both want it.",
+    "ctaTutors": "See tutors",
     "ctaHow": "See how it works",
-    "ctaNote": "Ojakgyo opens on a tutor’s page, before any paid lesson.",
-    "ctaTeach": "Teach Korean?",
-    "pathTitle": "How a learner moves through",
-    "pathLead": "You can act on the first two steps today. The paid pack and the tutor slot are labeled because they are not for sale yet.",
+    "ctaNote": "Ojakgyo is a free chat on the tutor’s page. This site doesn’t charge you yet.",
+    "ctaTeach": "Teach here?",
+    "pathTitle": "What happens next",
+    "pathLead": "You can do the first two steps today. The experience pack and the recommended slot are marked because they aren’t for sale yet.",
     "step1Badge": "Start",
     "step1Title": "Lyrics",
-    "step1Body": "Pick a tutor who can teach from a song you already know.",
+    "step1Body": "Bring a song you already sing. That’s where the lesson starts.",
     "step2Badge": "Free",
     "step2Title": "Ojakgyo",
-    "step2Body": "Talk on that tutor’s page. It is free, always available, and not part of any package.",
+    "step2Body": "Message the tutor on their page. It’s free, you can open it anytime, and it isn’t sold inside any package.",
     "step3Badge": "Next",
     "step3Title": "First lesson",
-    "step3Body": "Request a paid lesson only if you both want to continue. This site does not charge yet.",
+    "step3Body": "If the chat feels right, ask for a first lesson. We don’t take payment on this site yet.",
     "step4Badge": "Later",
     "step4Title": "Experience pack",
-    "step4Body": "A short series after the first lesson. No price is listed, because it is not for sale yet.",
+    "step4Body": "A short run of lessons after the first one. Not for sale, so there’s no price here.",
     "step5Badge": "Later",
     "step5Title": "Recommended slot",
-    "step5Body": "A paid placement tutors can buy later. Today’s list order is not something anyone paid for.",
+    "step5Body": "A paid spot tutors may buy later, to sit nearer the top. Nobody has paid for today’s order.",
     "tutorsTitle": "Tutors",
-    "tutorsLead": "Only approved profiles are shown. If there are no reviews, the rating stays blank.",
-    "tutorsMore": "All tutors",
-    "tutorsEmpty": "No public tutors yet. When a profile is approved, open their page and start with free Ojakgyo. Nothing is charged on this site today.",
+    "tutorsLead": "You only see profiles we’ve approved. If there are no reviews, the star stays blank.",
+    "tutorsMore": "See all",
+    "tutorsEmpty": "No tutors are public yet. When one is approved, open their page and say hello on Ojakgyo. It’s free, and this site isn’t charging anyone today.",
     "tutorsError": "The tutor list could not be loaded. Refresh the page in a moment.",
     "faqTitle": "Questions",
     "faq": [
       {
         "q": "What is Korean Tutor Hub?",
-        "a": "It is where learners outside Korea find a Korean tutor and start with a song they already know."
+        "a": "It’s where learners outside Korea find a tutor and start with a song they already love."
       },
       {
         "q": "What is Ojakgyo?",
-        "a": "Ojakgyo is a free consult on a tutor’s page. It stays open, and it is not included in any paid product."
+        "a": "A free chat on a tutor’s page. You can open it anytime, and it isn’t included in any paid product."
       },
       {
         "q": "Does the site charge for a lesson?",
-        "a": "Not yet. The site does not take payment. Requesting a first lesson does not charge you here."
+        "a": "Not yet. Asking for a first lesson does not charge you here."
       },
       {
         "q": "Are the experience pack and the recommended slot for sale?",
-        "a": "No. They are not for sale, and this site lists no price for them."
+        "a": "No. They aren’t for sale, and this site lists no price for them."
       },
       {
         "q": "How do I start?",
-        "a": "Find a tutor, open Ojakgyo on their page, and request a first lesson only if you both want to continue."
+        "a": "See a tutor, say hello free on their page, and ask for a first lesson only if you both want it."
       }
     ]
   },
   "tutors": {
-    "title": "Find a tutor",
-    "subtitle": "Choose a tutor, then open free Ojakgyo on their page. That consult is not part of a package.",
+    "title": "See tutors",
+    "subtitle": "Find someone to learn with, then say hello free on their page. That chat, Ojakgyo, isn’t something we sell.",
     "searchPlaceholder": "Conversation, TOPIK, K-pop...",
     "noResults": "No tutors found.",
     "perHour": "/hour",
@@ -132,9 +132,9 @@
     "loadError": "Failed to load data.",
     "loading": "Loading…",
     "empty": "No tutors match these filters. Clear a filter, or check back when a new profile is approved.",
-    "metaTitle": "Find a tutor",
+    "metaTitle": "See tutors",
     "lineupNote": "The public list is still short.",
-    "applyLink": "Apply to teach",
+    "applyLink": "Want to teach?",
     "unnamed": "Tutor",
     "reviewsPending": "Reviews not in yet",
     "rateUnset": "Hourly rate not set",
@@ -160,7 +160,7 @@
     "about": "About this tutor",
     "specialties": "Specialties",
     "languages": "Languages",
-    "book": "Request a first lesson",
+    "book": "Ask for a first lesson",
     "booking": "Requesting...",
     "bookSuccess": "Booking request sent!",
     "bookFail": "Booking failed.",
@@ -169,10 +169,10 @@
     "noticeBadge": "Notice",
     "pinned": "Pinned",
     "needLogin": "Please log in.",
-    "bookHint": "This asks for a paid lesson. The site does not take payment yet, and Ojakgyo alone does not confirm a class.",
+    "bookHint": "This is a request for a paid lesson. We don’t charge you on this site yet, and an Ojakgyo chat alone doesn’t book the class.",
     "fallbackName": "Tutor",
-    "metaFallback": "Korean tutor on Korean Tutor Hub. Talk free on Ojakgyo before requesting a lesson.",
-    "actionLead": "Ojakgyo is the free door. It stays free and is not bundled into a lesson or a future pack.",
+    "metaFallback": "A Korean tutor on Korean Tutor Hub. Say hello free on Ojakgyo before you ask for a lesson.",
+    "actionLead": "Start with Ojakgyo. It’s free, and it isn’t bundled into a lesson or a pack.",
     "rateUnset": "Hourly rate not set",
     "reviewsPending": "No public rating yet",
     "bioEmpty": "This tutor has not added an introduction yet.",
@@ -180,13 +180,13 @@
     "languagesEmpty": "Languages not listed yet."
   },
   "apply": {
-    "title": "Teach with us",
-    "kicker": "Application review · face forward",
-    "desc": "Students start with the lyrics they love, then work toward Korea. Profiles go live only after we read yours.",
-    "whoTitle": "Who we’re looking for",
-    "who": "Comfortable on camera. Good at turning lyrics, chat, and pronunciation into a real lesson. Can reply on Ojakgyo within 48 hours.",
+    "title": "Teach students who already love the song",
+    "kicker": "We read every application",
+    "desc": "Your students start with lyrics they already know, then want Korean they can use. We only publish a profile after we read it.",
+    "whoTitle": "Who we’re hoping to meet",
+    "who": "You’re fine on camera. You can turn a lyric, a chat, or a sound into a real lesson. You can answer an Ojakgyo message within 48 hours.",
     "afterTitle": "After you submit",
-    "after": "You’ll hear approve, revise, or wait. Once approved, you appear in Find Tutors and get a channel.",
+    "after": "We’ll say yes, ask for a revision, or ask you to wait. If we say yes, you show up in Find Tutors and get a channel.",
     "bio": "About you",
     "bioHint": "At least four lines. Who you teach, what, and how.",
     "bioPlaceholder": "e.g. I fix the sounds that break in idol lyrics. Beginners start with one line, no romanization. Weeknights and weekend afternoons. English ok.",
@@ -198,6 +198,8 @@
     "photoHint": "JPG, PNG, or WebP. Max 5MB. Emoji-only or scenery will be sent back.",
     "photoChange": "Upload photo",
     "photoUploading": "Uploading...",
+    "gate": "Log in to send an application. We read the intro and photo before anything is published.",
+    "gateCta": "Log in to apply",
     "submit": "Send application",
     "submitting": "Sending...",
     "success": "Got it. We’ll read your intro and get back to you."
@@ -293,8 +295,8 @@
     "reject_other": "Other"
   },
   "footer": {
-    "blurb": "Korean Tutor Hub is where learners abroad find a Korean tutor. Start with K-pop lyrics, talk on free Ojakgyo, then request a first lesson if it fits. Ojakgyo is not included in any package.",
-    "findTutors": "Find a tutor",
+    "blurb": "Korean Tutor Hub is for people learning Korean outside Korea. Start from a song, say hello free on Ojakgyo, and ask for a lesson only if you want one. Ojakgyo isn’t part of any paid pack.",
+    "findTutors": "See tutors",
     "how": "How it works",
     "terms": "Terms",
     "privacy": "Privacy",
@@ -302,7 +304,7 @@
     "rights": "© {year} Korean Tutor Hub"
   },
   "seo": {
-    "title": "Find a Korean tutor",
-    "description": "Find a Korean tutor and start with K-pop lyrics. Ojakgyo is a free consult, always open and not part of any paid package."
+    "title": "Learn Korean from a song you love",
+    "description": "Learn Korean from a song you love. Talk free with a tutor on Ojakgyo, then ask for a first lesson only if it feels right. This site doesn’t charge yet."
   }
 }

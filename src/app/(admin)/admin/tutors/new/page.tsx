@@ -125,7 +125,7 @@ export default function NewTutorPage() {
           <textarea
             value={bio}
             onChange={(e) => setBio(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 h-28 text-white focus:outline-none focus:border-fuchsia-500/50"
+            className="field"
             required
           />
         </div>
@@ -136,7 +136,7 @@ export default function NewTutorPage() {
             type="number"
             value={hourlyRate}
             onChange={(e) => setHourlyRate(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-fuchsia-500/50"
+            className="field"
             required
           />
         </div>
@@ -147,7 +147,7 @@ export default function NewTutorPage() {
             type="text"
             value={specialties}
             onChange={(e) => setSpecialties(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-fuchsia-500/50"
+            className="field"
           />
         </div>
 
@@ -157,7 +157,7 @@ export default function NewTutorPage() {
             type="text"
             value={languages}
             onChange={(e) => setLanguages(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-fuchsia-500/50"
+            className="field"
           />
         </div>
 

@@ -13,10 +13,10 @@ export async function generateMetadata({
   return pageMeta({
     locale,
     path: "/apply-tutor",
-    title: ko ? "튜터 지원" : "Teach with us",
+    title: ko ? "튜터로 만나기" : "Teach here",
     description: ko
-      ? "한국어 튜터로 지원해 주세요. 소개와 얼굴 사진을 확인한 뒤 공개 목록에 올려요."
-      : "Apply to teach Korean. Profiles go on the public list only after we read the intro and photo.",
+      ? "노래부터 시작하는 학생을 만나요. 소개와 사진을 읽어 본 뒤에만 프로필을 올려요."
+      : "Teach students who start from a song they love. We publish a profile only after we read it.",
   })
 }
 

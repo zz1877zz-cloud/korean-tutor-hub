@@ -84,7 +84,7 @@ export default function ReviewForm({
         onChange={(e) => setComment(e.target.value)}
         rows={3}
         placeholder={t("placeholder")}
-        className="w-full rounded-xl border border-white/10 bg-[#0a0a0f] px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600"
+        className="field"
       />
       <button
         type="submit"

@@ -86,11 +86,11 @@ export default function LoginPage() {
 
   return (
     <div className="max-w-md mx-auto px-4 py-16">
-      <h1 className="text-2xl font-bold mb-8 text-center text-white">
+      <h1 className="mb-8 text-center text-3xl font-bold tracking-tight text-white">
         {t("loginTitle")}
       </h1>
 
-      <form className="bg-white/5 border border-white/10 rounded-3xl p-6 space-y-4">
+      <form className="surface space-y-4 p-6">
         <div>
           <label htmlFor="login-email" className="block text-sm font-medium mb-1.5 text-zinc-300">
             {t("email")}
@@ -101,7 +101,7 @@ export default function LoginPage() {
             autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="min-h-11 w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-white placeholder:text-zinc-500 focus:outline-none focus:border-fuchsia-500/50"
+            className="field"
             required
           />
         </div>
@@ -116,7 +116,7 @@ export default function LoginPage() {
             autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="min-h-11 w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-white placeholder:text-zinc-500 focus:outline-none focus:border-fuchsia-500/50"
+            className="field"
             required
             minLength={6}
           />
@@ -148,7 +148,7 @@ export default function LoginPage() {
       <p className="text-center mt-6 text-sm text-zinc-500">
         <Link
           href={`/${locale}/tutors`}
-          className="text-violet-400 hover:text-violet-300 transition"
+          className="accent underline-offset-4 hover:underline"
         >
           {t("toTutors")}
         </Link>

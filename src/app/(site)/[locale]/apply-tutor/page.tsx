@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react"
 import { createClient } from "@/lib/supabase/client"
-import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { useLocale, useTranslations } from "next-intl"
 import AvatarUpload from "@/components/AvatarUpload"
@@ -18,18 +17,16 @@ export default function ApplyTutorPage() {
   const [agreed, setAgreed] = useState(false)
   const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(false)
-  const [ready, setReady] = useState(false)
-  const router = useRouter()
+  const [authed, setAuthed] = useState<boolean | null>(null)
   const supabase = createClient()
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
-      if (!data.user) {
-        router.push(`/${locale}/login`)
-        return
-      }
-      setReady(true)
-    })
+    supabase.auth
+      .getUser()
+      .then(({ data }) => {
+        setAuthed(Boolean(data.user))
+      })
+      .catch(() => setAuthed(false))
   }, [])
 
   async function handleSubmit(e: React.FormEvent) {
@@ -81,41 +78,45 @@ export default function ApplyTutorPage() {
     setLoading(false)
   }
 
-  if (!ready) {
-    return (
-      <div className="max-w-xl mx-auto px-4 py-16 text-center text-zinc-400">
-        Loading...
-      </div>
-    )
-  }
-
   return (
-    <div className="max-w-xl mx-auto px-4 py-12">
+    <div className="mx-auto max-w-2xl px-4 py-12 md:py-16">
       <Link
         href={`/${locale}/tutors`}
-        className="text-zinc-400 hover:text-white transition mb-6 inline-block text-sm"
+        className="mb-6 inline-flex min-h-11 items-center text-sm text-zinc-400"
       >
         ← {locale === "ko" ? "목록으로" : "Back to list"}
       </Link>
 
-      <p className="text-sm text-fuchsia-400 mb-2">{t("kicker")}</p>
-      <h1 className="text-2xl font-bold mb-3 text-white">{t("title")}</h1>
-      <p className="text-zinc-400 text-sm mb-6 leading-relaxed">{t("desc")}</p>
+      <p className="kicker mb-2">{t("kicker")}</p>
+      <h1 className="mb-3 text-4xl font-bold tracking-tight text-white">{t("title")}</h1>
+      <p className="mb-6 text-sm leading-relaxed text-zinc-400">{t("desc")}</p>
 
-      <div className="grid gap-3 mb-8">
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-          <p className="text-xs text-fuchsia-300 mb-1">{t("whoTitle")}</p>
-          <p className="text-sm text-zinc-300 leading-relaxed">{t("who")}</p>
+      <div className="mb-8 grid gap-3">
+        <div className="surface p-5">
+          <p className="kicker mb-1">{t("whoTitle")}</p>
+          <p className="text-sm leading-relaxed text-zinc-300">{t("who")}</p>
         </div>
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-          <p className="text-xs text-fuchsia-300 mb-1">{t("afterTitle")}</p>
-          <p className="text-sm text-zinc-300 leading-relaxed">{t("after")}</p>
+        <div className="surface p-5">
+          <p className="kicker mb-1">{t("afterTitle")}</p>
+          <p className="text-sm leading-relaxed text-zinc-300">{t("after")}</p>
         </div>
       </div>
 
+      {authed === null && <div className="skeleton" aria-hidden="true" />}
+
+      {authed === false && (
+        <div className="surface p-6">
+          <p className="text-sm leading-relaxed text-zinc-300">{t("gate")}</p>
+          <Link href={`/${locale}/login`} className="btn btn-primary mt-4">
+            {t("gateCta")}
+          </Link>
+        </div>
+      )}
+
+      {authed && (
       <form
         onSubmit={handleSubmit}
-        className="bg-white/5 border border-white/10 rounded-3xl p-6 space-y-4"
+        className="surface space-y-4 p-6"
       >
         <AvatarUpload
           value={avatarUrl}
@@ -136,7 +137,7 @@ export default function ApplyTutorPage() {
             value={bio}
             onChange={(e) => setBio(e.target.value)}
             placeholder={t("bioPlaceholder")}
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 h-36 text-white placeholder:text-zinc-600 focus:outline-none focus:border-fuchsia-500/50"
+            className="field h-36"
             required
             minLength={40}
           />
@@ -150,7 +151,7 @@ export default function ApplyTutorPage() {
             type="number"
             value={hourlyRate}
             onChange={(e) => setHourlyRate(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-fuchsia-500/50"
+            className="field"
             required
           />
         </div>
@@ -165,7 +166,7 @@ export default function ApplyTutorPage() {
             value={specialties}
             onChange={(e) => setSpecialties(e.target.value)}
             placeholder={t("specialtiesHint")}
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-white placeholder:text-zinc-600 focus:outline-none focus:border-fuchsia-500/50"
+            className="field"
           />
         </div>
 
@@ -177,7 +178,7 @@ export default function ApplyTutorPage() {
             type="text"
             value={languages}
             onChange={(e) => setLanguages(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-fuchsia-500/50"
+            className="field"
           />
         </div>
 
@@ -192,11 +193,11 @@ export default function ApplyTutorPage() {
           <span className="text-sm text-zinc-200">
             {locale === "ko" ? (
               <>
-                <Link href={`/${locale}/terms`} className="text-violet-300 underline">
+                <Link href={`/${locale}/terms`} className="accent underline">
                   이용약관
                 </Link>
                 {" · "}
-                <Link href={`/${locale}/privacy`} className="text-violet-300 underline">
+                <Link href={`/${locale}/privacy`} className="accent underline">
                   개인정보처리방침
                 </Link>
                 그리고 튜터 이용계약(초안)에 동의해요.
@@ -204,11 +205,11 @@ export default function ApplyTutorPage() {
             ) : (
               <>
                 I agree to the{" "}
-                <Link href={`/${locale}/terms`} className="text-violet-300 underline">
+                <Link href={`/${locale}/terms`} className="accent underline">
                   Terms
                 </Link>
                 {", "}
-                <Link href={`/${locale}/privacy`} className="text-violet-300 underline">
+                <Link href={`/${locale}/privacy`} className="accent underline">
                   Privacy Policy
                 </Link>{" "}
                 and the tutor agreement draft.
@@ -229,6 +230,7 @@ export default function ApplyTutorPage() {
           {loading ? t("submitting") : t("submit")}
         </button>
       </form>
+      )}
     </div>
   )
 }

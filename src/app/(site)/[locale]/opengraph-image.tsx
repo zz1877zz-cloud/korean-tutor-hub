@@ -1,7 +1,7 @@
 import { ogContentType, ogSize, renderOgImage } from "@/lib/og-image"
 
 export const alt =
-  "Korean Tutor Hub. 좋아하는 노래로 튜터를 찾으세요. 오작교는 무료예요."
+  "Korean Tutor Hub. Know the line, then say it yourself. Ojakgyo is free."
 export const size = ogSize
 export const contentType = ogContentType
 

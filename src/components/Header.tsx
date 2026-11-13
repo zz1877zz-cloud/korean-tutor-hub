@@ -80,26 +80,21 @@ export default function Header() {
     setMenuOpen(false)
   }
 
-  const linkClass = "text-zinc-200 hover:text-white transition text-sm min-h-11 inline-flex items-center"
-  const mobileLinkClass = "flex items-center min-h-11 text-zinc-100"
+  const linkClass = "nav-link"
+  const mobileLinkClass = "nav-link"
 
   function navClass(href: string) {
     const active =
       href === "/"
         ? pathname === "/"
         : pathname === href || pathname.startsWith(`${href}/`)
-    return active
-      ? "text-white font-semibold transition text-sm min-h-11 inline-flex items-center"
-      : linkClass
+    return active ? "nav-link is-active" : linkClass
   }
 
   return (
-    <header className="site-header border-b border-white/10 bg-[#0a0a0f]/90 backdrop-blur sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-        <Link
-          href="/"
-          className="brand-mark text-xl font-bold bg-gradient-to-r from-fuchsia-400 to-violet-400 bg-clip-text text-transparent"
-        >
+    <header className="site-header sticky top-0 z-50 px-3 pt-3 md:px-6">
+      <div className="nav-shell mx-auto flex h-14 max-w-6xl items-center justify-between gap-3 px-3 md:px-4">
+        <Link href="/" className="brand-mark">
           {t("appName")}
         </Link>
 
@@ -157,20 +152,12 @@ export default function Header() {
 
           <ThemeToggle />
 
-          <div
-            className="flex items-center gap-1 text-xs border border-white/10 rounded-full p-0.5"
-            role="group"
-            aria-label={t("language")}
-          >
+          <div className="seg" role="group" aria-label={t("language")}>
             <button
               type="button"
               onClick={() => switchLocale("en")}
               aria-pressed={locale === "en"}
-              className={`min-h-9 px-2.5 py-1 rounded-full transition ${
-                locale === "en"
-                  ? "bg-white/15 text-white"
-                  : "text-zinc-300 hover:text-white"
-              }`}
+              className={locale === "en" ? "is-on" : undefined}
             >
               EN
             </button>
@@ -178,11 +165,7 @@ export default function Header() {
               type="button"
               onClick={() => switchLocale("ko")}
               aria-pressed={locale === "ko"}
-              className={`min-h-9 px-2.5 py-1 rounded-full transition ${
-                locale === "ko"
-                  ? "bg-white/15 text-white"
-                  : "text-zinc-300 hover:text-white"
-              }`}
+              className={locale === "ko" ? "is-on" : undefined}
             >
               KR
             </button>
@@ -206,7 +189,7 @@ export default function Header() {
 
         <button
           type="button"
-          className="md:hidden inline-flex min-h-11 min-w-11 items-center justify-center text-zinc-100"
+          className="icon-btn inline-flex items-center justify-center md:hidden"
           aria-expanded={menuOpen}
           aria-controls="mobile-nav"
           onClick={() => setMenuOpen(!menuOpen)}
@@ -221,7 +204,7 @@ export default function Header() {
       {menuOpen && (
         <div
           id="mobile-nav"
-          className="site-header md:hidden border-t border-white/10 bg-[#0a0a0f] px-4 py-4 space-y-1"
+          className="nav-menu mx-auto mt-2 max-w-6xl space-y-1 px-4 py-4 md:hidden"
         >
           <Link
             href="/tutors"
@@ -316,12 +299,12 @@ export default function Header() {
 
           <div className="flex gap-2 pt-3">
             <ThemeToggle />
-            <div className="flex gap-2" role="group" aria-label={t("language")}>
+            <div className="seg" role="group" aria-label={t("language")}>
               <button
                 type="button"
                 onClick={() => switchLocale("en")}
                 aria-pressed={locale === "en"}
-                className="min-h-11 text-sm px-3 rounded-full border border-white/15 text-zinc-100"
+                className={locale === "en" ? "is-on" : undefined}
               >
                 EN
               </button>
@@ -329,7 +312,7 @@ export default function Header() {
                 type="button"
                 onClick={() => switchLocale("ko")}
                 aria-pressed={locale === "ko"}
-                className="min-h-11 text-sm px-3 rounded-full border border-white/15 text-zinc-100"
+                className={locale === "ko" ? "is-on" : undefined}
               >
                 KR
               </button>

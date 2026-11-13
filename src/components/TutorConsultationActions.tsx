@@ -73,7 +73,7 @@ export default function TutorConsultationActions({
         onChange={(e) => setReply(e.target.value)}
         rows={2}
         placeholder={t("replyPlaceholder")}
-        className="w-full rounded-xl border border-white/10 bg-[#0a0a0f] px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:ring-1 focus:ring-fuchsia-500"
+        className="field"
       />
       <div>
         <p className="text-xs text-zinc-500 mb-2">{t("rejectReasonLabel")}</p>
@@ -98,7 +98,7 @@ export default function TutorConsultationActions({
             value={other}
             onChange={(e) => setOther(e.target.value)}
             placeholder={t("rejectOtherPlaceholder")}
-            className="w-full rounded-xl border border-white/10 bg-[#0a0a0f] px-3 py-2 text-sm text-zinc-100"
+            className="field"
           />
         )}
       </div>

@@ -10,20 +10,20 @@ function subscribe(onStoreChange: () => void) {
 }
 
 function currentTheme(): Theme {
-  return document.documentElement.getAttribute("data-theme") === "light"
-    ? "light"
-    : "dark"
+  return document.documentElement.getAttribute("data-theme") === "dark"
+    ? "dark"
+    : "light"
 }
 
 function getServerSnapshot(): Theme {
-  return "dark"
+  return "light"
 }
 
 const ThemeContext = createContext<{
   theme: Theme
   toggle: () => void
 }>({
-  theme: "dark",
+  theme: "light",
   toggle: () => {},
 })
 

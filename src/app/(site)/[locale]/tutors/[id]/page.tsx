@@ -106,7 +106,7 @@ export default async function TutorDetailPage({
             <h1 className="text-2xl font-bold text-white sm:text-3xl">{name}</h1>
 
             {tutor.tagline && (
-              <p className="mt-2 text-sm leading-relaxed text-fuchsia-200">
+              <p className="accent mt-2 text-sm leading-relaxed">
                 {tutor.tagline}
               </p>
             )}
@@ -147,7 +147,7 @@ export default async function TutorDetailPage({
               {languages.map((item: string) => (
                 <li
                   key={item}
-                  className="rounded-full bg-white/10 px-3 py-1 text-sm text-zinc-200"
+                  className="chip"
                 >
                   {item}
                 </li>
@@ -158,7 +158,7 @@ export default async function TutorDetailPage({
           )}
         </div>
 
-        <div className="space-y-3 rounded-2xl border border-white/10 p-4">
+        <div className="inset space-y-3 p-4">
           <p className="text-sm leading-relaxed text-zinc-200">{t("actionLead")}</p>
           <ConsultationRequestButton tutorId={tutor.id} />
           <BookingButton tutorId={tutor.id} />
@@ -193,7 +193,7 @@ export default async function TutorDetailPage({
           {regular.map((post) => (
             <div
               key={post.id}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4"
+              className="inset p-4"
             >
               <p className="text-sm text-zinc-200 whitespace-pre-line">{post.body}</p>
             </div>

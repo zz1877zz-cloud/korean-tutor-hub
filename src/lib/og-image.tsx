@@ -74,11 +74,11 @@ export function renderOgImage(locale: string) {
   const ko = locale === "ko"
   return frame({
     eyebrow: "KOREAN TUTOR HUB",
-    title: ko ? "좋아하는 노래로 튜터를 찾으세요." : "Find a Korean tutor.",
+    title: ko ? "아는 한 소절부터, 내 말로." : "Know the line. Then say it yourself.",
     subtitle: ko
-      ? "오작교는 무료예요. 어떤 상품에도 들어 있지 않아요."
-      : "Start with a song you love. Ojakgyo stays free.",
-    note: ko ? "무료 상담 · 상품에 포함되지 않음" : "Free consult · not part of any package",
+      ? "드라마, 여행, 친구와의 대화. 먼저 오작교에서 무료로."
+      : "A song you love, then Korean you can actually use.",
+    note: ko ? "오작교는 무료 · 아직 결제 없음" : "Ojakgyo is free · no charge on this site yet",
   })
 }
 
@@ -96,12 +96,12 @@ export function renderTutorOg({
   const subtitle =
     tagline?.trim() ||
     (ko
-      ? "오작교는 무료예요. 수업 전에 먼저 대화해요."
-      : "Ojakgyo is free. Talk before you book a lesson.")
+      ? "수업 전에 오작교에서 무료로 인사해요."
+      : "Say hello free on Ojakgyo before you ask for a lesson.")
   return frame({
     eyebrow: ko ? "튜터 · KOREAN TUTOR HUB" : "TUTOR · KOREAN TUTOR HUB",
     title,
     subtitle,
-    note: ko ? "오작교는 무료 · 상품에 포함되지 않음" : "Ojakgyo is free · not part of a package",
+    note: ko ? "오작교는 무료 · 상품에 없음" : "Ojakgyo is free · not part of a pack",
   })
 }
