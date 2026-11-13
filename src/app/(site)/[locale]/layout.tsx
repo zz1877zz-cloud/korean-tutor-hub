@@ -31,7 +31,7 @@ export default async function LocaleLayout({
   const t = await getTranslations("common")
 
   return (
-    <html lang={locale} data-theme="dark" suppressHydrationWarning>
+    <html lang={locale} data-theme="light" suppressHydrationWarning>
       <head>
         {supabaseOrigin ? (
           <link rel="preconnect" href={supabaseOrigin} crossOrigin="anonymous" />

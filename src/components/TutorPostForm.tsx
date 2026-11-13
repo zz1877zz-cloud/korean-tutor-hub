@@ -81,7 +81,7 @@ export default function TutorPostForm({ tutorId }: { tutorId: string }) {
         rows={4}
         required
         placeholder={t("postPlaceholder")}
-        className="w-full rounded-xl border border-white/10 bg-[#0a0a0f] px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:ring-1 focus:ring-fuchsia-500"
+        className="field"
       />
 
       {type === "notice" && (

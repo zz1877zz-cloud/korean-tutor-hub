@@ -35,7 +35,7 @@ export default function TutorFilters({ value, onChange }: Props) {
   }
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 p-4 space-y-4">
+    <div className="surface space-y-4 p-5">
       <div>
         <label htmlFor="tutor-search" className="mb-1.5 block text-xs text-zinc-300">
           {t("search")}
@@ -46,7 +46,7 @@ export default function TutorFilters({ value, onChange }: Props) {
           value={value.q}
           onChange={(e) => patch({ q: e.target.value })}
           placeholder={t("searchPlaceholder")}
-          className="min-h-11 w-full rounded-xl border border-white/10 bg-[#0a0a0f] px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-fuchsia-500"
+          className="field"
         />
       </div>
 
@@ -61,11 +61,7 @@ export default function TutorFilters({ value, onChange }: Props) {
                 type="button"
                 aria-pressed={active}
                 onClick={() => toggleSpecialty(item.value)}
-                className={`min-h-11 rounded-full px-3 text-xs transition ${
-                  active
-                    ? "bg-fuchsia-500/25 text-fuchsia-100 border border-fuchsia-400/40"
-                    : "bg-white/5 text-zinc-200 border border-white/10 hover:text-white"
-                }`}
+                className={active ? "chip-btn is-on" : "chip-btn"}
               >
                 {item.label}
               </button>
@@ -83,7 +79,7 @@ export default function TutorFilters({ value, onChange }: Props) {
             id="tutor-language"
             value={value.language}
             onChange={(e) => patch({ language: e.target.value })}
-            className="min-h-11 w-full rounded-xl border border-white/10 bg-[#0a0a0f] px-3 py-2 text-sm text-zinc-100 focus:outline-none focus:ring-1 focus:ring-fuchsia-500"
+            className="field"
           >
             <option value="">{t("languageAll")}</option>
             <option value="ko">{t("languageKo")}</option>
@@ -103,7 +99,7 @@ export default function TutorFilters({ value, onChange }: Props) {
             value={value.maxPrice}
             onChange={(e) => patch({ maxPrice: e.target.value })}
             placeholder={t("maxPricePlaceholder")}
-            className="min-h-11 w-full rounded-xl border border-white/10 bg-[#0a0a0f] px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-fuchsia-500"
+            className="field"
           />
         </div>
       </div>
@@ -120,7 +116,7 @@ export default function TutorFilters({ value, onChange }: Props) {
               sort: e.target.value as TutorFilterState["sort"],
             })
           }
-          className="min-h-11 w-full rounded-xl border border-white/10 bg-[#0a0a0f] px-3 py-2 text-sm text-zinc-100 focus:outline-none focus:ring-1 focus:ring-fuchsia-500"
+          className="field"
         >
           <option value="rating">{t("sortRating")}</option>
           <option value="price_asc">{t("sortPriceAsc")}</option>

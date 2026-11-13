@@ -88,7 +88,7 @@ export default function TutorProfileForm({
         <input
           value={displayName}
           onChange={(e) => setDisplayName(e.target.value)}
-          className="w-full rounded-xl border border-white/10 bg-[#0a0a0f] px-3 py-2 text-sm text-zinc-100 focus:outline-none focus:ring-1 focus:ring-fuchsia-500"
+          className="field"
           maxLength={40}
         />
       </div>
@@ -101,7 +101,7 @@ export default function TutorProfileForm({
           value={tagline}
           onChange={(e) => setTagline(e.target.value)}
           placeholder={t("taglinePlaceholder")}
-          className="w-full rounded-xl border border-white/10 bg-[#0a0a0f] px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:ring-1 focus:ring-fuchsia-500"
+          className="field"
           maxLength={80}
         />
       </div>
@@ -112,7 +112,7 @@ export default function TutorProfileForm({
           value={bio}
           onChange={(e) => setBio(e.target.value)}
           rows={5}
-          className="w-full rounded-xl border border-white/10 bg-[#0a0a0f] px-3 py-2 text-sm text-zinc-100 focus:outline-none focus:ring-1 focus:ring-fuchsia-500"
+          className="field"
         />
       </div>
 
@@ -125,7 +125,7 @@ export default function TutorProfileForm({
           min={0}
           value={hourlyRate}
           onChange={(e) => setHourlyRate(e.target.value)}
-          className="w-full rounded-xl border border-white/10 bg-[#0a0a0f] px-3 py-2 text-sm text-zinc-100 focus:outline-none focus:ring-1 focus:ring-fuchsia-500"
+          className="field"
         />
       </div>
 

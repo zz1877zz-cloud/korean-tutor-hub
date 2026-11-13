@@ -82,7 +82,9 @@ export default async function HomePage({
   const jsonLd = siteGraph(t("subtitle"), faq)
 
   return (
-    <div className="relative">
+    <div>
+      <div className="px-3 pt-2 md:px-6">
+      <div className="stage on-media relative overflow-hidden">
       <div
         className="hero-stage pointer-events-none absolute inset-0 overflow-hidden"
         aria-hidden="true"
@@ -100,7 +102,7 @@ export default async function HomePage({
             alt=""
             fetchPriority="high"
             decoding="async"
-            className="absolute inset-0 h-full w-full object-cover opacity-50"
+            className="absolute inset-0 h-full w-full object-cover opacity-80"
           />
         </picture>
         <picture className="absolute inset-0">
@@ -116,17 +118,17 @@ export default async function HomePage({
             alt=""
             fetchPriority="low"
             decoding="async"
-            className="absolute inset-0 h-full w-full object-cover opacity-30"
+            className="absolute inset-0 h-full w-full object-cover opacity-40"
           />
         </picture>
-        <div className="absolute inset-0 bg-[#0a0a0f]/60" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0f]/25 via-[#0a0a0f]/55 to-[#0a0a0f]" />
+        <div className="absolute inset-0 bg-[#120814]/35" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#120814]/80 via-[#120814]/45 to-transparent" />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-6xl px-4 pb-16">
-        <section className="hero-copy max-w-3xl pt-12 pb-12 md:pt-20 md:pb-16">
+      <div className="relative z-10 mx-auto flex min-h-[28rem] max-w-6xl flex-col justify-end px-5 pb-10 md:min-h-[36rem] md:px-10 md:pb-12">
+        <section className="hero-copy max-w-3xl py-8">
           <p className="kicker mb-3">{t("eyebrow")}</p>
-          <h1 className="text-3xl font-bold leading-tight text-white sm:text-4xl md:text-5xl">
+          <h1 className="text-4xl font-bold leading-[0.98] tracking-[-0.045em] text-white sm:text-5xl md:text-7xl">
             {t("title")}
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-zinc-100 sm:text-lg">
@@ -150,9 +152,13 @@ export default async function HomePage({
             </Link>
           </p>
         </section>
+      </div>
+      </div>
+      </div>
 
+      <div className="relative z-10 mx-auto max-w-6xl px-4 pb-16 pt-10">
         <section id="path" aria-labelledby="path-heading" className="mb-14">
-          <h2 id="path-heading" className="mb-2 text-xl font-bold text-white">
+          <h2 id="path-heading" className="mb-2 text-2xl font-bold tracking-tight text-white">
             {t("pathTitle")}
           </h2>
           <p className="mb-5 max-w-2xl text-sm leading-relaxed text-zinc-300">
@@ -160,12 +166,9 @@ export default async function HomePage({
           </p>
           <ol className="m-0 grid list-none gap-3 p-0 sm:grid-cols-2 xl:grid-cols-3">
             {STEPS.map(([n, key, badgeTone]) => (
-              <li key={key} className="surface flex flex-col gap-3 p-4">
+              <li key={key} className="surface flex flex-col gap-3 p-5">
                 <div className="flex items-center justify-between gap-2">
-                  <span
-                    aria-hidden="true"
-                    className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-white/20 text-xs font-semibold text-white"
-                  >
+                  <span aria-hidden="true" className="step-index">
                     {n}
                   </span>
                   <span className={`badge ${badgeTone}`}>
@@ -182,12 +185,12 @@ export default async function HomePage({
         </section>
 
         <section aria-labelledby="faq-heading" className="mb-14">
-          <h2 id="faq-heading" className="mb-4 text-xl font-bold text-white">
+          <h2 id="faq-heading" className="mb-4 text-2xl font-bold tracking-tight text-white">
             {t("faqTitle")}
           </h2>
           <div className="grid gap-3 md:grid-cols-2">
             {faq.map((item) => (
-              <article key={item.q} className="surface p-4">
+              <article key={item.q} className="surface p-5">
                 <h3 className="font-semibold text-white">{item.q}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-zinc-300">{item.a}</p>
               </article>
@@ -198,7 +201,7 @@ export default async function HomePage({
         <section aria-labelledby="tutors-heading">
           <div className="mb-4 flex items-end justify-between gap-3">
             <div>
-              <h2 id="tutors-heading" className="text-xl font-bold text-white">
+              <h2 id="tutors-heading" className="text-2xl font-bold tracking-tight text-white">
                 {t("tutorsTitle")}
               </h2>
               <p className="mt-1 max-w-2xl text-sm leading-relaxed text-zinc-300">
@@ -207,7 +210,7 @@ export default async function HomePage({
             </div>
             <Link
               href="/tutors"
-              className="shrink-0 text-sm font-medium text-fuchsia-200 underline-offset-4 hover:underline"
+              className="accent shrink-0 text-sm font-medium underline-offset-4 hover:underline"
             >
               {t("tutorsMore")}
             </Link>

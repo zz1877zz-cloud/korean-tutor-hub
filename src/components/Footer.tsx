@@ -6,7 +6,7 @@ export default async function Footer() {
   const year = new Date().getFullYear()
 
   return (
-    <footer className="site-footer mt-auto border-t border-white/10 bg-[#0a0a0f]">
+    <footer className="site-footer mt-auto">
       <div className="mx-auto max-w-6xl px-4 py-10">
         <p className="max-w-2xl text-sm leading-relaxed text-zinc-300">
           {t("blurb")}

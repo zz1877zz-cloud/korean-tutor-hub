@@ -5,7 +5,7 @@ const siteUrl = "https://korean-tutor-hub.vercel.app"
 export const siteViewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#0a0a0f",
+  themeColor: "#f3f4f6",
 }
 
 export const siteMetadata: Metadata = {
@@ -15,19 +15,19 @@ export const siteMetadata: Metadata = {
     template: "%s · Korean Tutor Hub",
   },
   description:
-    "Find a Korean tutor and start with K-pop lyrics. Ojakgyo is a free consult, always open and not part of any paid package.",
+    "Learn Korean from a song you love. Talk free on Ojakgyo, then ask for a lesson only if it feels right. This site doesn’t charge yet.",
   openGraph: {
     type: "website",
     siteName: "Korean Tutor Hub",
     title: "Korean Tutor Hub",
     description:
-      "Find a Korean tutor and start with K-pop lyrics. Ojakgyo is a free consult, always open and not part of any paid package.",
+      "Learn Korean from a song you love. Talk free on Ojakgyo, then ask for a lesson only if it feels right. This site doesn’t charge yet.",
   },
   twitter: {
     card: "summary_large_image",
     title: "Korean Tutor Hub",
     description:
-      "Find a Korean tutor and start with K-pop lyrics. Ojakgyo is a free consult, always open and not part of any paid package.",
+      "Learn Korean from a song you love. Talk free on Ojakgyo, then ask for a lesson only if it feels right. This site doesn’t charge yet.",
   },
 }
 

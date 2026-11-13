@@ -25,7 +25,7 @@ function Placeholder({
   const initial = initialFromBio(bio)
   return (
     <div
-      className={`${sizeClass} rounded-full bg-zinc-700/80 border border-white/15 shrink-0 flex items-center justify-center text-zinc-300 font-medium`}
+      className={`${sizeClass} avatar-fallback shrink-0 rounded-full border font-medium`}
       aria-hidden
     >
       {initial || null}
