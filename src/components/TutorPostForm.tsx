@@ -100,7 +100,7 @@ export default function TutorPostForm({ tutorId }: { tutorId: string }) {
       <button
         type="submit"
         disabled={loading}
-        className="rounded-full bg-gradient-to-r from-fuchsia-600 to-violet-600 px-5 py-2 text-sm text-white disabled:opacity-50"
+        className="btn btn-primary"
       >
         {loading ? t("posting") : t("publish")}
       </button>

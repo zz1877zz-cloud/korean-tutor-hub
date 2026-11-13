@@ -107,7 +107,7 @@ export default function TutorConsultationActions({
           type="button"
           disabled={loading}
           onClick={accept}
-          className="flex-1 rounded-full bg-emerald-600/90 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-600 disabled:opacity-50"
+          className="btn btn-primary flex-1"
         >
           {t("accept")}
         </button>
@@ -115,7 +115,7 @@ export default function TutorConsultationActions({
           type="button"
           disabled={loading}
           onClick={reject}
-          className="flex-1 rounded-full border border-rose-500/40 px-4 py-2 text-sm font-medium text-rose-300 hover:bg-rose-500/10 disabled:opacity-50"
+          className="btn btn-danger flex-1"
         >
           {t("reject")}
         </button>

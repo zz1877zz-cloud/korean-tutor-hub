@@ -11,7 +11,7 @@ export async function PATCH(
     const { status, cancel_reason } = body
 
     if (!["pending", "confirmed", "cancelled", "completed"].includes(status)) {
-      return NextResponse.json({ error: "잘못된 상태입니다." }, { status: 400 })
+      return NextResponse.json({ error: "상태를 바꿀 수 없어요." }, { status: 400 })
     }
 
     const supabase = await createClient()
@@ -21,7 +21,7 @@ export async function PATCH(
     } = await supabase.auth.getUser()
 
     if (!user) {
-      return NextResponse.json({ error: "로그인이 필요합니다." }, { status: 401 })
+      return NextResponse.json({ error: "로그인이 필요해요." }, { status: 401 })
     }
 
     const updateData: {
@@ -43,12 +43,12 @@ export async function PATCH(
 
     if (error) {
       console.error(error)
-      return NextResponse.json({ error: "상태 변경에 실패했습니다." }, { status: 500 })
+      return NextResponse.json({ error: "상태를 바꾸지 못했어요." }, { status: 500 })
     }
 
     return NextResponse.json({ success: true, data })
   } catch (err) {
     console.error(err)
-    return NextResponse.json({ error: "서버 오류" }, { status: 500 })
+    return NextResponse.json({ error: "서버 오류가 났어요." }, { status: 500 })
   }
 }

@@ -1,33 +1,48 @@
 "use client"
 
-import { createContext, useContext, useEffect, useState } from "react"
+import { createContext, useContext, useSyncExternalStore } from "react"
 
 type Theme = "dark" | "light"
+
+function subscribe(onStoreChange: () => void) {
+  window.addEventListener("kth-theme", onStoreChange)
+  return () => window.removeEventListener("kth-theme", onStoreChange)
+}
+
+function currentTheme(): Theme {
+  return document.documentElement.getAttribute("data-theme") === "light"
+    ? "light"
+    : "dark"
+}
+
+function getServerSnapshot(): Theme {
+  return "dark"
+}
 
 const ThemeContext = createContext<{
   theme: Theme
   toggle: () => void
-}>({ theme: "dark", toggle: () => {} })
+}>({
+  theme: "dark",
+  toggle: () => {},
+})
 
 export function useTheme() {
   return useContext(ThemeContext)
 }
 
-export default function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("dark")
-
-  useEffect(() => {
-    const saved = window.localStorage.getItem("kth-theme")
-    const next: Theme = saved === "light" ? "light" : "dark"
-    setTheme(next)
-    document.documentElement.dataset.theme = next
-  }, [])
+export default function ThemeProvider({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  const theme = useSyncExternalStore(subscribe, currentTheme, getServerSnapshot)
 
   function toggle() {
-    const next: Theme = theme === "dark" ? "light" : "dark"
-    setTheme(next)
-    document.documentElement.dataset.theme = next
+    const next: Theme = currentTheme() === "dark" ? "light" : "dark"
+    document.documentElement.setAttribute("data-theme", next)
     window.localStorage.setItem("kth-theme", next)
+    window.dispatchEvent(new Event("kth-theme"))
   }
 
   return (

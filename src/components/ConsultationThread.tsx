@@ -42,8 +42,21 @@ export default function ConsultationThread({
   }
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => setUserId(data.user?.id ?? null))
-    void load()
+    let cancelled = false
+    supabase.auth.getUser().then(({ data }) => {
+      if (!cancelled) setUserId(data.user?.id ?? null)
+    })
+    supabase
+      .from("consultation_messages")
+      .select("id, sender_id, body, created_at")
+      .eq("consultation_id", consultationId)
+      .order("created_at", { ascending: true })
+      .then(({ data }) => {
+        if (!cancelled) setRows((data as Msg[]) ?? [])
+      })
+    return () => {
+      cancelled = true
+    }
   }, [consultationId])
 
   async function translateText(id: string, text: string) {
@@ -137,7 +150,7 @@ export default function ConsultationThread({
                     ? "번역 중…"
                     : "Translating…"
                   : ko
-                    ? "한/영 보기"
+                    ? "한국어/영어로 보기"
                     : "Show KO/EN"}
               </button>
             </div>
@@ -159,20 +172,20 @@ export default function ConsultationThread({
               type="button"
               onClick={translateDraft}
               disabled={!body.trim() || busyId === "draft"}
-              className="rounded-full border border-white/15 px-4 py-2 text-sm text-zinc-300 disabled:opacity-50"
+              className="btn btn-secondary"
             >
               {busyId === "draft"
                 ? ko
                   ? "번역 중…"
                   : "Translating…"
                 : ko
-                  ? "입력창 한/영"
+                  ? "입력창을 한국어/영어로"
                   : "Translate draft"}
             </button>
             <button
               type="submit"
               disabled={loading || !body.trim()}
-              className="rounded-full bg-gradient-to-r from-fuchsia-600 to-violet-600 px-5 py-2 text-sm text-white disabled:opacity-50"
+              className="btn btn-primary"
             >
               {loading ? t("sending") : t("threadSend")}
             </button>

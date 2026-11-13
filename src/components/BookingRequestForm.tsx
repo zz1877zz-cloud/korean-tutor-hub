@@ -74,7 +74,7 @@ export default function BookingRequestForm({
       <button
         type="submit"
         disabled={loading}
-        className="w-full rounded-full bg-gradient-to-r from-fuchsia-600 to-violet-600 px-4 py-2.5 text-sm font-medium text-white disabled:opacity-50"
+        className="btn btn-primary btn-block"
       >
         {loading ? t("submitting") : t("submit")}
       </button>

@@ -45,7 +45,7 @@ export default function TutorBookingActions({
               type="button"
               disabled={loading}
               onClick={() => updateStatus("confirmed")}
-              className="flex-1 rounded-full bg-emerald-600/90 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+              className="btn btn-primary flex-1"
             >
               {t("confirmBooking")}
             </button>
@@ -53,7 +53,7 @@ export default function TutorBookingActions({
               type="button"
               disabled={loading}
               onClick={() => updateStatus("cancelled")}
-              className="flex-1 rounded-full border border-rose-500/40 px-4 py-2 text-sm font-medium text-rose-300 disabled:opacity-50"
+              className="btn btn-danger flex-1"
             >
               {t("declineBooking")}
             </button>
@@ -64,7 +64,7 @@ export default function TutorBookingActions({
             type="button"
             disabled={loading}
             onClick={() => updateStatus("completed")}
-            className="flex-1 rounded-full bg-violet-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+            className="btn btn-primary flex-1"
           >
             {t("markCompleted")}
           </button>

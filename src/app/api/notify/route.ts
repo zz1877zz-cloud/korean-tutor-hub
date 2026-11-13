@@ -9,7 +9,7 @@ export async function POST(req: Request) {
 
   const result = await sendAdminMail(
     subject,
-    String(preview || "새 요청이 있습니다.")
+    String(preview || "새 요청이 있어요.")
   )
 
   return NextResponse.json(result)

@@ -1,31 +1,19 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useTranslations } from "next-intl"
+import { useTheme } from "@/components/ThemeProvider"
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState<"dark" | "light">("dark")
-
-  useEffect(() => {
-    const saved = window.localStorage.getItem("kth-theme")
-    const next = saved === "light" ? "light" : "dark"
-    setTheme(next)
-    document.documentElement.setAttribute("data-theme", next)
-  }, [])
-
-  function toggle() {
-    const next = theme === "dark" ? "light" : "dark"
-    setTheme(next)
-    document.documentElement.setAttribute("data-theme", next)
-    window.localStorage.setItem("kth-theme", next)
-  }
+  const t = useTranslations("common")
+  const { theme, toggle } = useTheme()
 
   return (
     <button
       type="button"
       onClick={toggle}
-      aria-label={theme === "dark" ? "라이트 모드" : "다크 모드"}
-      title={theme === "dark" ? "라이트 모드" : "다크 모드"}
-      className="h-8 w-8 rounded-full border border-white/15 text-zinc-300 hover:text-white text-sm"
+      aria-label={theme === "dark" ? t("themeToLight") : t("themeToDark")}
+      title={theme === "dark" ? t("themeToLight") : t("themeToDark")}
+      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-sm text-zinc-100 hover:text-white"
     >
       {theme === "dark" ? "☀" : "☾"}
     </button>
