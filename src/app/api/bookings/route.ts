@@ -7,12 +7,15 @@ export async function POST(request: Request) {
     const body = await request.json()
     const { tutor_id, note, scheduled_at } = body
 
-    if (!tutor_id) {
+    const tutorId = typeof tutor_id === "string" ? tutor_id : ""
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(tutorId)) {
       return NextResponse.json(
         { error: "튜터 정보가 없어요." },
         { status: 400 }
       )
     }
+    const safeNote =
+      typeof note === "string" && note.trim() ? note.trim().slice(0, 2000) : null
 
     const supabase = await createClient()
 
@@ -30,9 +33,9 @@ export async function POST(request: Request) {
     const { data, error } = await supabase
       .from("bookings")
       .insert({
-        tutor_id,
+        tutor_id: tutorId,
         student_id: user.id,
-        note: note || null,
+        note: safeNote,
         scheduled_at: scheduled_at || null,
         status: "pending",
       })
@@ -49,7 +52,7 @@ export async function POST(request: Request) {
 
     await sendAdminMail(
       "[KTH] 새 예약 요청",
-      (note || "예약 요청") +
+      (safeNote || "예약 요청") +
         "\n\nhttps://korean-tutor-hub.vercel.app/ko/tutor/bookings"
     )
 
