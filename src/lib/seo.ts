@@ -47,5 +47,13 @@ export function pageMeta({
       title,
       description,
     },
+    robots: { index: true, follow: true },
+  }
+}
+
+export function privatePageMeta(title: string): Metadata {
+  return {
+    title,
+    robots: { index: false, follow: false },
   }
 }

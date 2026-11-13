@@ -10,14 +10,17 @@ export async function generateMetadata({
   const { locale } = await params
   setRequestLocale(locale)
   const ko = locale === "ko"
-  return pageMeta({
-    locale,
-    path: "/login",
-    title: ko ? "로그인" : "Log in",
-    description: ko
-      ? "Korean Tutor Hub에 로그인하거나 가입해요. 튜터를 고른 뒤 무료 오작교로 대화를 시작해요."
-      : "Log in or sign up for Korean Tutor Hub. Choose a tutor, then start with a free Ojakgyo consult.",
-  })
+  return {
+    ...pageMeta({
+      locale,
+      path: "/login",
+      title: ko ? "로그인" : "Log in",
+      description: ko
+        ? "Korean Tutor Hub에 로그인하거나 가입해요. 튜터를 고른 뒤 무료 오작교로 대화를 시작해요."
+        : "Log in or sign up for Korean Tutor Hub. Choose a tutor, then start with a free Ojakgyo consult.",
+    }),
+    robots: { index: false, follow: false },
+  }
 }
 
 export default function LoginLayout({

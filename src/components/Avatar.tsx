@@ -36,10 +36,12 @@ function Placeholder({
 export default function Avatar({
   src,
   bio,
+  name,
   size = "md",
 }: {
   src?: string | null
   bio?: string | null
+  name?: string | null
   size?: keyof typeof SIZE_CLASS
 }) {
   const [brokenSrc, setBrokenSrc] = useState<string | null>(null)
@@ -54,7 +56,7 @@ export default function Avatar({
     // eslint-disable-next-line @next/next/no-img-element
     <img
       src={src}
-      alt=""
+      alt={name?.trim() || ""}
       onError={() => setBrokenSrc(src)}
       className={`${sizeClass} rounded-full object-cover bg-white/10 border border-white/15 shrink-0`}
     />

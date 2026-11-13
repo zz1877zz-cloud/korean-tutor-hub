@@ -3,7 +3,9 @@ import { getTranslations, setRequestLocale } from "next-intl/server"
 import { Link } from "@/i18n/navigation"
 import { createClient } from "@/lib/supabase/server"
 import TutorCard, { type TutorCardLabels } from "@/components/TutorCard"
-import { pageMeta, SITE_URL } from "@/lib/seo"
+import JsonLd from "@/components/JsonLd"
+import { pageMeta } from "@/lib/seo"
+import { siteGraph, type FaqItem } from "@/lib/jsonld"
 
 export async function generateMetadata({
   params,
@@ -39,18 +41,35 @@ export default async function HomePage({
   setRequestLocale(locale)
   const t = await getTranslations("home")
   const tutorsT = await getTranslations("tutors")
-  const seo = await getTranslations("seo")
-  const supabase = await createClient()
+  let tutors: {
+    id: string
+    bio: string | null
+    avatar_url: string | null
+    display_name: string | null
+    tagline: string | null
+    hourly_rate: number | null
+    rating: number | null
+    languages: string[] | null
+    specialties: string[] | null
+  }[] = []
+  let loadFailed = false
+  try {
+    const supabase = await createClient()
+    const { data, error } = await supabase
+      .from("tutors")
+      .select(
+        "id, bio, avatar_url, display_name, tagline, hourly_rate, rating, languages, specialties"
+      )
+      .eq("is_active", true)
+      .order("rating", { ascending: false })
+      .limit(6)
+    tutors = data ?? []
+    loadFailed = Boolean(error)
+  } catch {
+    loadFailed = true
+  }
 
-  const { data: tutors, error } = await supabase
-    .from("tutors")
-    .select(
-      "id, bio, avatar_url, display_name, tagline, hourly_rate, rating, languages, specialties"
-    )
-    .eq("is_active", true)
-    .order("rating", { ascending: false })
-    .limit(6)
-
+  const faq = t.raw("faq") as FaqItem[]
   const labels: TutorCardLabels = {
     unnamed: tutorsT("unnamed"),
     reviewsPending: tutorsT("reviewsPending"),
@@ -60,14 +79,7 @@ export default async function HomePage({
     bioUnset: tutorsT("bioUnset"),
   }
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: "Korean Tutor Hub",
-    url: SITE_URL,
-    description: seo("description"),
-    inLanguage: ["en", "ko"],
-  }
+  const jsonLd = siteGraph(t("subtitle"), faq)
 
   return (
     <div className="relative">
@@ -169,6 +181,20 @@ export default async function HomePage({
           </ol>
         </section>
 
+        <section aria-labelledby="faq-heading" className="mb-14">
+          <h2 id="faq-heading" className="mb-4 text-xl font-bold text-white">
+            {t("faqTitle")}
+          </h2>
+          <div className="grid gap-3 md:grid-cols-2">
+            {faq.map((item) => (
+              <article key={item.q} className="surface p-4">
+                <h3 className="font-semibold text-white">{item.q}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-zinc-300">{item.a}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
         <section aria-labelledby="tutors-heading">
           <div className="mb-4 flex items-end justify-between gap-3">
             <div>
@@ -187,23 +213,28 @@ export default async function HomePage({
             </Link>
           </div>
 
-          {error && (
+          {loadFailed && (
             <p role="alert" className="surface p-6 text-sm text-rose-300">
               {t("tutorsError")}
             </p>
           )}
 
-          {!error && !tutors?.length && (
+          {!loadFailed && !tutors.length && (
             <p className="surface p-6 text-sm leading-relaxed text-zinc-300">
               {t("tutorsEmpty")}
             </p>
           )}
 
-          {!error && !!tutors?.length && (
+          {!loadFailed && tutors.length > 0 && (
             <ul className="m-0 grid list-none gap-4 p-0 sm:grid-cols-2 md:grid-cols-3">
               {tutors.map((tutor) => (
                 <li key={tutor.id}>
-                  <TutorCard tutor={tutor} locale={locale} labels={labels} />
+                  <TutorCard
+                    tutor={tutor}
+                    locale={locale}
+                    labels={labels}
+                    heading="h3"
+                  />
                 </li>
               ))}
             </ul>
@@ -211,10 +242,7 @@ export default async function HomePage({
         </section>
       </div>
 
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      <JsonLd data={jsonLd} />
     </div>
   )
 }

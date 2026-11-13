@@ -97,7 +97,30 @@
     "tutorsLead": "Only approved profiles are shown. If there are no reviews, the rating stays blank.",
     "tutorsMore": "All tutors",
     "tutorsEmpty": "No public tutors yet. When a profile is approved, open their page and start with free Ojakgyo. Nothing is charged on this site today.",
-    "tutorsError": "The tutor list could not be loaded. Refresh the page in a moment."
+    "tutorsError": "The tutor list could not be loaded. Refresh the page in a moment.",
+    "faqTitle": "Questions",
+    "faq": [
+      {
+        "q": "What is Korean Tutor Hub?",
+        "a": "It is where learners outside Korea find a Korean tutor and start with a song they already know."
+      },
+      {
+        "q": "What is Ojakgyo?",
+        "a": "Ojakgyo is a free consult on a tutor’s page. It stays open, and it is not included in any paid product."
+      },
+      {
+        "q": "Does the site charge for a lesson?",
+        "a": "Not yet. The site does not take payment. Requesting a first lesson does not charge you here."
+      },
+      {
+        "q": "Are the experience pack and the recommended slot for sale?",
+        "a": "No. They are not for sale, and this site lists no price for them."
+      },
+      {
+        "q": "How do I start?",
+        "a": "Find a tutor, open Ojakgyo on their page, and request a first lesson only if you both want to continue."
+      }
+    ]
   },
   "tutors": {
     "title": "Find a tutor",

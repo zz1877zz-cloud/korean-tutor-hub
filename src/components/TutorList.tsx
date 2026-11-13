@@ -7,7 +7,7 @@ import { useLocale, useTranslations } from "next-intl"
 import TutorCard, { type TutorCardLabels } from "@/components/TutorCard"
 import TutorFilters, { type TutorFilterState } from "@/components/TutorFilters"
 
-type TutorRow = {
+export type TutorRow = {
   id: string
   bio: string | null
   display_name: string | null
@@ -20,7 +20,11 @@ type TutorRow = {
   is_active: boolean | null
 }
 
-export default function TutorList() {
+export default function TutorList({
+  initialTutors,
+}: {
+  initialTutors: TutorRow[]
+}) {
   const t = useTranslations("tutors")
   const locale = useLocale()
   const [filters, setFilters] = useState<TutorFilterState>({
@@ -45,6 +49,7 @@ export default function TutorList() {
       if (error) throw error
       return (data ?? []) as TutorRow[]
     },
+    initialData: initialTutors,
   })
 
   const filtered = useMemo(() => {

@@ -28,12 +28,15 @@ export default function TutorCard({
   tutor,
   locale,
   labels,
+  heading = "h2",
 }: {
   tutor: TutorCardData
   locale: string
   labels: TutorCardLabels
+  heading?: "h2" | "h3"
 }) {
   const name = tutor.display_name?.trim() || labels.unnamed
+  const Heading = heading
   const rating = formatRating(tutor.rating)
   const price = formatHourly(tutor.hourly_rate, locale)
   const specs = (tutor.specialties ?? []).filter(Boolean).slice(0, 3)
@@ -46,10 +49,10 @@ export default function TutorCard({
       className="surface flex h-full flex-col gap-3 p-4 transition hover:border-fuchsia-400/40"
     >
       <div className="flex items-start gap-3">
-        <Avatar src={tutor.avatar_url} bio={tutor.bio || name} size="lg" />
+        <Avatar src={tutor.avatar_url} bio={tutor.bio || name} name={name} size="lg" />
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-2">
-            <p className="truncate font-semibold text-white">{name}</p>
+            <Heading className="truncate font-semibold text-white">{name}</Heading>
             {rating ? (
               <span className="rating shrink-0 text-sm">★ {rating}</span>
             ) : (

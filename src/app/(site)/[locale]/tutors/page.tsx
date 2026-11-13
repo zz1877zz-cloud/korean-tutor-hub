@@ -1,8 +1,14 @@
 import type { Metadata } from "next"
 import { getTranslations, setRequestLocale } from "next-intl/server"
 import TutorList from "@/components/TutorList"
+import JsonLd from "@/components/JsonLd"
 import { Link } from "@/i18n/navigation"
 import { pageMeta } from "@/lib/seo"
+import { tutorListGraph } from "@/lib/jsonld"
+import { createClient } from "@/lib/supabase/server"
+
+const tutorColumns =
+  "id, bio, display_name, tagline, specialties, languages, hourly_rate, rating, avatar_url, is_active"
 
 export async function generateMetadata({
   params,
@@ -28,6 +34,30 @@ export default async function TutorsPage({
   const { locale } = await params
   setRequestLocale(locale)
   const t = await getTranslations("tutors")
+  let tutors: {
+    id: string
+    bio: string | null
+    display_name: string | null
+    tagline: string | null
+    specialties: string[] | null
+    languages: string[] | null
+    hourly_rate: number | null
+    rating: number | null
+    avatar_url: string | null
+    is_active: boolean | null
+  }[] = []
+  let loadFailed = false
+  try {
+    const supabase = await createClient()
+    const { data, error } = await supabase
+      .from("tutors")
+      .select(tutorColumns)
+      .eq("is_active", true)
+    tutors = [...(data ?? [])].sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0))
+    loadFailed = Boolean(error)
+  } catch {
+    loadFailed = true
+  }
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 md:py-12">
@@ -44,7 +74,14 @@ export default async function TutorsPage({
           {t("applyLink")}
         </Link>
       </p>
-      <TutorList />
+      {loadFailed ? (
+        <p role="alert" className="surface p-6 text-sm text-rose-300">
+          {t("loadError")}
+        </p>
+      ) : (
+        <TutorList initialTutors={tutors} />
+      )}
+      <JsonLd data={tutorListGraph(locale, t("subtitle"), loadFailed ? [] : tutors)} />
     </div>
   )
 }

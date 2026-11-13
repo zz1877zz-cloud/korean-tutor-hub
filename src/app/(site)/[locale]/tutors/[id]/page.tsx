@@ -10,6 +10,8 @@ import { Link } from "@/i18n/navigation"
 import { specialtyLabel } from "@/lib/specialties"
 import { pageMeta } from "@/lib/seo"
 import { formatHourly, formatRating } from "@/lib/tutor-display"
+import JsonLd from "@/components/JsonLd"
+import { tutorProfileGraph } from "@/lib/jsonld"
 
 function clip(text: string, max = 150) {
   const flat = text.replace(/\s+/g, " ").trim()
@@ -99,7 +101,7 @@ export default async function TutorDetailPage({
 
       <div className="surface mb-8 p-5 sm:p-8">
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center">
-          <Avatar src={tutor.avatar_url} bio={tutor.bio || name} size="xl" />
+          <Avatar src={tutor.avatar_url} bio={tutor.bio || name} name={name} size="xl" />
           <div className="min-w-0 flex-1">
             <h1 className="text-2xl font-bold text-white sm:text-3xl">{name}</h1>
 
@@ -198,6 +200,7 @@ export default async function TutorDetailPage({
           ))}
         </div>
       </section>
+      <JsonLd data={tutorProfileGraph(tutor, locale)} />
     </div>
   )
 }
