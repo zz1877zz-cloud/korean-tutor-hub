@@ -71,8 +71,8 @@ Vercel 프로젝트 `korean-tutor-hub`에는 `NEXT_PUBLIC_SUPABASE_URL`과 `NEXT
 ### 보안
 
 - **현재**: 공개 읽기는 anon key. 서비스 롤 키는 저장소와 Vercel 환경변수 목록에 없다. `RESEND_API_KEY`와 `ADMIN_NOTIFY_EMAIL`은 이 목록에 없고, 없으면 메일은 건너뛴다. `/api/notify`는 로그인 세션이 있어야 하고, 본문은 500자로 자른 뒤 메일 원문을 응답에 넣지 않는다. 예약 API는 UUID와 메모 길이만 검사한다. RLS는 데이터베이스가 꺼져 확인하지 못했다. 관리자 화면은 역할 검사를 한다.
-- **판정**: 차단에 가깝다. RLS를 못 본 상태라 anon이 비활성 튜터, 신청서, 예약 전체를 읽는지는 모른다.
-- **작업**: 복구 직후 Supabase 권고(advisors)와 `tutors`, `consultations`, `bookings`, `tutor_applications`, `profiles`의 정책을 본다. anon은 활성 튜터의 공개 열만 `select`. 신청·예약·상담은 당사자만.
+- **판정**: 차단에 가깝다. 2026-11-14에 프로젝트가 다시 켜진 뒤 정책을 읽었다. 다섯 테이블 모두 RLS가 켜져 있다. 활성 튜터 공개 읽기는 `is_active = true`로 맞다. 예약은 `Anyone can view bookings`(USING true)와 `Anyone can create booking`(CHECK true) 때문에 방문자도 읽고 넣을 수 있다. 튜터 행은 `Anyone can insert tutors`(CHECK true)로 누구든 만들 수 있다. 상담과 프로필, 지원서는 본인 또는 관리자 조건이다. 적용하지 않은 제안은 `docs/suggested-rls-migration.sql`이다.
+- **작업**: 승현이 그 파일을 승인한 뒤에만 실행한다. 실행 전 백업은 무료 플랜에 자동 일일 백업이 없으니, 승인 전에 스키마를 따로 받아 둔다.
 - **승현**: anon key를 브라우저에 두는 현재 방식은 Supabase의 정상 모델이다. 키를 저장소에 커밋하지 말 것. 서비스 롤은 서버 전용으로, 필요할 때만 추가.
 
 ### 성능
