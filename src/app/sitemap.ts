@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next"
 import { createClient } from "@/lib/supabase/server"
+import { logQueryFailure } from "@/lib/supabase-log"
 import { SITE_URL } from "@/lib/seo"
 
 const locales = ["ko", "en"] as const
@@ -24,10 +25,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let tutorPages: MetadataRoute.Sitemap = []
   try {
     const supabase = await createClient()
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("tutors")
       .select("id")
       .eq("is_active", true)
+    if (error) logQueryFailure("sitemap.tutors", error)
     tutorPages = locales.flatMap((locale) =>
       (data ?? []).map((tutor) => ({
         url: `${SITE_URL}/${locale}/tutors/${tutor.id}`,
@@ -41,7 +43,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         },
       }))
     )
-  } catch {
+  } catch (error) {
+    const dynamic = (error as { digest?: string })?.digest === "DYNAMIC_SERVER_USAGE"
+    if (dynamic) throw error
+    logQueryFailure("sitemap.tutors", error)
     tutorPages = []
   }
 

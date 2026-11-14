@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { getTranslations, setRequestLocale } from "next-intl/server"
 import { Link } from "@/i18n/navigation"
 import { createClient } from "@/lib/supabase/server"
+import { logQueryFailure } from "@/lib/supabase-log"
 import TutorCard, { type TutorCardLabels } from "@/components/TutorCard"
 import JsonLd from "@/components/JsonLd"
 import { pageMeta } from "@/lib/seo"
@@ -63,9 +64,14 @@ export default async function HomePage({
       .eq("is_active", true)
       .order("rating", { ascending: false })
       .limit(6)
-    tutors = data ?? []
-    loadFailed = Boolean(error)
-  } catch {
+    if (error) {
+      logQueryFailure("home.tutors", error)
+      loadFailed = true
+    } else {
+      tutors = data ?? []
+    }
+  } catch (error) {
+    logQueryFailure("home.tutors", error)
     loadFailed = true
   }
 
