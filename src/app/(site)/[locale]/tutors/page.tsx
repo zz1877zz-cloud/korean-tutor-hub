@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation"
 import { pageMeta } from "@/lib/seo"
 import { tutorListGraph } from "@/lib/jsonld"
 import { createClient } from "@/lib/supabase/server"
+import { logQueryFailure } from "@/lib/supabase-log"
 
 const tutorColumns =
   "id, bio, display_name, tagline, specialties, languages, hourly_rate, rating, avatar_url, is_active"
@@ -53,9 +54,14 @@ export default async function TutorsPage({
       .from("tutors")
       .select(tutorColumns)
       .eq("is_active", true)
-    tutors = [...(data ?? [])].sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0))
-    loadFailed = Boolean(error)
-  } catch {
+    if (error) {
+      logQueryFailure("tutors.list", error)
+      loadFailed = true
+    } else {
+      tutors = [...(data ?? [])].sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0))
+    }
+  } catch (error) {
+    logQueryFailure("tutors.list", error)
     loadFailed = true
   }
 
