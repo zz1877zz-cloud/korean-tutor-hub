@@ -146,7 +146,7 @@ export default function TutorList({
           {t("empty")}
         </p>
       ) : (
-        <ul className="m-0 grid list-none gap-4 p-0 sm:grid-cols-2">
+        <ul className="m-0 flex list-none flex-col gap-3 p-0">
           {filtered.map((tutor) => (
             <li key={tutor.id}>
               <TutorCard tutor={tutor} locale={locale} labels={labels} />

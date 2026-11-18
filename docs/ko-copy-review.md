@@ -165,3 +165,13 @@
 | `src/components/BookingActions.tsx` | placeholder="사유를 입력하세요" | placeholder="사유를 입력해 주세요" | 어색한 표현을 자연스럽게 고침 |
 | `src/components/ConsultationThread.tsx` | ? "한/영 보기" | ? "한국어/영어로 보기" | 어색한 표현을 자연스럽게 고침 |
 | `src/components/ConsultationThread.tsx` | ? "입력창 한/영" | ? "입력창을 한국어/영어로" | 어색한 표현을 자연스럽게 고침 |
+| `messages/ko.json` home.subtitle | 이미 좋아하는 노래로 시작해요. 그 가사를 드라마, 여행, 친구와의 대화에서 쓸 수 있게 튜터와 맞춰 봐요. 먼저 오작교에서 무료로 이야기하고, 서로 맞을 때만 수업을 요청해요. | 좋아하는 노래로 한국어를 말해요. 오작교는 무료이고, 수업은 맞을 때만 요청해요. | 같은 약속으로 짧게 |
+| `messages/ko.json` home.ctaTutors | 튜터 둘러보기 | 튜터 찾기 | 첫 화면 행동 |
+| `messages/ko.json` home.ctaTrial | 어떻게 이어지나요 | 체험 수업 | 첫 수업 요청으로 연결. 무료 체험이라는 새 약속은 없음 |
+| `messages/ko.json` home.ctaNote | 오작교는 튜터 페이지의 무료 대화예요. 이 사이트는 아직 돈을 받지 않아요. | 체험 수업은 튜터 페이지에서 요청해요. 이 사이트는 아직 수업료를 받지 않아요. | 결제 없음을 유지 |
+| `messages/ko.json` common.findTutors, footer.findTutors | 튜터 둘러보기 | 튜터 찾기 | 버튼 이름 통일 |
+| `messages/ko.json` tutors.title | 튜터 둘러보기 | 튜터 찾기 | 버튼 이름 통일 |
+| `messages/ko.json` auth.signUp | 회원가입 | 가입하기 | 명령형 줄임 |
+| `messages/ko.json` auth.alreadyMember | 이미 가입된 계정입니다. 로그인해 주세요. | 이미 가입한 메일이에요. 로그인해 주세요. | 번역투 |
+| `messages/ko.json` detail.metaFallback | 수업을 묻기 전에 오작교에서 무료로 인사해 보세요. | 수업을 묻기 전에 오작교에서 무료로 인사해요. | 하세요 남발 줄임 |
+| `messages/ko.json` ojakgyo.requestButton | 오작교 · 무료로 먼저 대화 | 오작교, 무료로 먼저 이야기 | 가운데점과 번역투 |
