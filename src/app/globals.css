@@ -846,7 +846,7 @@ html[data-theme="light"] .skeleton {
   left: 0;
   pointer-events: none;
   opacity: 0;
-  filter: drop-shadow(0 2px 2px rgba(29, 29, 31, 0.16));
+  filter: drop-shadow(0 1px 0 rgba(29, 29, 31, 0.28)) drop-shadow(0 4px 8px rgba(29, 29, 31, 0.18));
 }
 
 .gat-ghost svg,
@@ -857,9 +857,9 @@ html[data-theme="light"] .skeleton {
 }
 
 .gat-body {
-  fill: rgba(255, 255, 255, 0.92);
-  stroke: rgba(29, 29, 31, 0.42);
-  stroke-width: 1.5;
+  fill: #ffffff;
+  stroke: #1d1d1f;
+  stroke-width: 2.2;
   stroke-linejoin: round;
 }
 
@@ -878,10 +878,27 @@ html[data-theme="light"] .skeleton {
 
 .gat-eye {
   fill: #1d1d1f;
+  stroke: none;
+}
+
+.gat-eye-light {
+  fill: #ffffff;
+  stroke: none;
+}
+
+.gat-mouth {
+  fill: none;
+  stroke: #1d1d1f;
+  stroke-width: 2.1;
+  stroke-linecap: round;
+}
+
+.gat-mouth-lg {
+  stroke-width: 2.9;
 }
 
 .gat-blush {
-  fill: rgba(255, 143, 164, 0.9);
+  fill: #ff4d78;
   stroke: none;
 }
 
@@ -890,8 +907,9 @@ html[data-theme="dark"] .gat-ghost {
 }
 
 html[data-theme="dark"] .gat-body {
-  fill: rgba(255, 255, 255, 0.96);
-  stroke: rgba(245, 245, 247, 0.78);
+  fill: #f7f7f8;
+  stroke: #f5f5f7;
+  stroke-width: 1.35;
 }
 
 html[data-theme="dark"] .gat-hat,

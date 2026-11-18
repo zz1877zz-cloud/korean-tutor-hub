@@ -6,10 +6,12 @@ import { useTranslations } from "next-intl"
 const STORAGE_KEY = "kth-ghosts"
 
 const GHOSTS = [
-  { width: 30, follow: 0.014, bob: 3.2, phase: 0.4, ox: -48, oy: 16 },
-  { width: 36, follow: 0.008, bob: 4.1, phase: 1.8, ox: -6, oy: 34 },
-  { width: 24, follow: 0.0046, bob: 2.6, phase: 2.9, ox: 30, oy: 20 },
+  { id: "lg", width: 88, follow: 0.015, bob: 4.4, phase: 0.3, ox: -16, oy: 28 },
+  { id: "md", width: 58, follow: 0.0084, bob: 3.4, phase: 1.6, ox: -78, oy: 46 },
+  { id: "sm", width: 40, follow: 0.0048, bob: 2.4, phase: 2.8, ox: 36, oy: 54 },
 ] as const
+
+type GhostId = (typeof GHOSTS)[number]["id"]
 
 function subscribe(onChange: () => void) {
   window.addEventListener("kth-ghosts", onChange)
@@ -37,23 +39,54 @@ function useGhostsEnabled() {
   return useSyncExternalStore(subscribe, readEnabled, () => true)
 }
 
-export function GatGhostMark() {
+function GhostShape({ face }: { face: GhostId }) {
   return (
     <svg viewBox="0 0 64 86" aria-hidden="true" focusable="false">
       <path
         className="gat-body"
         d="M18 54C18 42 24 36 32 36C40 36 46 42 46 54V64Q43 74 40 64Q37 74 34 64Q31 74 28 64Q25 74 22 64Q19 74 18 64Z"
       />
-      <ellipse className="gat-blush" cx="23.4" cy="53.5" rx="2.5" ry="1.3" />
-      <ellipse className="gat-blush" cx="40.6" cy="53.5" rx="2.5" ry="1.3" />
-      <circle className="gat-eye" cx="26.4" cy="49.6" r="1.65" />
-      <circle className="gat-eye" cx="37.6" cy="49.6" r="1.65" />
+      {face === "lg" ? (
+        <>
+          <ellipse className="gat-blush" cx="20.8" cy="54.6" rx="5" ry="2.9" />
+          <ellipse className="gat-blush" cx="43.2" cy="54.6" rx="5" ry="2.9" />
+          <circle className="gat-eye" cx="25.4" cy="49.2" r="3.15" />
+          <circle className="gat-eye" cx="38.6" cy="49.2" r="3.15" />
+          <circle className="gat-eye-light" cx="26.5" cy="48.1" r="1.05" />
+          <circle className="gat-eye-light" cx="39.7" cy="48.1" r="1.05" />
+          <path className="gat-mouth gat-mouth-lg" d="M24.8 56.4Q32 64.2 39.2 56.4" />
+        </>
+      ) : null}
+      {face === "md" ? (
+        <>
+          <ellipse className="gat-blush" cx="22.4" cy="55.2" rx="3.6" ry="2.15" />
+          <ellipse className="gat-blush" cx="41.6" cy="55.2" rx="3.6" ry="2.15" />
+          <circle className="gat-eye" cx="26" cy="49.4" r="2.55" />
+          <circle className="gat-eye" cx="38" cy="49.4" r="2.55" />
+          <circle className="gat-eye-light" cx="26.9" cy="48.5" r="0.85" />
+          <circle className="gat-eye-light" cx="38.9" cy="48.5" r="0.85" />
+          <path className="gat-mouth" d="M27.2 56.2q4.8 4.4 9.6 0" />
+        </>
+      ) : null}
+      {face === "sm" ? (
+        <>
+          <ellipse className="gat-blush" cx="22" cy="55.4" rx="3.8" ry="2.3" />
+          <ellipse className="gat-blush" cx="42" cy="55.4" rx="3.8" ry="2.3" />
+          <circle className="gat-eye" cx="25.6" cy="49.6" r="2.9" />
+          <circle className="gat-eye" cx="38.4" cy="49.6" r="2.9" />
+          <path className="gat-mouth" d="M27.4 56.6q4.6 3.6 9.2 0" />
+        </>
+      ) : null}
       <ellipse className="gat-hat" cx="32" cy="36.4" rx="23" ry="3.35" />
       <path className="gat-hat" d="M27.4 35.6V18.2c0-2.5 9.2-2.5 9.2 0v17.4z" />
       <ellipse className="gat-crown" cx="32" cy="17.6" rx="4.7" ry="1.85" />
       <path className="gat-shine" d="M16 35.6c4-1.2 10-1.8 16-1.8s12 .6 16 1.8c-4 .7-10 1.1-16 1.1s-12-.4-16-1.1z" />
     </svg>
   )
+}
+
+export function GatGhostMark({ variant = "md" }: { variant?: GhostId }) {
+  return <GhostShape face={variant} />
 }
 
 export function GhostToggle({ className = "" }: { className?: string }) {
@@ -71,7 +104,7 @@ export function GhostToggle({ className = "" }: { className?: string }) {
       onClick={() => writeEnabled(!on)}
     >
       <span className="ghost-toggle-mark">
-        <GatGhostMark />
+        <GatGhostMark variant="sm" />
       </span>
     </button>
   )
@@ -111,14 +144,14 @@ export default function GatGhosts() {
     <div className="gat-ghosts" aria-hidden="true">
       {GHOSTS.map((ghost, index) => (
         <div
-          key={ghost.width}
+          key={ghost.id}
           ref={(node) => {
             nodes.current[index] = node
           }}
           className="gat-ghost"
           style={{ width: ghost.width, height: Math.round(ghost.width * (86 / 64)) }}
         >
-          <GatGhostMark />
+          <GatGhostMark variant={ghost.id} />
         </div>
       ))}
     </div>
