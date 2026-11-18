@@ -832,6 +832,96 @@ html[data-theme="light"] .skeleton {
   margin-top: 0.35rem;
 }
 
+.gat-ghosts {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.gat-ghost {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  opacity: 0;
+  filter: drop-shadow(0 2px 2px rgba(29, 29, 31, 0.16));
+}
+
+.gat-ghost svg,
+.ghost-toggle-mark svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.gat-body {
+  fill: rgba(255, 255, 255, 0.92);
+  stroke: rgba(29, 29, 31, 0.42);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.gat-hat,
+.gat-crown {
+  fill: #1c1c1e;
+  stroke: #c7c7cc;
+  stroke-width: 0.9;
+  stroke-linejoin: round;
+}
+
+.gat-shine {
+  fill: rgba(255, 255, 255, 0.5);
+  stroke: none;
+}
+
+.gat-eye {
+  fill: #1d1d1f;
+}
+
+.gat-blush {
+  fill: rgba(255, 143, 164, 0.9);
+  stroke: none;
+}
+
+html[data-theme="dark"] .gat-ghost {
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5));
+}
+
+html[data-theme="dark"] .gat-body {
+  fill: rgba(255, 255, 255, 0.96);
+  stroke: rgba(245, 245, 247, 0.78);
+}
+
+html[data-theme="dark"] .gat-hat,
+html[data-theme="dark"] .gat-crown {
+  fill: #050506;
+  stroke: #f5f5f7;
+  stroke-width: 1.05;
+}
+
+html[data-theme="dark"] .gat-crown {
+  fill: #3a3a3c;
+}
+
+.ghost-toggle-mark {
+  display: block;
+  width: 16px;
+  height: 21px;
+}
+
+.ghost-toggle[aria-pressed="false"] {
+  opacity: 0.4;
+}
+
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .gat-ghosts,
+  .ghost-toggle {
+    display: none;
+  }
+}
+
 @media (min-width: 720px) {
   .tutor-row {
     grid-template-columns: auto minmax(0, 1fr) auto;

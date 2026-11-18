@@ -47,6 +47,8 @@
       "closeMenu": "메뉴 닫기",
       "themeToLight": "라이트 모드로 전환",
       "themeToDark": "다크 모드로 전환",
+      "ghostsOn": "갓 유령 켜기",
+      "ghostsOff": "갓 유령 끄기",
       "skipToContent": "본문으로 건너뛰기",
       "language": "언어",
       "primaryNav": "주요 메뉴"

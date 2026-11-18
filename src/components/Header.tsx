@@ -6,6 +6,7 @@ import { ensureProfile } from "@/lib/supabase/ensure-profile"
 import { useLocale, useTranslations } from "next-intl"
 import { Link, usePathname, useRouter } from "@/i18n/navigation"
 import NextLink from "next/link"
+import { GhostToggle } from "@/components/GatGhosts"
 import ThemeToggle from "@/components/ThemeToggle"
 
 export default function Header() {
@@ -150,6 +151,7 @@ export default function Header() {
             </NextLink>
           )}
 
+          <GhostToggle />
           <ThemeToggle />
 
           <div className="seg" role="group" aria-label={t("language")}>
@@ -187,18 +189,21 @@ export default function Header() {
           )}
         </nav>
 
-        <button
-          type="button"
-          className="icon-btn inline-flex items-center justify-center md:hidden"
-          aria-expanded={menuOpen}
-          aria-controls="mobile-nav"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          <span className="text-2xl leading-none" aria-hidden="true">
-            {menuOpen ? "×" : "☰"}
-          </span>
-          <span className="sr-only">{menuOpen ? t("closeMenu") : t("openMenu")}</span>
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <GhostToggle />
+          <button
+            type="button"
+            className="icon-btn inline-flex items-center justify-center"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-nav"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            <span className="text-2xl leading-none" aria-hidden="true">
+              {menuOpen ? "×" : "☰"}
+            </span>
+            <span className="sr-only">{menuOpen ? t("closeMenu") : t("openMenu")}</span>
+          </button>
+        </div>
       </div>
 
       {menuOpen && (
