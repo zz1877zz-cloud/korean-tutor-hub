@@ -57,12 +57,12 @@ export default async function HomePage({
         <p className="mt-4 text-sm leading-relaxed text-zinc-400">{t("ctaNote")}</p>
       </section>
 
-      <div className="mx-auto max-w-3xl px-5 pb-16">
-        <section id="trial" aria-labelledby="trial-heading" className="mb-12">
-          <h2 id="trial-heading" className="mb-2 text-2xl font-bold tracking-tight">
+      <div className="page-flow">
+        <section id="trial" aria-labelledby="trial-heading">
+          <h2 id="trial-heading">
             {t("trialTitle")}
           </h2>
-          <p className="mb-4 max-w-2xl text-base leading-relaxed text-zinc-300">
+          <p className="max-w-2xl text-zinc-300">
             {t("trialBody")}
           </p>
           <Link href="/tutors" className="btn btn-primary">
@@ -70,8 +70,8 @@ export default async function HomePage({
           </Link>
         </section>
 
-        <section id="path" aria-labelledby="path-heading" className="mb-12">
-          <h2 id="path-heading" className="mb-2 text-2xl font-bold tracking-tight">
+        <section id="path" aria-labelledby="path-heading">
+          <h2 id="path-heading">
             {t("pathTitle")}
           </h2>
           <p className="mb-2 max-w-2xl text-sm leading-relaxed text-zinc-300">
@@ -98,7 +98,7 @@ export default async function HomePage({
         </section>
 
         <section aria-labelledby="faq-heading">
-          <h2 id="faq-heading" className="mb-2 text-2xl font-bold tracking-tight">
+          <h2 id="faq-heading">
             {t("faqTitle")}
           </h2>
           <div className="faq-list">
